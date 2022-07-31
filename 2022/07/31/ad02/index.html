@@ -23,17 +23,17 @@
 <meta property="og:site_name" content="ZOMI酱的博客">
 <meta property="og:description" content="写【自动微分】原理和实现系列文章，存粹是为了梳理在 MindSpore 当SE时候最核心的自动微分原理。网上看了很多文章，基本上都是很零散，当然Automatic Differentiation in Machine Learning: a Survey[1] 这篇文章是目前ZOMI觉得比较好关于自动微分的综述论文。  【自动微分原理】01. 一文看懂AD原理 【自动微分原理】02. AD的正反向">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/images/tangent_adjoint.png">
+<meta property="og:image" content="http://example.com/images/ad/tangent_adjoint.png">
 <meta property="og:image" content="http://example.com/images/ad/forward%20mode.png">
 <meta property="og:image" content="http://example.com/images/ad/WX20220522-180607@2x.png">
-<meta property="og:image" content="http://example.com/images/tangent_adjoint.png">
+<meta property="og:image" content="http://example.com/images/ad/tangent_adjoint.png">
 <meta property="og:image" content="http://example.com/images/ad/WX20220522-180618@2x.png">
-<meta property="og:image" content="http://example.com/images/tangent_adjoint.png">
+<meta property="og:image" content="http://example.com/images/ad/tangent_adjoint.png">
 <meta property="article:published_time" content="2022-07-31T08:34:10.000Z">
-<meta property="article:modified_time" content="2022-07-31T08:47:37.453Z">
+<meta property="article:modified_time" content="2022-07-31T08:49:55.091Z">
 <meta property="article:author" content="ZOMI酱">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://example.com/images/tangent_adjoint.png">
+<meta name="twitter:image" content="http://example.com/images/ad/tangent_adjoint.png">
   
   
   
@@ -331,7 +331,7 @@
 <p>即，反向模式需要对计算图进行一次正向计算， 得出输出值，再进行反向传播。反向模式需要保存正向传播的中间变量值（比如𝑤𝑖），这些中间变量数值在反向传播时候被用来计算导数，所以反向模式的内存开销要大。</p>
 <p>$$<br>\frac{dy}{dw_i}&#x3D;\frac{dy}{dw_{i+1}}\frac{dw_{i+1}}{dw_i}<br>\tag{3}<br>$$</p>
 <p>即如图所示，前向自动微分（tangent mode AD）和后向自动微分（adjoint mode AD）分别计算了Jacobian矩阵的一列和一行。</p>
-<p><img src="/./images/tangent_adjoint.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="/images/ad/tangent_adjoint.png" srcset="/img/loading.gif" lazyload></p>
 <p>前向自动微分（tangent mode AD）可以在一次程序计算中通过链式法则，得到：</p>
 <p>$$<br>\frac{\delta x^k}{\delta x^0_j}&#x3D;<br>\frac{\delta x^k}{\delta x^{k-1}}<br>\frac{\delta ^{k-1}}{\delta x^0_j}<br>\tag{4}<br>$$</p>
 <p>递推得到Jacobian矩阵中与单个输入有关的参数，即Jacobian矩阵的一列。</p>
@@ -387,7 +387,7 @@
 <p>$$<br>J_f&#x3D;<br>\left[<br> \begin{matrix}<br>   \dfrac{\delta y_1}{\delta x_1} &amp; \cdots &amp; \dfrac{\delta y_1}{\delta x_n} \<br>   \vdots &amp; \ddots &amp; \vdots \<br>   \dfrac{\delta y_m}{\delta x_1} &amp; \vdots &amp; \dfrac{\delta y_m}{\delta x_n}<br>  \end{matrix}<br>  \right]<br>\tag{11}<br>$$</p>
 <p>一次前向计算，可以求出Jacobian矩阵的一列数据，如 $\dot{x_3}&#x3D;1$ 对应就可以求出来第3列。tangent mode AD可以在一次程序计算中，通过链式法则递推得到Jacobian矩阵中与单个输入有关的部分，即Jacobian矩阵的一列。</p>
 <p>如下图所示，如果想用正向模式求对所有输入的导数，需要计算 n 次才能求出所有列。</p>
-<p><img src="/./images/tangent_adjoint.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="/images/ad/tangent_adjoint.png" srcset="/img/loading.gif" lazyload></p>
 <p>进一步，设置 $\dot{x}&#x3D;r$，可以在一次前向传播中直接计算 Jacobian–vector 乘积：</p>
 <p>$$<br>J_f \cdot r&#x3D;<br>\left[<br> \begin{matrix}<br>   \dfrac{\delta y_1}{\delta x_1} &amp; \cdots &amp; \dfrac{\delta y_1}{\delta x_n} \<br>   \vdots &amp; \ddots &amp; \vdots \<br>   \dfrac{\delta y_m}{\delta x_1} &amp; \vdots &amp; \dfrac{\delta y_m}{\delta x_n}<br>  \end{matrix}<br>  \right]<br>\left[<br>\begin{matrix}<br>    r_1 \<br>    \vdots \<br>     r_n \<br>  \end{matrix}<br>  \right]<br>\tag{12}<br>$$</p>
 <p>最终我们可以递归的得到本次迭代的计算目标：雅克比矩阵中的第 i 行。</p>
@@ -459,7 +459,7 @@
 </li>
 </ul>
 <h2 id="正反向模式的比较"><a href="#正反向模式的比较" class="headerlink" title="正反向模式的比较"></a>正反向模式的比较</h2><p>前向自动微分（tangent mode AD和后向自动微分（adjoint mode AD）分别计算了Jacobian矩阵的一列和一行。</p>
-<p><img src="/./images/tangent_adjoint.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="/images/ad/tangent_adjoint.png" srcset="/img/loading.gif" lazyload></p>
 <p>前向模式和反向模式的不同之处在于矩阵相乘的起始之处不同。</p>
 <p>当输出维度小于输入维度，反向模式的乘法次数要小于前向模式。因此，当输出的维度大于输入的时候，适宜使用前向模式微分；当输出维度远远小于输入的时候，适宜使用反向模式微分。</p>
 <p>即，后向自动微分更加适合多参数的情况，多参数的时候后向自动微分的时间复杂度更低，只需要一遍reverse mode的计算过程，便可以求出输出对于各个输入的导数，从而轻松求取梯度用于后续优化更新。</p>
@@ -480,7 +480,7 @@
 <p>[14] 知乎专栏：自动微分（Automatic Differentiation）: <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/61103504">https://zhuanlan.zhihu.com/p/61103504</a></p>
 <p>[15] 知乎专栏：数值计算方法 第六章 数值积分和数值微分: <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/14">https://zhuanlan.zhihu.com/p/14</a></p>
 <p>[16] 知乎专栏：技术分享 | 从自动微分到可微编程语言设计 <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/393160344">https://zhuanlan.zhihu.com/p/393160344</a></p>
-<p>[17] 博客园：深度学习利器之自动微分 <a target="_blank" rel="noopener" href="https://www.cnblogs.com/rossiXYZ/p/15395742.html">https://www.cnblogs.com/rossiXYZ/p/15395742.html</a></p>
+<p>[17] 博客园：深度学习利器之自动微分 <a target="_blank" rel="noopener" href="https://www.cnblogs.com/rossiXYZ/p/15395742.html">https://www.cnblogs.com/rossiXYZ/p/15395742.html</a><br>](images&#x2F;ad&#x2F;</p>
 
                 
               </div>
