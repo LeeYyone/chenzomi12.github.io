@@ -4,7 +4,7 @@
   
   
   <entry>
-    <title>正向OO实现自动微分</title>
+    <title>自动微分实现：正向OO实现自动微分</title>
     <link href="/2022/07/31/ad04/"/>
     <url>/2022/07/31/ad04/</url>
     
@@ -12,12 +12,20 @@
     
     
     
+    <tags>
+      
+      <tag>AutoGrad</tag>
+      
+      <tag>AI System</tag>
+      
+    </tags>
+    
   </entry>
   
   
   
   <entry>
-    <title>AD常用实现方案</title>
+    <title>自动微分原理：AD常用实现方案</title>
     <link href="/2022/07/31/ad03/"/>
     <url>/2022/07/31/ad03/</url>
     
@@ -25,12 +33,20 @@
     
     
     
+    <tags>
+      
+      <tag>AutoGrad</tag>
+      
+      <tag>AI System</tag>
+      
+    </tags>
+    
   </entry>
   
   
   
   <entry>
-    <title>AD的正反向模式</title>
+    <title>自动微分原理：AD的正反向模式</title>
     <link href="/2022/07/31/ad02/"/>
     <url>/2022/07/31/ad02/</url>
     
@@ -38,18 +54,34 @@
     
     
     
+    <tags>
+      
+      <tag>AutoGrad</tag>
+      
+      <tag>AI System</tag>
+      
+    </tags>
+    
   </entry>
   
   
   
   <entry>
-    <title>一文看懂AD原理</title>
+    <title>自动微分原理：一文看懂AD原理</title>
     <link href="/2022/07/31/ad01/"/>
     <url>/2022/07/31/ad01/</url>
     
     <content type="html"><![CDATA[<p>写【自动微分】原理和实现系列文章，存粹是为了梳理在 MindSpore 当SE时候最核心的自动微分原理。网上看了很多文章，基本上都是很零散，当然Automatic Differentiation in Machine Learning: a Survey[1] 这篇文章是目前ZOMI觉得比较好关于自动微分的综述论文。</p><ul><li>【自动微分原理】<a href="https://zhuanlan.zhihu.com/p/518198564">01. 一文看懂AD原理</a></li><li>【自动微分原理】<a href="https://zhuanlan.zhihu.com/p/518296942">02. AD的正反向模式</a></li><li>【自动微分原理】<a href="https://zhuanlan.zhihu.com/p/520065656">03. AD常用实现方案</a></li><li>【自动微分原理】<a href="https://zhuanlan.zhihu.com/p/520065656">04. 正向OO实现自动微分</a></li><li>【自动微分原理】<a href="https://zhuanlan.zhihu.com/p/547865589/">05. 反向OO实现自动微分(Pytroch核心机制)</a></li></ul><h1 id="自动微分原理"><a href="#自动微分原理" class="headerlink" title="自动微分原理"></a>自动微分原理</h1><p><strong>自动微分</strong>（Automatic Differentiation，AD）是一种对计算机程序进行高效准确求导的技术，一直被广泛应用于计算流体力学、大气科学、工业设计仿真优化等领域。而近年来，机器学习技术的兴起也驱动着对自动微分技术的研究进入一个新的阶段。随着自动微分和其他微分技术研究的深入，其与编程语言、计算框架、编译器等领域的联系愈发紧密，从而衍生扩展出更通用的<strong>可微编程</strong>概念。</p><p>本章将从常见的微分方法开始介绍，然后深入自动微分基本概念。</p><h2 id="常见计算机求导方法"><a href="#常见计算机求导方法" class="headerlink" title="常见计算机求导方法"></a><strong>常见计算机求导方法</strong></h2><p>对计算机程序求导的方法可以归纳为以下四种：</p><ul><li><strong>手动求解法(Manual Differentiation)</strong> ：完全手动完成，手工求导并编写对应的结果程序，依据链式法则解出梯度公式，带入数值，得到梯度。</li><li>**数值微分法(Numerical Differentiation)**：利用导数的原始定义，通过有限差分近似方法完成求导，直接求解微分值。</li><li>**符号微分法(Symbolic Differentiation)**：基于数学规则和程序表达式变换完成求导。利用求导规则对表达式进行自动计算，其计算结果是导函数的表达式而非具体的数值。即，先求解析解，然后转换为程序，再通过程序计算出函数的梯度。</li><li>**自动微分法(Automatic Differentiation)**：介于数值微分和符号微分之间的方法，采用类似有向图的计算来求解微分值，介于数值微分和符号微分之间的一种求导方法，也是本文介绍的重点。</li></ul><p><img src="/images/ad/WX20220522-143400@2x.png"></p><h2 id="手动微分"><a href="#手动微分" class="headerlink" title="手动微分"></a>手动微分</h2><p>手动微分就是对每一个目标函数都需要利用求导公式手动写出求导公式，然后依照公式编写代码，带入数值，求出最终梯度。</p><p>这种方法准确有效，但是不适合工程实现，因为通用性和灵活性很差，每一次我们修改算法模型，都要修改对应的梯度求解算法。如果模型复杂或者项目频繁反复迭代，那么工作量将会是巨大的。</p><h2 id="数值微分"><a href="#数值微分" class="headerlink" title="数值微分"></a><strong>数值微分</strong></h2><p>数值微分方式应该是最直接而且简单的一种自动求导方式，使用差分近似方法完成，其本质是根据导数的定义推导而来。</p><p>$$<br>f’(x)&#x3D;lim_{h \to 0}\frac{f(x+h)-f(x)}{h} \tag{1}<br>$$</p><p>当 $h$ 取很小的数值，比如 0.000001 时，导数是可以利用差分来近似计算出来的。只需要给出函数值以及自变量的差值，数值微分算法就可计算出导数值。单侧差分公式根据导数的定义直接近似计算某一点处的导数值。</p><p>观察导数的定义容易想到，当 $h$ 充分小时，可以用差商 $\frac{f(x+h)-f(x)}{h}$ 近似导数结果。而近似的一部分误差（<em>截断误差</em>，Truncation Error）可以由泰勒公式中的二阶及二阶后的所有余项给出：</p><p>$$<br>f(x \pm h)&#x3D;f(x)\pm hf’(x)+\frac{h^2}{2!}f’’(x) \pm \frac{h^3}{3!}f’’(x) + … + (\pm h)^n n!f^{(n)}(x) \tag{2}<br>$$</p><p>因此数值微分中常用的三种计算方式及其对应的截断误差可以归纳为三种。</p><ul><li><strong>向前差商</strong>（Forward Difference）：</li></ul><p>$$<br>\frac{\delta f(x)}{\delta x} \approx \frac{f(x+h)-f(x)}{h} \tag{3}<br>$$</p><p>    其中Forward Difference的阶段误差为$O(h)$。</p><ul><li><strong>向后差商</strong>（Reverse Difference）：</li></ul><p>$$<br>\frac{\delta f(x)}{\delta x} \approx \frac{f(x)-f(x-h)}{h} \tag{4}<br>$$</p><p>    其中Reverse Difference的阶段误差为$O(h)$。</p><ul><li><strong>中心差商</strong>（Center Difference）</li></ul><p>$$<br>\frac{\delta f(x)}{\delta x} \approx \frac{f(x+h)-f(x-h)}{2h} \tag{5}<br>$$</p><p>    其中Center Difference的阶段误差为 $O(h^2)$。</p><p>可以看出来，数值微分中的截断误差与步长 $h$ 有关，$h$ 越小则截断误差越小，近似程序越高。</p><p>但实际情况数值微分的精确度并不会随着 $h$ 的减小而无限减小，因为计算机系统中对于浮点数的运算由于其表达方式存在另外一种误差（<em>舍入误差</em>，Round-off Error），而舍入误差则会随着 $h$ 变小而逐渐增大。因此在截断误差和舍入误差的共同作用下，数值微分的精度将会形成一个变化的函数并在某一个 $h$值处达到最小值。</p><p>为了缓解截断错误，提出了中心微分近似（Center Difference Approximation），这方法仍然无法解决舍入误差，只是减少误差，但是它比单侧差分公式有更小的误差和更好的稳定性：</p><p>$$<br>\frac{\delta f(x)}{\delta x} \approx \frac{f(x+h)-f(x-h)}{2h}+O(h^2) \tag{6}<br>$$</p><p><img src="/images/ad/WX20220522-143421@2x.png"></p><p>数值微分的<mark>优点</mark>是：</p><ul><li><p>具有计算适用性，对大部分表达式适用</p></li><li><p>对用于显示地隐藏了求导过程</p></li><li><p>简单容易实现</p></li></ul><p>数值微分的<mark>缺点</mark>是：</p><ul><li>计算量大，求解速度最慢，因为每计算一个参数的导数，都需要重新计算。</li><li>引入误差，因为是数值逼近，所有会不可靠，不稳定的情况，无法获得一个相对准确的导数值。如果 h 选取不当，可能会得到与符号相反的结果，导致误差增大。尤其是两个严重问题：<ul><li>截断错误（Truncation error）：在数值计算中 h 无法真正取零导致的近似误差。</li><li>舍入误差（Round-off Error）：在计算过程中出现的对小数位数的不断舍入会导致求导过程中的误差不断累积。</li></ul></li></ul><h2 id="符号微分"><a href="#符号微分" class="headerlink" title="符号微分"></a><strong>符号微分</strong></h2><p>符号微分（Symbolic Differentiation）属符号计算的范畴，利用求导规则对表达式进行自动计算，其计算结果是导函数的表达式。符号计算用于求解数学中的公式解，得到的是解的表达式而非具体的数值。</p><p>符号微分适合符号表达式的自动求导，符号微分的原理是用下面的简单求导规则，对计算机程序中的表达式进行递归变换来完成求导替代手动微分：</p><p>$$<br>\frac{\delta}{\delta x}((f(x)+g(x))&#x3D;\frac{\delta}{\delta x}f(x)+\frac{\delta}{\delta x}g(x) \tag{7}<br>$$</p><p>另外有：</p><p>$$<br>\frac{\delta}{\delta x}(f(x)g(x))&#x3D;(\frac{\delta}{\delta x}f(x))g(x)+f(x)(\frac{\delta}{\delta x}g(x)) \tag{8}<br>$$</p><p>由于变换过程中并不涉及计算且是严格等价，因此其可以大大减小微分结果的误差（仅存在变换完成后计算过程中的舍入误差）。除此之外，符号微分的计算方式使其还能用于类似极值 $\frac{\delta}{\delta x}f(x)&#x3D;0$ 的数学问题求解。</p><p>从某种角度看，这种递归思想和严格的程序变换让符号微分看上去是一种“完美”的计算过程。</p><p>符号微分利用代数软件，实现微分的一些公式，然后根据基本函数的求导公式以及四则运算、复合函数的求导法则，将公式的计算过程转化成微分过程，这样就可以对用户提供的具有closed form的数学表达式进行”自动微分”求解。就是先求解析解，然后转换为程序，再通过程序计算出函数的梯度。</p><p>符号微分计算出的表达式需要用字符串或其他数据结构存储，如表达式树。因为符号微分的这些优点，其也在包括 Mathematica、Maple、matlab、Maxima 等现代代数系统工具软件中使用。</p><p>但符号微分的最大弊病在于其对表达式的严格展开和变换也导致了所谓的<strong>表达式膨胀</strong>（expression swell）问题。以递归表达式为例：</p><p>$$<br>l_{n+1}&#x3D;4l_n(1-l_n) \tag{9}<br>$$</p><p>可以看到在不同的迭代中其符号微分的结果相比人工简化后的结果复杂很多，且随着迭代次数而增大。</p><p><img src="/images/ad/WX20220522-143441@2x.png"></p><p>数值微分的优点是：</p><ul><li>精度高，可适用于更复杂的数学问题求解等场景</li><li>简单容易实现</li></ul><p>数值微分的缺点是：</p><ul><li>表达式必须是闭包（closed form），也就是必须能写成完整数学表达式的，不能有编程语言中的循环结构，条件结构等，这样才能将整个问题转换为一个纯数学符号问题</li><li>表达式复杂时候，求导结果存在表达式膨胀问题</li></ul><h2 id="自动微分"><a href="#自动微分" class="headerlink" title="自动微分"></a><strong>自动微分</strong></h2><p>其实，对于机器学习中的应用，不需要得到导数的表达式，而只需计算函数在某一点处的导数值。</p><h3 id="基本原理"><a href="#基本原理" class="headerlink" title="基本原理"></a><strong>基本原理</strong></h3><p>自动微分是介于数值微分和符号微分之间的方法，采用类似有向图的计算来求解微分值。</p><ul><li><p>数值微分：一开始就直接代入数值近似求解</p></li><li><p>符号微分：直接对代数表达式求解析解，最后才代入数值进行计算</p></li><li><p>自动微分：首先对基本算子（函数）应用符号微分方法，其次带入数值进行计算，保留中间结果，最后通过链式求导法将中间结果应用于整个函数，这样可以做到完全向用户隐藏微分求解过程，也可以灵活于编程语言的循环结构、条件结构等结合起来</p></li></ul><p>关于解析解我们还要做一些说明。几乎所有机器学习算法在训练或预测时都可以归结为求解最优化问题，如果目标函数可导，则问题就变为求训练函数的驻点。但是通常情况下我们无法得到驻点的解析解，因此只能采用数值优化算法，如梯度下降法，牛顿法，拟牛顿法等等。这些数值优化算法都依赖于函数的一阶导数值或二阶导数值（包括梯度与Hessian矩阵）。因此需要解决如何求一个复杂函数的导数问题，自动微分技术是解决此问题的一种通用方法。</p><p>由于自动微分法只对基本函数或常数运用符号微分法则，所以它可以灵活结合编程语言的循环结构，条件结构等。使用自动微分和不使用自动微分对代码总体改动非常小，由于它实际是一种图计算，可以对其做很多优化，所以该方法在现代深度学习系统中得到广泛应用。</p><h3 id="数学基础"><a href="#数学基础" class="headerlink" title="数学基础"></a>数学基础</h3><p>在计算链式法则之前，我们先回顾一下复合函数。复合函数在本质上就是有关函数的函数（function of functions）。它将一个函数的返回值作为参数传递给另一个函数，并且将另一个函数的返回值作为参数再传递给下一个函数，也就是 函数套函数，把几个简单的函数复合为一个较为复杂的函数。</p><p>链式法则是微积分中的求导法则，用于求一个复合函数的导数，是在微积分的求导运算中一种常用的方法。复合函数的导数将是构成复合这有限个函数在相应点的 导数的乘积，就像锁链一样一环套一环，故称链式法则。</p><p>自动微分的思想则是将计算机程序中的运算操作分解为一个有限的基本操作集合，且集合中基本操作的求导规则均为已知在完成每一个基本操作的求导后，使用<strong>链式法则</strong>将结果组合得到整体程序的求导结果。</p><p>$$<br>(f \cdot g)’(x)&#x3D;f’(g(x))g’(x) \tag{10}<br>$$</p><p>比如求导：</p><p>$$<br>y&#x3D;sin(x^2+1) \tag{11}<br>$$</p><p>链式求导，令：</p><p>$$<br>f(x)&#x3D;sin(x),g(x)&#x3D;x^2+1 \tag{12}<br>$$</p><p>有：</p><p>$$<br>(f(g(x)))’&#x3D;f’(g(x))g’(x)&#x3D;[sin(x^2+1)]’ \cdot 2x&#x3D;2cos(x^2+1) \cdot x \tag{13}<br>$$</p><h3 id="自动微分-1"><a href="#自动微分-1" class="headerlink" title="自动微分"></a>自动微分</h3><p>自动微分的精髓在于它发现了微分计算的本质：<strong>微分计算就是一系列有限的可微算子的组合。</strong></p><p>自动微分法被认为是对计算机程序进行非标准的解释。自动微分基于一个事实，即每一个计算机程序，不论它有多么复杂，都是在执行加减乘除这一系列基本算数运算，以及指数、对数、三角函数这类初等函数运算。于是自动微分先将符号微分法应用于最基本的算子，比如常数，幂函数，指数函数，对数函数，三角函数等，然后代入数值，保留中间结果，最后再通过链式求导法则应用于整个函数。</p><p>通过将链式求导法则应用到这些运算上，我们能以任意精度自动地计算导数，而且最多只比原始程序多一个常数级的运算。</p><p>我们以如下为例，这是原始公式：</p><p>$$<br>y&#x3D;f(g(ℎ(x)))&#x3D;f(g(ℎ(w_0)))&#x3D;f(g(w_1))&#x3D;f(w_2)&#x3D;w_3 \tag{14}<br>$$</p><p>自动微分以链式法则为基础，把公式中一些部分整理出来成为一些新变量，然后用这些新变量整体替换这个公式，于是得到：</p><p>$$<br>w_0&#x3D;x \<br>w_1&#x3D;h(w_0) \<br>w_2&#x3D;g(w_1) \<br>w_3&#x3D;f(w_2)&#x3D;y<br>$$</p><p>然后把这些新变量作为节点，依据运算逻辑把公式整理出一张有向无环图（DAG）。即，原始函数建立计算图，数据正向传播，计算出中间节点 xi，并记录计算图中的节点依赖关系。</p><p>因此，自动微分可以被认为是将一个复杂的数学运算过程分解为一系列简单的基本运算， 其中每一项基本运算都可以通过查表得出来。</p><p>因此自动微分的优缺点可以简单总结如下：</p><ul><li>优点：精度高，无表达式膨胀问题</li><li>缺点：需要存储一些中间求导结果，内存占用会增加</li></ul><h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>[1] Automatic Differentiation in Machine Learning: a Survey: <a href="https://arxiv.org/abs/1502.05767">https://arxiv.org/abs/1502.05767</a></p><p>[2] Rirchard L. Burden and J. Douglas Faires. Numerical Analysis. Brooks&#x2F;Cole, 2001.</p><p>[3] Max E. Jerrell. Automatic differentiation and interval arithmetic for estimation of disequilibrium models. Computational Economics, 10(3):295–316, 1997.</p><p>[4] Johannes Grabmeier and Erich Kaltofen. Computer Algebra Handbook: Foundations, Applications, Systems. Springer, 2003.</p><p>[5] G. W. Leibniz. Machina arithmetica in qua non additio tantum et subtractio sed et multiplicatio nullo, diviso vero paene nullo animi labore peragantur. Hannover, 1685.</p><p>[6] George F. Corliss. Application of differentiation arithmetic, volume 19 of Perspectives in Computing, pages 127–48. Academic Press, Boston, 1988.</p><p>[7] Arun Verma. An introduction to automatic differentiation. Current Science, 78(7):804–7, 2000.</p><p>[8] Andreas Griewank and Andrea Walther. Evaluating Derivatives: Principles and Techniques of Algorithmic Differentiation. Society for Industrial and Applied Mathematics, Philadelphia, 2008. doi: 10.1137&#x2F;1.9780898717761.</p><p>[9] John F. Nolan. Analytical differentiation on a digital computer. Master’s thesis, Massachusetts Institute of Technology, 1953.</p><p>[10] L. M. Beda, L. N. Korolev, N. V. Sukkikh, and T. S. Frolova. Programs for automatic differentiation for the machine BESM (in Russian). Technical report, Institute for Precise Mechanics and Computation Techniques, Academy of Science, Moscow, USSR, 1959.</p><p>[11] Robert E. Wengert. A simple automatic derivative evaluation program. Communications of the ACM, 7:463–4, 1964.</p><p>[12] Andreas Griewank. On automatic differentiation. pages 83–108, 1989.</p><p>[13] Hascoet, Laurent, and Valérie Pascual. “The Tapenade automatic differentiation tool: principles, model, and specification.” ACM Transactions on Mathematical Software (TOMS) 39.3 (2013): 1-43.</p><p>[14] 知乎专栏：自动微分（Automatic Differentiation）: <a href="https://zhuanlan.zhihu.com/p/61103504">https://zhuanlan.zhihu.com/p/61103504</a></p><p>[15] 知乎专栏：数值计算方法 第六章 数值积分和数值微分: <a href="https://zhuanlan.zhihu.com/p/14">https://zhuanlan.zhihu.com/p/14</a></p><p>[16] 知乎专栏：技术分享 | 从自动微分到可微编程语言设计 <a href="https://zhuanlan.zhihu.com/p/393160344">https://zhuanlan.zhihu.com/p/393160344</a></p><p>[17] 博客园：深度学习利器之自动微分 <a href="https://www.cnblogs.com/rossiXYZ/p/15395742.html">https://www.cnblogs.com/rossiXYZ/p/15395742.html</a></p>]]></content>
     
     
+    
+    <tags>
+      
+      <tag>AutoGrad</tag>
+      
+      <tag>AI System</tag>
+      
+    </tags>
     
   </entry>
   
@@ -95,12 +127,6 @@
     <content type="html"><![CDATA[<p><strong>EfficientFormer：轻量化ViT Backbone</strong></p><p>论文：<a href="https://arxiv.org/abs/2206.01191">《EfficientFormer: Vision Transformers at MobileNet Speed<br>》</a></p><p>Vision Transformers (ViT) 在计算机视觉任务中取得了快速进展，开启了 Vision + Transformer 的先河，之后大量的论文和研究都基于 ViT 之上的。不过呢，Transformer 由于 Attention 的结构设计需要大量的参数，执行的性能也比经过特殊优化的 CNN 要慢一点。</p><p>像是之前介绍的 DeiT 利用 ViT + 蒸馏让训练得更快更方便，但是没有解决 ViT 在端侧实时运行的问题。于是后来有了各种 MateFormer、PoolFormer 等各种 XXXFormer 的变种。应该在不久之前呢，Facebook 就提出了 mobilevit，借鉴了端侧 YYDS 永远的神 mobileNet 的优势结构和 Block（CNN） + ViT 结合，让 ViT 开启了端侧可运行的先河。不管是 XXXFormer 还是 mobileNet，主要是试图通过网络架构搜索（AutoML）或与 MobileNet 块的混合设计来降低 ViT 的计算复杂度，但推理速度嘛，还是没办法跟 mobileNet 媲美。</p><blockquote><p>这就引出了一个重要的问题：Transformer 能否在获得高性能的同时跑的跟 MobileNet 一样快？</p></blockquote><p>作者重新审视基于 ViT 的模型中使用的网络架构和具体的算子，找到端侧低效的原因。然后引入了维度一致的 Transformer Block 作为设计范式。最后，通过网络模型搜索获得不同系列的模型 —— EfficientFormer。</p><p><img src="/images/efficientformer/former1.png"></p><h1 id="ViT-实时运行分析"><a href="#ViT-实时运行分析" class="headerlink" title="ViT 实时运行分析"></a>ViT 实时运行分析</h1><p>图中作者作者对不同模型在端侧运行进行了一些分析，主要是分为 ViT 对图像进行分块的 Patch Embedding、Transformer 中的 Attention 和 MLP，另外还有 LeViT 提出的 Reshape 和一些激活等。基于下面这个表，提出了几个猜想，然后设计出了 EfficientFormer 结构。</p><p><img src="/images/efficientformer/former2.png"></p><ol><li><strong>猜想分析1：大 kernel 和 stride 的Patch embedding是速度瓶颈</strong></li></ol><p>Patch embedding 通常使用具有较大kernel-size和stride的非重叠卷积层来实现。大部分AI编译器都不能很好地支持大内核卷积，并且无法通过 Winograd 等现有算法进行加速。</p><ol start="2"><li><strong>猜想分析2：特征维度一致对于 token mixer 的选择很重要</strong></li></ol><p>很多翻译这里写得很玄乎，ZOMI酱的理解是特征维度一致比多头注意力机制对延迟的影响更重要啦，也就是 MLP 实际上并没有那么耗时，但是如果 tensor 的shape一会大一会小，就会影响计算时延。所以 EfficientFormer 提出了具有 4D 特征实现和 3D 多头注意力的维度一致网络，并且消除了低效且频繁 Reshape 操作（主要指 LeViT 中的 Reshape 操作）。</p><ol start="3"><li><strong>猜想分析3：CONV + BN 比 MLP + LN 效率更高</strong></li></ol><p>在 CNN 结构中最经典的就是使用3x3卷积 Conv + Batch Normalization（BN）的组合方式（获取局部特征），而在 Transformer 中最典型的方式是使用 linear projection（MLP）+ layer normalization（LN）（获取全局特征）的组合。不过作者对比测试中发现呀，CONV + BN 比 MLP + LN 效率更高。</p><ol start="4"><li><strong>猜想分析4：激活函数取决于编译器</strong></li></ol><p>最后这个就比较简单，激活函数包括 GeLU、ReLU 和 HardSwish 的性能在 TensorRT 或者 CoreML 中都不一样，所以激活的优化主要是看用什么端侧编译器。</p><h1 id="EfficientFormer-架构"><a href="#EfficientFormer-架构" class="headerlink" title="EfficientFormer 架构"></a>EfficientFormer 架构</h1><p>第4个点不太重要，主要是关注1,2,3点。于是引出了 EfficientFormer 的总结架构啦。<br>EfficientFormer 由 patch embedding (PatchEmbed) 和 meta transformer blocks 组成，表示为 MB：</p><p>$$<br>y&#x3D;\prod_{i}^{m} MB_{i}\left(PatchEmbed \left(X_{0}^{B, 3, H, W}\right)\right)<br>$$</p><p>X_0 是输入图像，Batch Size 为 B，featur map 大小为 [H,W]，Y 是输出，m 是Block的数量。MB 由未指定的 TokenMixer 和 MLP Block 组成，可以表示如下：</p><p>$$<br>X_{i+1}&#x3D; MB_{i}(X_{i})&#x3D; MLP\left(\text { TokenMixer }\left(X_{i}\right)\right)<br>$$</p><p>X_i 是第 i 个 MB 的featur map。进一步将 Stage 定义为处理具有相同空间大小的特征的几个 MetaBlock 的堆栈，图 N_1x 表示 S1 具有 N_1 个 MetaBlock。</p><p><img src="/images/efficientformer/former3.png"></p><p>可以看到 EfficientFormer 一共有4个阶段。每个阶段都有一个 Embeding（两个3x3的Conv组成一个Embeding） 来投影 Token 长度（可以理解为CNN中的feature map）。可以看到啦，EfficientFormer 是一个完全基于Transformer设计的模型，没有集成 MobileNet 相关内容啦。</p><p>最后通过 AUTOML 来搜索 MB_3D 和 MB_4D block 相关参数。</p><p><img src="/images/efficientformer/former4.png"></p><h2 id="维度一致性-dimension-consistent"><a href="#维度一致性-dimension-consistent" class="headerlink" title="维度一致性 dimension-consistent"></a>维度一致性 dimension-consistent</h2><p>根据 <strong>猜想分析2：特征维度一致对于 token mixer 的选择很重要</strong> EfficientFormer 提出了一种维度一致的设计，将网络分成一个 MB_4D，以 CNN 结构为主 (MB4D) 实现；以及一个 MB_3D ，MLP 线性投影和 Attention 注意力在 3D tensor 上运行。网络从 patch embedding 开始，然后就到了 4D 分区，3D 分区在最后阶段应用。最后 4D 和 3D 分区的实际长度是稍后通过架构搜索指定的。</p><p>这里面的 4D 主要是指 CNN 结构中 tensor 的维度 [B, C, W, H]，而 3D 主要是指 Tran 结构中 tensor 的维度 [B, W, H]。</p><p><img src="/images/efficientformer/former5.png"></p><p>网络从使用由具有2个 kernel-size为 3×3， Stride&#x3D;2 的卷积组成的 Conv stem 处理后的图像作为 patch embedding：</p><p>$$<br>X_{1} &#x3D; \text { PatchEmbed }(X_{0}^{B, 3, H, W})<br>$$</p><p>其中 C_j 是第 j 个阶段的通道数（宽度）。然后网络从 MB_4D 开始，使用简单的 Pool ing 来提取 low level特征：</p><p>$$<br>\mathcal{I}<em>{i} &#x3D; \operatorname{Pool}(\mathcal{X}</em>{i})+\mathcal{X}_{i}<br>$$</p><p>$$<br>\mathcal{X}<em>{i+1} &#x3D; \operatorname{Conv}</em>{B}\left(\operatorname{Conv}<em>{B, G}\left(\mathcal{I}</em>{i}\right)\right)+\mathcal{I}_{i}<br>$$</p><p>其中 Conv_B,G 是指卷积后是否分加上BN和GeLU。</p><p><img src="/images/efficientformer/former6.png"></p><p>在处理完所有 MB4D 块后，执行一次Reshape以变换 freature map 并进入 3D 分区。MB3D 遵循传统的 ViT，不过作者把 ReLU 换成了 GeLU 哦。</p><p><img src="/images/efficientformer/former7.png"></p><h2 id="实时运行模型瘦身-Latency-Driven-Slimming"><a href="#实时运行模型瘦身-Latency-Driven-Slimming" class="headerlink" title="实时运行模型瘦身 Latency Driven Slimming"></a>实时运行模型瘦身 Latency Driven Slimming</h2><p>基于 dimension-consistent，EfficientFormer 构建了一个 Supernet，用于搜索 EfficientFormer 架构的高效模型。下面定义一个 MetaPath (MP)：</p><p>$$<br>\mathrm{MP}<em>{i, j&#x3D;1,2} \in\left{\mathrm{MB}</em>{i}^{4 D}, I_{i}\right}<br>$$</p><p>$$<br>\mathrm{MP}<em>{i, j&#x3D;3,4} \in\left{\mathrm{MB}</em>{i}^{4 D}, \mathrm{MB}<em>{i}^{3 D}, I</em>{i}\right}<br>$$</p><p>I 呢表示 identity path，j 表示第 j 个阶段，i 表示第 i 个块。搜索网络Supernet 中通过用 MP 代替 EfficientFormer 的 MB。</p><p>在 Supernet 的第1阶段和第2阶段中，每个 Block 可以选择 MB4D 或 I，而在第3阶段和第4阶段中，Block可以是 MB3D、MB4D 或 I。</p><p>EfficientFormer 只在最后两个阶段启用 MB3D，原因有2个：1）多头注意力的计算相对于Token长度呈二次增长，因此在模型早期集成会大大增加计算成本。2）将全局多头注意力应用于最后阶段符合直觉，即网络的早期阶段捕获低级特征，而后期层则学习长期依赖关系。</p><ol><li><strong>搜索空间</strong></li></ol><p>搜索空间包括 C_j（每个 Stage 的宽度）、N_j（每个 Stage 中的块数，即深度）和最后 N 个 MB3D 的块。</p><ol start="2"><li><strong>搜索算法</strong></li></ol><p>传统的硬件感知网络搜索方法，通常依赖于每个候选模型在搜索空间中的硬件部署来获得延迟，这是非常耗时的。EfficientFormer提出了基于梯度的搜索算法，以获得只需要训练一次Supernet的候选网络。</p><p><img src="/images/efficientformer/former8.png"></p><p>（后续可以针对 NASA 搜索进行详细补充这个内容。）</p><h1 id="实验结果"><a href="#实验结果" class="headerlink" title="实验结果"></a>实验结果</h1><p>总的来说呢，EfficientFormer-L1 在 ImageNet-1K 分类任务上实现了 79.2% 的 top-1 准确率，推理时间仅为 1.6 ms，与 MobileNetV2 相比，延迟降低了 6%，top-1 准确率提高了 7.4%。延迟不是 ViT 在端侧部署的障碍。</p><p>另外，EfficientFormer-L7 实现了 83.3% 的准确率，延迟仅为 7.0 ms，大大优于 ViT×MobileNet 混合设计（MobileViT-XS，74.8%，7.2ms）。</p><p><img src="/images/efficientformer/former9.png"></p><p>最后通过使用 EfficientFormer 作为图像检测和分割基准的 Backbone，性能也是非常赞的。ViTs 确实可以实现超快的推理速度和强大的性能。</p><p><img src="/images/efficientformer/former10.png"></p><h1 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h1><p>MobileViT 结构上基本基于 MobileNet V2 而改进增加了 MobileViT block，但是同样能够实现一个不错的精度表现，文章实验部分大量的对比了 MobileViT 跟 CNN 和 ViT 模型的参数量和模型大小，不过值得一提的是在端侧除了模型大小以外，更加重视模型的性能，只能说这篇文章经典之处是开创了 CNN 融合 ViT 在端侧的研究。</p><h1 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h1><p>[1] Li, Yanyu, et al. “EfficientFormer: Vision Transformers at MobileNet Speed.” arXiv preprint arXiv:2206.01191 (2022).</p><p>[2] <a href="https://mp.weixin.qq.com/s/w9mrhOv5aG_QY7QQL9_8gw">https://mp.weixin.qq.com/s/w9mrhOv5aG_QY7QQL9_8gw</a></p><p>[3] <a href="https://zhuanlan.zhihu.com/p/524295602">https://zhuanlan.zhihu.com/p/524295602</a></p>]]></content>
     
     
-    
-    <tags>
-      
-      <tag>Transformer</tag>
-      
-    </tags>
     
   </entry>
   

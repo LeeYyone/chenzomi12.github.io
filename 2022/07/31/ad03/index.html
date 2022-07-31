@@ -18,22 +18,23 @@
   
     <meta name="description" content="写【自动微分】原理和实现系列文章，存粹是为了梳理在 MindSpore 当SE时候最核心的自动微分原理。网上看了很多文章，基本上都是很零散，当然Automatic Differentiation in Machine Learning: a Survey[1] 这篇文章是目前ZOMI觉得比较好关于自动微分的综述论文。  【自动微分原理】01. 一文看懂AD原理 【自动微分原理】02. AD的正反向">
 <meta property="og:type" content="article">
-<meta property="og:title" content="AD常用实现方案">
+<meta property="og:title" content="自动微分原理：AD常用实现方案">
 <meta property="og:url" content="http://example.com/2022/07/31/ad03/index.html">
 <meta property="og:site_name" content="ZOMI酱的博客">
 <meta property="og:description" content="写【自动微分】原理和实现系列文章，存粹是为了梳理在 MindSpore 当SE时候最核心的自动微分原理。网上看了很多文章，基本上都是很零散，当然Automatic Differentiation in Machine Learning: a Survey[1] 这篇文章是目前ZOMI觉得比较好关于自动微分的综述论文。  【自动微分原理】01. 一文看懂AD原理 【自动微分原理】02. AD的正反向">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/images/ad/WX20220525-180618@2x.png">
-<meta property="og:image" content="http://example.com/images/ad/ast.png">
+<meta property="og:image" content="http://example.com/images/ad/tangent_adjoint.png">
 <meta property="article:published_time" content="2022-07-31T08:34:12.000Z">
-<meta property="article:modified_time" content="2022-07-31T08:43:48.008Z">
+<meta property="article:modified_time" content="2022-07-31T08:53:11.356Z">
 <meta property="article:author" content="ZOMI酱">
+<meta property="article:tag" content="AutoGrad">
+<meta property="article:tag" content="AI System">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://example.com/images/ad/WX20220525-180618@2x.png">
+<meta name="twitter:image" content="http://example.com/images/ad/tangent_adjoint.png">
   
   
   
-  <title>AD常用实现方案 - ZOMI酱的博客</title>
+  <title>自动微分原理：AD常用实现方案 - ZOMI酱的博客</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -215,7 +216,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="AD常用实现方案"></span>
+            <span id="subtitle" data-typed-text="自动微分原理：AD常用实现方案"></span>
           
         </div>
 
@@ -295,7 +296,7 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">AD常用实现方案</h1>
+            <h1 style="display: none">自动微分原理：AD常用实现方案</h1>
             
             
               <div class="markdown-body">
@@ -439,6 +440,15 @@
               <div class="post-metas my-3">
   
   
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/AutoGrad/">#AutoGrad</a>
+      
+        <a href="/tags/AI-System/">#AI System</a>
+      
+    </div>
+  
 </div>
 
 
@@ -447,7 +457,7 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>AD常用实现方案</div>
+      <div>自动微分原理：AD常用实现方案</div>
       <div>http://example.com/2022/07/31/ad03/</div>
     </div>
     <div class="license-meta">
@@ -490,9 +500,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2022/07/31/ad04/" title="正向OO实现自动微分">
+                      <a href="/2022/07/31/ad04/" title="自动微分实现：正向OO实现自动微分">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">正向OO实现自动微分</span>
+                        <span class="hidden-mobile">自动微分实现：正向OO实现自动微分</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -500,8 +510,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2022/07/31/ad02/" title="AD的正反向模式">
-                        <span class="hidden-mobile">AD的正反向模式</span>
+                      <a href="/2022/07/31/ad02/" title="自动微分原理：AD的正反向模式">
+                        <span class="hidden-mobile">自动微分原理：AD的正反向模式</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
