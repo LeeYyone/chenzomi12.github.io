@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    
+    <title>3.10. 代数简化原理 &#8212; 人工智能系统（AISys） 0.0.1 documentation</title>
+
+    <link rel="stylesheet" href="../_static/material-design-lite-1.3.0/material.blue-deep_orange.min.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/sphinx_materialdesign_theme.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/fontawesome/all.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/fonts.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/d2l.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/d2l.js"></script>
+    <link rel="shortcut icon" href="../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="3.11. 优化Pass总结" href="10.summary.html" />
+    <link rel="prev" title="3.9. 死代码消除" href="08.dce.html" /> 
+  </head>
+<body>
+    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header mdl-layout--fixed-drawer"><header class="mdl-layout__header mdl-layout__header--waterfall ">
+    <div class="mdl-layout__header-row">
+        
+        <nav class="mdl-navigation breadcrumb">
+            <a class="mdl-navigation__link" href="index.html"><span class="section-number">3. </span>前端优化</a><i class="material-icons">navigate_next</i>
+            <a class="mdl-navigation__link is-active"><span class="section-number">3.10. </span>代数简化原理</a>
+        </nav>
+        <div class="mdl-layout-spacer"></div>
+        <nav class="mdl-navigation">
+        
+<form class="form-inline pull-sm-right" action="../search.html" method="get">
+      <div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable mdl-textfield--floating-label mdl-textfield--align-right">
+        <label id="quick-search-icon" class="mdl-button mdl-js-button mdl-button--icon"  for="waterfall-exp">
+          <i class="material-icons">search</i>
+        </label>
+        <div class="mdl-textfield__expandable-holder">
+          <input class="mdl-textfield__input" type="text" name="q"  id="waterfall-exp" placeholder="Search" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </div>
+      </div>
+      <div class="mdl-tooltip" data-mdl-for="quick-search-icon">
+      Quick search
+      </div>
+</form>
+        
+<a id="button-show-source"
+    class="mdl-button mdl-js-button mdl-button--icon"
+    href="../_sources/033CM_Frontend/09.algebraic.rst.txt" rel="nofollow">
+  <i class="material-icons">code</i>
+</a>
+<div class="mdl-tooltip" data-mdl-for="button-show-source">
+Show Source
+</div>
+        </nav>
+    </div>
+    <div class="mdl-layout__header-row header-links">
+      <div class="mdl-layout-spacer"></div>
+      <nav class="mdl-navigation">
+          
+              <a  class="mdl-navigation__link" href="https://github.com/chenzomi12/DeepLearningSystem">
+                  <i class="fab fa-github"></i>
+                  GitHub
+              </a>
+      </nav>
+    </div>
+</header><header class="mdl-layout__drawer">
+    
+          <!-- Title -->
+      <span class="mdl-layout-title">
+          <a class="title" href="../index.html">
+              <img class="logo" src="../_static/logo-with-text.png" alt="人工智能系统（AISys）"/>
+          </a>
+      </span>
+    
+    
+      <div class="globaltoc">
+        <span class="mdl-layout-title toc">Table Of Contents</span>
+        
+        
+            
+            <nav class="mdl-navigation">
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../020Framework/index.html">== 二、AI框架核心模块 ==</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../021FW_Foundation/index.html">1. AI框架基础</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../021FW_Foundation/01.introduction.html">1.1. 基本介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../021FW_Foundation/02.fundamentals.html">1.2. AI框架作用</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../021FW_Foundation/03.history.html">1.3. AI框架之争</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../021FW_Foundation/04.programing.html">1.4. 框架编程范式</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../022FW_AutoDiff/index.html">2. 自动微分</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../022FW_AutoDiff/01.introduction.html">2.1. 基本介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../022FW_AutoDiff/02.base_concept.html">2.2. 什么是微分</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../022FW_AutoDiff/03.grad_mode.html">2.3. 微分计算模式</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../022FW_AutoDiff/04.implement.html">2.4. 微分实现方法</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../022FW_AutoDiff/05.forward_mode.html">2.5. 动手实现自动微分</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../022FW_AutoDiff/06.reversed_mode.html">2.6. 动手实现PyTorch微分</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../022FW_AutoDiff/07.challenge.html">2.7. 自动微分的挑战&amp;未来</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../023FW_DataFlow/index.html">3. 计算图</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../023FW_DataFlow/01.introduction.html">3.1. 基本介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../023FW_DataFlow/02.computation_graph.html">3.2. 计算图原理</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../023FW_DataFlow/03.atuodiff.html">3.3. 与自动微分关系</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../023FW_DataFlow/04.dispatch.html">3.4. 图优化与图执行调度</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../023FW_DataFlow/05.control_flow.html">3.5. 计算图的控制流实现</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../023FW_DataFlow/06.future.html">3.6. 计算图的挑战&amp;未来</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../024FW_AICluster/index.html">4. 分布式集群</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../024FW_AICluster/01.introduction.html">4.1. 基本介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../024FW_AICluster/02.architecture.html">4.2. AI集群服务器架构</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../024FW_AICluster/03.communication.html">4.3. AI集群软硬件通信</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../024FW_AICluster/04.primitive.html">4.4. 集合通信原语</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../024FW_AICluster/05.system.html">4.5. 分布式功能</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../025FW_AIAlgo/index.html">5. 分布式算法</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../025FW_AIAlgo/01.challenge.html">5.1. 大模型训练挑战</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../025FW_AIAlgo/02.algorithm_arch.html">5.2. 大模型算法结构</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../025FW_AIAlgo/03.algorithm_sota.html">5.3. 亿级规模大模型</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../026FW_Parallel/index.html">6. 分布式算法</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../026FW_Parallel/01.introduction.html">6.1. 基本介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../026FW_Parallel/02.data_parallel.html">6.2. 数据并行</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../026FW_Parallel/03.tensor_parallel.html">6.3. 张量并行</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../026FW_Parallel/04.mindspore_parallel.html">6.4. MindSpore张量并行</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../026FW_Parallel/05.pipeline_parallel.html">6.5. 流水并行</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../026FW_Parallel/06.hybrid_parallel.html">6.6. 混合并行</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../026FW_Parallel/07.summary.html">6.7. 分布式训练总结</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../030Compiler/index.html">== 三、AI编译器原理 ==</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../031CM_Tradition/index.html">1. 传统编译器</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../031CM_Tradition/01.introduction.html">1.1. 课程概述</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../031CM_Tradition/02.history.html">1.2. 编译器发展</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../031CM_Tradition/03.gcc.html">1.3. GCC编译过程和原理</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../031CM_Tradition/04.llvm.html">1.4. LLVM架构设计和原理</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../031CM_Tradition/05.llvm_detail01.html">1.5. LLVM IR详解</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../031CM_Tradition/06.llvm_detail02.html">1.6. LLVM前端和优化层</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../031CM_Tradition/07.llvm_detail03.html">1.7. LLVM后端代码生成</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../032CM_AICompiler/index.html">2. AI 编译器</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../032CM_AICompiler/01.appear.html">2.1. 为什么需要AI编译器</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../032CM_AICompiler/02.stage.html">2.2. AI编译器的发展阶段</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../032CM_AICompiler/03.architecture.html">2.3. AI编译器的通用架构</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../032CM_AICompiler/04.future.html">2.4. AI编译器挑战与思考</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">3. 前端优化</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="01.introduction.html">3.1. 内容介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02.graph_ir.html">3.2. 图算 IR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03.op_fusion.html">3.3. 算子融合</a></li>
+<li class="toctree-l2"><a class="reference internal" href="04.layout_trans01.html">3.4. 布局转换原理</a></li>
+<li class="toctree-l2"><a class="reference internal" href="04.layout_trans02.html">3.5. 布局转换算法</a></li>
+<li class="toctree-l2"><a class="reference internal" href="05.memory.html">3.6. 内存分配算法</a></li>
+<li class="toctree-l2"><a class="reference internal" href="06.constant_fold.html">3.7. 常量折叠原理</a></li>
+<li class="toctree-l2"><a class="reference internal" href="07.cse.html">3.8. 公共表达式消除</a></li>
+<li class="toctree-l2"><a class="reference internal" href="08.dce.html">3.9. 死代码消除</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">3.10. 代数简化原理</a></li>
+<li class="toctree-l2"><a class="reference internal" href="10.summary.html">3.11. 优化Pass总结</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../034CM_Backend/index.html">4. 前端优化</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../034CM_Backend/01.introduction.html">4.1. 内容介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../034CM_Backend/02.ops_compute.html">4.2. 算子的计算与调度</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../034CM_Backend/03.optimization.html">4.3. 算子手工优化方式</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../034CM_Backend/04.loop_opt.html">4.4. 算子循环优化</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../034CM_Backend/05.other_opt.html">4.5. 指令和内存优化</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../034CM_Backend/06.auto_tuning.html">4.6. Auto-Tuning原理</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../036CM_PyTorch/index.html">5. 前端优化</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../036CM_PyTorch/01.introduction.html">5.1. PyTorch2.0 特性</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../036CM_PyTorch/02.torchscript.html">5.2. 内容介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../036CM_PyTorch/03.torchfx_lazy.html">5.3. FX 与 LazyTensor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../036CM_PyTorch/04.torchdynamo.html">5.4. TorchDynamo 获取图</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../036CM_PyTorch/05.aotatuograd.html">5.5. AOTAutograd 原理</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../036CM_PyTorch/06.dispatch.html">5.6. Dispatch 机制</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../040Inference/index.html">四、推理系统&amp;引擎</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../050Hardware/index.html">五、AI芯片核心原理</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../000Others/index.html">1. == 附录 ==</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../000Others/instruments.html">1.1. 书写工具</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../000Others/criterion.html">1.2. 书写规范</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../000Others/glossary.html">1.3. 术语表</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../000Others/inference.html">1.4. 参考链接</a></li>
+</ul>
+</li>
+</ul>
+
+            </nav>
+        
+        </div>
+    
+</header>
+        <main class="mdl-layout__content" tabIndex="0">
+
+	<script type="text/javascript" src="../_static/sphinx_materialdesign_theme.js "></script>
+    <header class="mdl-layout__drawer">
+    
+          <!-- Title -->
+      <span class="mdl-layout-title">
+          <a class="title" href="../index.html">
+              <img class="logo" src="../_static/logo-with-text.png" alt="人工智能系统（AISys）"/>
+          </a>
+      </span>
+    
+    
+      <div class="globaltoc">
+        <span class="mdl-layout-title toc">Table Of Contents</span>
+        
+        
+            
+            <nav class="mdl-navigation">
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../020Framework/index.html">== 二、AI框架核心模块 ==</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../021FW_Foundation/index.html">1. AI框架基础</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../021FW_Foundation/01.introduction.html">1.1. 基本介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../021FW_Foundation/02.fundamentals.html">1.2. AI框架作用</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../021FW_Foundation/03.history.html">1.3. AI框架之争</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../021FW_Foundation/04.programing.html">1.4. 框架编程范式</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../022FW_AutoDiff/index.html">2. 自动微分</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../022FW_AutoDiff/01.introduction.html">2.1. 基本介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../022FW_AutoDiff/02.base_concept.html">2.2. 什么是微分</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../022FW_AutoDiff/03.grad_mode.html">2.3. 微分计算模式</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../022FW_AutoDiff/04.implement.html">2.4. 微分实现方法</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../022FW_AutoDiff/05.forward_mode.html">2.5. 动手实现自动微分</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../022FW_AutoDiff/06.reversed_mode.html">2.6. 动手实现PyTorch微分</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../022FW_AutoDiff/07.challenge.html">2.7. 自动微分的挑战&amp;未来</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../023FW_DataFlow/index.html">3. 计算图</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../023FW_DataFlow/01.introduction.html">3.1. 基本介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../023FW_DataFlow/02.computation_graph.html">3.2. 计算图原理</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../023FW_DataFlow/03.atuodiff.html">3.3. 与自动微分关系</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../023FW_DataFlow/04.dispatch.html">3.4. 图优化与图执行调度</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../023FW_DataFlow/05.control_flow.html">3.5. 计算图的控制流实现</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../023FW_DataFlow/06.future.html">3.6. 计算图的挑战&amp;未来</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../024FW_AICluster/index.html">4. 分布式集群</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../024FW_AICluster/01.introduction.html">4.1. 基本介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../024FW_AICluster/02.architecture.html">4.2. AI集群服务器架构</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../024FW_AICluster/03.communication.html">4.3. AI集群软硬件通信</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../024FW_AICluster/04.primitive.html">4.4. 集合通信原语</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../024FW_AICluster/05.system.html">4.5. 分布式功能</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../025FW_AIAlgo/index.html">5. 分布式算法</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../025FW_AIAlgo/01.challenge.html">5.1. 大模型训练挑战</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../025FW_AIAlgo/02.algorithm_arch.html">5.2. 大模型算法结构</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../025FW_AIAlgo/03.algorithm_sota.html">5.3. 亿级规模大模型</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../026FW_Parallel/index.html">6. 分布式算法</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../026FW_Parallel/01.introduction.html">6.1. 基本介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../026FW_Parallel/02.data_parallel.html">6.2. 数据并行</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../026FW_Parallel/03.tensor_parallel.html">6.3. 张量并行</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../026FW_Parallel/04.mindspore_parallel.html">6.4. MindSpore张量并行</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../026FW_Parallel/05.pipeline_parallel.html">6.5. 流水并行</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../026FW_Parallel/06.hybrid_parallel.html">6.6. 混合并行</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../026FW_Parallel/07.summary.html">6.7. 分布式训练总结</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../030Compiler/index.html">== 三、AI编译器原理 ==</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../031CM_Tradition/index.html">1. 传统编译器</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../031CM_Tradition/01.introduction.html">1.1. 课程概述</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../031CM_Tradition/02.history.html">1.2. 编译器发展</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../031CM_Tradition/03.gcc.html">1.3. GCC编译过程和原理</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../031CM_Tradition/04.llvm.html">1.4. LLVM架构设计和原理</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../031CM_Tradition/05.llvm_detail01.html">1.5. LLVM IR详解</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../031CM_Tradition/06.llvm_detail02.html">1.6. LLVM前端和优化层</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../031CM_Tradition/07.llvm_detail03.html">1.7. LLVM后端代码生成</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../032CM_AICompiler/index.html">2. AI 编译器</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../032CM_AICompiler/01.appear.html">2.1. 为什么需要AI编译器</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../032CM_AICompiler/02.stage.html">2.2. AI编译器的发展阶段</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../032CM_AICompiler/03.architecture.html">2.3. AI编译器的通用架构</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../032CM_AICompiler/04.future.html">2.4. AI编译器挑战与思考</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">3. 前端优化</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="01.introduction.html">3.1. 内容介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02.graph_ir.html">3.2. 图算 IR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03.op_fusion.html">3.3. 算子融合</a></li>
+<li class="toctree-l2"><a class="reference internal" href="04.layout_trans01.html">3.4. 布局转换原理</a></li>
+<li class="toctree-l2"><a class="reference internal" href="04.layout_trans02.html">3.5. 布局转换算法</a></li>
+<li class="toctree-l2"><a class="reference internal" href="05.memory.html">3.6. 内存分配算法</a></li>
+<li class="toctree-l2"><a class="reference internal" href="06.constant_fold.html">3.7. 常量折叠原理</a></li>
+<li class="toctree-l2"><a class="reference internal" href="07.cse.html">3.8. 公共表达式消除</a></li>
+<li class="toctree-l2"><a class="reference internal" href="08.dce.html">3.9. 死代码消除</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">3.10. 代数简化原理</a></li>
+<li class="toctree-l2"><a class="reference internal" href="10.summary.html">3.11. 优化Pass总结</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../034CM_Backend/index.html">4. 前端优化</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../034CM_Backend/01.introduction.html">4.1. 内容介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../034CM_Backend/02.ops_compute.html">4.2. 算子的计算与调度</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../034CM_Backend/03.optimization.html">4.3. 算子手工优化方式</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../034CM_Backend/04.loop_opt.html">4.4. 算子循环优化</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../034CM_Backend/05.other_opt.html">4.5. 指令和内存优化</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../034CM_Backend/06.auto_tuning.html">4.6. Auto-Tuning原理</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../036CM_PyTorch/index.html">5. 前端优化</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../036CM_PyTorch/01.introduction.html">5.1. PyTorch2.0 特性</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../036CM_PyTorch/02.torchscript.html">5.2. 内容介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../036CM_PyTorch/03.torchfx_lazy.html">5.3. FX 与 LazyTensor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../036CM_PyTorch/04.torchdynamo.html">5.4. TorchDynamo 获取图</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../036CM_PyTorch/05.aotatuograd.html">5.5. AOTAutograd 原理</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../036CM_PyTorch/06.dispatch.html">5.6. Dispatch 机制</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../040Inference/index.html">四、推理系统&amp;引擎</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../050Hardware/index.html">五、AI芯片核心原理</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../000Others/index.html">1. == 附录 ==</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../000Others/instruments.html">1.1. 书写工具</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../000Others/criterion.html">1.2. 书写规范</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../000Others/glossary.html">1.3. 术语表</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../000Others/inference.html">1.4. 参考链接</a></li>
+</ul>
+</li>
+</ul>
+
+            </nav>
+        
+        </div>
+    
+</header>
+
+    <div class="document">
+        <div class="page-content" role="main">
+        
+  <div class="section" id="id1">
+<h1><span class="section-number">3.10. </span>代数简化原理<a class="headerlink" href="#id1" title="Permalink to this heading">¶</a></h1>
+<p>本书受限于篇幅，将不会对所有机器学习系统进行深入讲解。目前，本书会从系统设计者的角度出发，对应用在联邦学习、推荐系统、强化学习、可解释AI和机器人中的相关核心系统进行讲解。</p>
+</div>
+
+
+        </div>
+        <div class="side-doc-outline">
+            <div class="side-doc-outline--content"> 
+            </div>
+        </div>
+
+      <div class="clearer"></div>
+    </div><div class="pagenation">
+     <a id="button-prev" href="08.dce.html" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--colored" role="botton" accesskey="P">
+         <i class="pagenation-arrow-L fas fa-arrow-left fa-lg"></i>
+         <div class="pagenation-text">
+            <span class="pagenation-direction">Previous</span>
+            <div>3.9. 死代码消除</div>
+         </div>
+     </a>
+     <a id="button-next" href="10.summary.html" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--colored" role="botton" accesskey="N">
+         <i class="pagenation-arrow-R fas fa-arrow-right fa-lg"></i>
+        <div class="pagenation-text">
+            <span class="pagenation-direction">Next</span>
+            <div>3.11. 优化Pass总结</div>
+        </div>
+     </a>
+  </div>
+        
+        </main>
+    </div>
+  </body>
+</html>
