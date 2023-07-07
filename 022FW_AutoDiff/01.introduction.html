@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     
-    <title>2.1. 基本介绍 &#8212; 人工智能系统（AISys） 0.0.1 documentation</title>
+    <title>2.1. 自动微分 &#8212; 人工智能系统（AISys） 0.0.1 documentation</title>
 
     <link rel="stylesheet" href="../_static/material-design-lite-1.3.0/material.blue-deep_orange.min.css" type="text/css" />
     <link rel="stylesheet" href="../_static/sphinx_materialdesign_theme.css" type="text/css" />
@@ -36,7 +36,7 @@
         
         <nav class="mdl-navigation breadcrumb">
             <a class="mdl-navigation__link" href="index.html"><span class="section-number">2. </span>自动微分</a><i class="material-icons">navigate_next</i>
-            <a class="mdl-navigation__link is-active"><span class="section-number">2.1. </span>基本介绍</a>
+            <a class="mdl-navigation__link is-active"><span class="section-number">2.1. </span>自动微分</a>
         </nav>
         <div class="mdl-layout-spacer"></div>
         <nav class="mdl-navigation">
@@ -106,10 +106,10 @@ Show Source
 </ul>
 </li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">2. 自动微分</a><ul class="current">
-<li class="toctree-l2 current"><a class="current reference internal" href="#">2.1. 基本介绍</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">2.1. 自动微分</a></li>
 <li class="toctree-l2"><a class="reference internal" href="02.base_concept.html">2.2. 什么是微分</a></li>
 <li class="toctree-l2"><a class="reference internal" href="03.grad_mode.html">2.3. 微分计算模式</a></li>
-<li class="toctree-l2"><a class="reference internal" href="04.implement.html">2.4. 微分实现方法</a></li>
+<li class="toctree-l2"><a class="reference internal" href="04.implement.html">2.4. 微分实现方式</a></li>
 <li class="toctree-l2"><a class="reference internal" href="05.forward_mode.html">2.5. 动手实现自动微分</a></li>
 <li class="toctree-l2"><a class="reference internal" href="06.reversed_mode.html">2.6. 动手实现PyTorch微分</a></li>
 <li class="toctree-l2"><a class="reference internal" href="07.challenge.html">2.7. 自动微分的挑战&amp;未来</a></li>
@@ -324,10 +324,10 @@ Show Source
 </ul>
 </li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">2. 自动微分</a><ul class="current">
-<li class="toctree-l2 current"><a class="current reference internal" href="#">2.1. 基本介绍</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">2.1. 自动微分</a></li>
 <li class="toctree-l2"><a class="reference internal" href="02.base_concept.html">2.2. 什么是微分</a></li>
 <li class="toctree-l2"><a class="reference internal" href="03.grad_mode.html">2.3. 微分计算模式</a></li>
-<li class="toctree-l2"><a class="reference internal" href="04.implement.html">2.4. 微分实现方法</a></li>
+<li class="toctree-l2"><a class="reference internal" href="04.implement.html">2.4. 微分实现方式</a></li>
 <li class="toctree-l2"><a class="reference internal" href="05.forward_mode.html">2.5. 动手实现自动微分</a></li>
 <li class="toctree-l2"><a class="reference internal" href="06.reversed_mode.html">2.6. 动手实现PyTorch微分</a></li>
 <li class="toctree-l2"><a class="reference internal" href="07.challenge.html">2.7. 自动微分的挑战&amp;未来</a></li>
@@ -514,15 +514,51 @@ Show Source
     <div class="document">
         <div class="page-content" role="main">
         
-  <div class="section" id="id1">
-<h1><span class="section-number">2.1. </span>基本介绍<a class="headerlink" href="#id1" title="Permalink to this heading">¶</a></h1>
-<p>本书受限于篇幅，将不会对所有机器学习系统进行深入讲解。目前，本书会从系统设计者的角度出发，对应用在联邦学习、推荐系统、强化学习、可解释AI和机器人中的相关核心系统进行讲解。</p>
+  <!--适用于[License](https://github.com/chenzomi12/DeepLearningSystem/blob/main/LICENSE)版权许可--><div class="section" id="id1">
+<h1><span class="section-number">2.1. </span>自动微分<a class="headerlink" href="#id1" title="Permalink to this heading">¶</a></h1>
+<div class="section" id="id2">
+<h2><span class="section-number">2.1.1. </span>本章内容<a class="headerlink" href="#id2" title="Permalink to this heading">¶</a></h2>
+<p>这一节里面主要是围绕AI框架、或者训练平台的自动微分功能。AI框架中关于自动微分的一个重要性不言而喻，实际上自动微分是贯穿整个AI框架的全流程。没有了自动微分，也就没有了AI框架最核心的功能。为什么这么说呢？可以想象一下，假设在实现一个神经网络模型的时候，一般开发者只会使用Pytorch的API实现一个正向的网络表达式，可是网络模型的反向怎么表示呢？</p>
+<p>实际上除了正向的表示是用户手工的地去构建，反向的表示、自动微分的实现、正反向的链接关系都是由AI框架，里面的自动微分功能去实现的。因此说自动微分这个功能在AI框架里面是非常的重要。</p>
+<p>在接下来的内容，主要是了解计算机实现微分的基本概念，其实微分的实现方式分为很多种，有数字微分，符号微分，自动微分。函数的微分是指对函数的局部变化的一种线性描述。微分可以近似地描述当函数自变量的取值作足够小的改变时，函数的值是怎样改变的。</p>
+<p>微分在数学中的定义：由y是x的函数(y=f(x))。从简单的x-y座标系来看，自变数x有微小的变化量时(d/dx)，应变数y也会跟着变动，但x跟y的变化量都是极小的。当x有极小的变化量时，我们称对x微分。微分主要用于线性函数的改变量，这是微积分的基本概念之一。</p>
+<p>在具体实现自动微分的过程中，主要有2种实现模式，前向和向后微分。前向微分和后向微分为了在数学上方便表达，会引入一个亚克比原理，或者叫做亚克比矩阵
+去对微分进行表示，不过这仅限于数学表示，实际上实现的过程中更多的是通过以下三种方法实现：</p>
+<p>1）表达式或者图的方式；2）操作符从载（object-oriented）；3）源码转换AST。</p>
+<p>最后来去畅想自动微分的未来和挑战，来去回答我们到底要不要学一个AI框架呢？学模型算法和原理才是核心？AI框架未来的核心点机制将会如何演进？</p>
+</div>
+<div class="section" id="id3">
+<h2><span class="section-number">2.1.2. </span>本节回顾<a class="headerlink" href="#id3" title="Permalink to this heading">¶</a></h2>
+<p>学习完本节课程，您将能够：</p>
+<ul class="simple">
+<li><p>了解AI框架实现中最重要的自动微分原理</p></li>
+<li><p>知道业界主流的AI框架的具体实现方式</p></li>
+<li><p>自动微分的技术未来发展动向与面临的挑战</p></li>
+</ul>
+</div>
+<div class="section" id="id4">
+<h2><span class="section-number">2.1.3. </span>本节视频<a class="headerlink" href="#id4" title="Permalink to this heading">¶</a></h2>
+<html><iframe src="https://player.bilibili.com/player.html?aid=858374177&amp;bvid=BV1FV4y1T7zp&amp;cid=909151631&amp;page=1&amp;as_wide=1&amp;high_quality=1&amp;danmaku=0&amp;t=30" width="100%" height="500" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe></html></div>
 </div>
 
 
         </div>
         <div class="side-doc-outline">
             <div class="side-doc-outline--content"> 
+<div class="localtoc">
+    <p class="caption">
+      <span class="caption-text">Table Of Contents</span>
+    </p>
+    <ul>
+<li><a class="reference internal" href="#">2.1. 自动微分</a><ul>
+<li><a class="reference internal" href="#id2">2.1.1. 本章内容</a></li>
+<li><a class="reference internal" href="#id3">2.1.2. 本节回顾</a></li>
+<li><a class="reference internal" href="#id4">2.1.3. 本节视频</a></li>
+</ul>
+</li>
+</ul>
+
+</div>
             </div>
         </div>
 

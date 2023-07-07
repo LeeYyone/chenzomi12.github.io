@@ -27,7 +27,7 @@
     <link rel="shortcut icon" href="../_static/favicon.png"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="2.1. 基本介绍" href="01.introduction.html" />
+    <link rel="next" title="2.1. 自动微分" href="01.introduction.html" />
     <link rel="prev" title="1.4. 框架编程范式" href="../021FW_Foundation/04.programing.html" /> 
   </head>
 <body>
@@ -105,10 +105,10 @@ Show Source
 </ul>
 </li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">2. 自动微分</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="01.introduction.html">2.1. 基本介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="01.introduction.html">2.1. 自动微分</a></li>
 <li class="toctree-l2"><a class="reference internal" href="02.base_concept.html">2.2. 什么是微分</a></li>
 <li class="toctree-l2"><a class="reference internal" href="03.grad_mode.html">2.3. 微分计算模式</a></li>
-<li class="toctree-l2"><a class="reference internal" href="04.implement.html">2.4. 微分实现方法</a></li>
+<li class="toctree-l2"><a class="reference internal" href="04.implement.html">2.4. 微分实现方式</a></li>
 <li class="toctree-l2"><a class="reference internal" href="05.forward_mode.html">2.5. 动手实现自动微分</a></li>
 <li class="toctree-l2"><a class="reference internal" href="06.reversed_mode.html">2.6. 动手实现PyTorch微分</a></li>
 <li class="toctree-l2"><a class="reference internal" href="07.challenge.html">2.7. 自动微分的挑战&amp;未来</a></li>
@@ -323,10 +323,10 @@ Show Source
 </ul>
 </li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">2. 自动微分</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="01.introduction.html">2.1. 基本介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="01.introduction.html">2.1. 自动微分</a></li>
 <li class="toctree-l2"><a class="reference internal" href="02.base_concept.html">2.2. 什么是微分</a></li>
 <li class="toctree-l2"><a class="reference internal" href="03.grad_mode.html">2.3. 微分计算模式</a></li>
-<li class="toctree-l2"><a class="reference internal" href="04.implement.html">2.4. 微分实现方法</a></li>
+<li class="toctree-l2"><a class="reference internal" href="04.implement.html">2.4. 微分实现方式</a></li>
 <li class="toctree-l2"><a class="reference internal" href="05.forward_mode.html">2.5. 动手实现自动微分</a></li>
 <li class="toctree-l2"><a class="reference internal" href="06.reversed_mode.html">2.6. 动手实现PyTorch微分</a></li>
 <li class="toctree-l2"><a class="reference internal" href="07.challenge.html">2.7. 自动微分的挑战&amp;未来</a></li>
@@ -521,11 +521,42 @@ Show Source
 </div></blockquote>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="01.introduction.html">2.1. 基本介绍</a></li>
-<li class="toctree-l1"><a class="reference internal" href="02.base_concept.html">2.2. 什么是微分</a></li>
-<li class="toctree-l1"><a class="reference internal" href="03.grad_mode.html">2.3. 微分计算模式</a></li>
-<li class="toctree-l1"><a class="reference internal" href="04.implement.html">2.4. 微分实现方法</a></li>
-<li class="toctree-l1"><a class="reference internal" href="05.forward_mode.html">2.5. 动手实现自动微分</a></li>
+<li class="toctree-l1"><a class="reference internal" href="01.introduction.html">2.1. 自动微分</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="01.introduction.html#id2">2.1.1. 本章内容</a></li>
+<li class="toctree-l2"><a class="reference internal" href="01.introduction.html#id3">2.1.2. 本节回顾</a></li>
+<li class="toctree-l2"><a class="reference internal" href="01.introduction.html#id4">2.1.3. 本节视频</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="02.base_concept.html">2.2. 什么是微分</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="02.base_concept.html#id2">2.2.1. 计算机求导方法</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02.base_concept.html#id3">2.2.2. 手动微分</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02.base_concept.html#id4">2.2.3. 数值微分</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02.base_concept.html#id5">2.2.4. 符号微分</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02.base_concept.html#id8">2.2.5. 自动微分</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02.base_concept.html#id12">2.2.6. 本节视频</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="03.grad_mode.html">2.3. 微分计算模式</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="03.grad_mode.html#id2">2.3.1. 雅克比矩阵</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03.grad_mode.html#id4">2.3.2. <strong>微分计算模式</strong></a></li>
+<li class="toctree-l2"><a class="reference internal" href="03.grad_mode.html#foward-mode">2.3.3. 前向模式 Foward Mode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03.grad_mode.html#reverse-mode">2.3.4. 反向模式 Reverse Mode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03.grad_mode.html#id15">2.3.5. 正反向模式的比较</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03.grad_mode.html#id16">2.3.6. 本节视频</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="04.implement.html">2.4. 微分实现方式</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="04.implement.html#id2">2.4.1. 微分实现关键步骤</a></li>
+<li class="toctree-l2"><a class="reference internal" href="04.implement.html#id3">2.4.2. 基本表达式</a></li>
+<li class="toctree-l2"><a class="reference internal" href="04.implement.html#id4">2.4.3. 操作符重载</a></li>
+<li class="toctree-l2"><a class="reference internal" href="04.implement.html#id5">2.4.4. 源代码转换</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="05.forward_mode.html">2.5. 动手实现自动微分</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="05.forward_mode.html#id2">2.5.1. 前向自动微分原理</a></li>
+<li class="toctree-l2"><a class="reference internal" href="05.forward_mode.html#id3">2.5.2. 具体实现</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="06.reversed_mode.html">2.6. 动手实现PyTorch微分</a></li>
 <li class="toctree-l1"><a class="reference internal" href="07.challenge.html">2.7. 自动微分的挑战&amp;未来</a></li>
 </ul>
@@ -552,7 +583,7 @@ Show Source
          <i class="pagenation-arrow-R fas fa-arrow-right fa-lg"></i>
         <div class="pagenation-text">
             <span class="pagenation-direction">Next</span>
-            <div>2.1. 基本介绍</div>
+            <div>2.1. 自动微分</div>
         </div>
      </a>
   </div>
