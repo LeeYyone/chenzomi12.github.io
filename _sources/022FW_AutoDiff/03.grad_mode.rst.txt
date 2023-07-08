@@ -376,7 +376,7 @@ mode的计算过程，便可以求出输出对于各个输入的导数，从而�
 
 .. raw:: html
 
-   <iframe src="https://player.bilibili.com/player.html?aid=730968276&amp;bvid=BV1zD4y117bL&amp;cid=854595253&amp;page=1&amp;as_wide=1&amp;high_quality=1&amp;danmaku=0&amp;t=30" width="100%" height="500" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true">
+   <iframe src="https://player.bilibili.com/player.html?aid=730968276&amp;bvid=BV1zD4y117bL&amp;cid=854595253&amp;page=1&amp;as_wide=1&amp;high_quality=1&amp;danmaku=0&amp;t=30&amp;autoplay=0" width="100%" height="500" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true">
 
 .. raw:: html
 

@@ -730,8 +730,7 @@ Representation，IR），中间表达构造出一个能够在不同设备上解�
 <p>因为源码转换涉及到底层的抽象语法树、编译执行等细节，因此这里就不给出伪代码了（实在太难了给不出来），我们通过下面这张图来简单了解下
 SCT 的一般性过程。</p>
 <div class="figure align-default">
-<img alt="../_images/ast.png" src="../_images/ast.png" />
-</div>
+<img alt="../_images/ast.svg" src="../_images/ast.svg" /></div>
 <p>从图中可以看到源码转换的整体流程分为编译时间和执行时间，以 MindSpore
 为例，其在运行之前的第一个 epoch
 会等待一段时间，是因为需要对源码进行编译转换解析等一系列的操作。然后再
@@ -762,6 +761,9 @@ IR，IR 其实是编译器中常用的一个中间表达概念，在编译的 Pa
 <li><p>微分结果是以代码的形式存在，在执行计算的过程当中，特别是深度学习中大量使用for循环过程中间错误了，或者是数据处理流程中出现错误，并不利于深度调试</p></li>
 </ul>
 </div>
+<div class="section" id="id6">
+<h2><span class="section-number">2.4.5. </span>本节视频<a class="headerlink" href="#id6" title="Permalink to this heading">¶</a></h2>
+<html><iframe src="https://player.bilibili.com/player.html?aid=901075118&amp;bvid=BV1BN4y1P76t&amp;cid=911355268&amp;page=1&amp;as_wide=1&amp;high_quality=1&amp;danmaku=0&amp;t=30&amp;autoplay=0" width="100%" height="500" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe></html></div>
 </div>
 
 
@@ -778,6 +780,7 @@ IR，IR 其实是编译器中常用的一个中间表达概念，在编译的 Pa
 <li><a class="reference internal" href="#id3">2.4.2. 基本表达式</a></li>
 <li><a class="reference internal" href="#id4">2.4.3. 操作符重载</a></li>
 <li><a class="reference internal" href="#id5">2.4.4. 源代码转换</a></li>
+<li><a class="reference internal" href="#id6">2.4.5. 本节视频</a></li>
 </ul>
 </li>
 </ul>

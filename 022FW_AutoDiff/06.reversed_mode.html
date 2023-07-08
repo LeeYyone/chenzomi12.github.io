@@ -24,6 +24,7 @@
     <script src="../_static/doctools.js"></script>
     <script src="../_static/sphinx_highlight.js"></script>
     <script src="../_static/d2l.js"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <link rel="shortcut icon" href="../_static/favicon.png"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -514,15 +515,372 @@ Show Source
     <div class="document">
         <div class="page-content" role="main">
         
-  <div class="section" id="pytorch">
+  <!--适用于[License](https://github.com/chenzomi12/DeepLearningSystem/blob/main/LICENSE)版权许可--><div class="section" id="pytorch">
 <h1><span class="section-number">2.6. </span>动手实现PyTorch微分<a class="headerlink" href="#pytorch" title="Permalink to this heading">¶</a></h1>
-<p>本书受限于篇幅，将不会对所有机器学习系统进行深入讲解。目前，本书会从系统设计者的角度出发，对应用在联邦学习、推荐系统、强化学习、可解释AI和机器人中的相关核心系统进行讲解。</p>
+<p>这里记录一下使用操作符重载（OO）编程方式的自动微分，其中数学实现模式则是使用反向模式（Reverse
+Mode），综合起来就叫做反向OO实现AD啦。</p>
+<div class="section" id="id1">
+<h2><span class="section-number">2.6.1. </span>基础知识<a class="headerlink" href="#id1" title="Permalink to this heading">¶</a></h2>
+<p>下面一起来回顾一下操作符重载和反向模式的一些基本概念，然后一起去尝试着用Python去实现Pytorch这个AI框架中最核心的自动微分机制是如何实现的。</p>
+<div class="section" id="oo">
+<h3><span class="section-number">2.6.1.1. </span>操作符重载 OO<a class="headerlink" href="#oo" title="Permalink to this heading">¶</a></h3>
+<p><strong>操作符重载</strong>：操作符重载或者称运算重载（Operator
+Overloading，OO），利用现代语言的多态特性（例如C++/JAVA/Python等高级语言），使用操作符重载对语言中基本运算表达式的微分规则进行封装。同样，重载后的操作符在运行时会记录所有的操作符和相应的组合关系，最后使用链式法则对上述基本表达式的微分结果进行组合完成自动微分。</p>
+<p>在具有多态特性的现代编程语言中，运算符重载提供了实现自动微分的最直接方式，利用了编程语言的第一特性（first
+class feature），重新定义了微分基本操作语义的能力。</p>
+<p>在 C++ 中使用运算符重载实现的流行工具是 ADOL-C（Walther 和
+Griewank，2012）。 ADOL-C 要求对变量使用启用 AD 的类型，并在 Tape
+数据结构中记录变量的算术运算，随后可以在反向模式 AD 计算期间“回放”。
+Mxyzptlk 库 (Michelotti, 1990) 是 C++
+能够通过前向传播计算任意阶偏导数的另一个例子。 FADBAD++ 库（Bendtsen 和
+Stauning，1996 年）使用模板和运算符重载为 C++ 实现自动微分。对于 Python
+语言来说，autograd 提供正向和反向模式自动微分，支持高阶导数。在机器学习
+ML 或者深度学习 DL 领域，目前AI框架中使用操作符重载 OO 的一个典型代表是
+Pytroch，其中使用数据结构 Tape
+来记录计算流程，在反向模式求解梯度的过程中进行 replay Operator。</p>
+<p>下面总结一下操作符重载的一个基本流程：</p>
+<ul class="simple">
+<li><p><strong>操作符重载</strong>：预定义了特定的数据结构，并对该数据结构重载了相应的基本运算操作符</p></li>
+<li><p><strong>Tape记录</strong>：程序在实际执行时会将相应表达式的操作类型和输入输出信息记录至特殊数据结构</p></li>
+<li><p><strong>遍历微分</strong>：得到特殊数据结构后，将对数据结构进行遍历并对其中记录的基本运算操作进行微分</p></li>
+<li><p><strong>链式组合</strong>：把结果通过链式法则进行组合，完成自动微分</p></li>
+</ul>
+<p>操作符重载法的<strong>优点</strong>可以总结如下：</p>
+<ul class="simple">
+<li><p>实现简单，只要求语言提供多态的特性能力</p></li>
+<li><p>易用性高，重载操作符后跟使用原生语言的编程方式类似</p></li>
+</ul>
+<p>操作符重载法的<strong>缺点</strong>可以总结如下：</p>
+<ul class="simple">
+<li><p>需要显式的构造特殊数据结构和对特殊数据结构进行大量读写、遍历操作，这些额外数据结构和操作的引入不利于高阶微分的实现</p></li>
+<li><p>对于类似 if，while
+等控制流表达式，难以通过操作符重载进行微分规则定义。对于这些操作的处理会退化成基本表达式方法中特定函数封装的方式，难以使用语言原生的控制流表达式</p></li>
+</ul>
+</div>
+<div class="section" id="reverse-mode">
+<h3><span class="section-number">2.6.1.2. </span>反向模式 Reverse Mode<a class="headerlink" href="#reverse-mode" title="Permalink to this heading">¶</a></h3>
+<p>反向自动微分同样是基于链式法则。仅需要一个前向过程和反向过程，就可以计算所有参数的导数或者梯度。因为需要结合前向和后向两个过程，因此反向自动微分会使用一个特殊的数据结构，来存储计算过程。</p>
+<p>而这个特殊的数据结构例如 Tensorflow 或者
+MindSpore，则是把所有的操作以一张图的方式存储下来，这张图可以是一个有向无环（DAG）的计算图；而Pytroch
+则是使用 Tape 来记录每一个操作，他们都表达了函数和变量的关系。</p>
+<p>反向模式根据从后向前计算，依次得到对每个中间变量节点的偏导数，直到到达自变量节点处，这样就得到了每个输入的偏导数。在每个节点处，根据该节点的后续节点（前向传播中的后续节点）计算其导数值。</p>
+<p>整个过程对应于多元复合函数求导时从最外层逐步向内侧求导。这样可以有效地把各个节点的梯度计算解耦开，每次只需要关注计算图中当前节点的梯度计算。</p>
+<p>从下图可以看出来，reverse mode和forward mode是一对相反过程，reverse
+mode从最终结果开始求导，利用最终输出对每一个节点进行求导。下图虚线就是反向模式。</p>
+<div class="figure align-default" id="id4">
+<a class="reference internal image-reference" href="../_images/reversed_mode.png"><img alt="../_images/reversed_mode.png" src="../_images/reversed_mode.png" style="width: 600px;" /></a>
+<p class="caption"><span class="caption-number">图2.6.1 </span><span class="caption-text">反向模式</span><a class="headerlink" href="#id4" title="Permalink to this image">¶</a></p>
+</div>
+<p>前向和后向两种模式的过程表达如下，表的左列浅色为前向计算函数值的过程，与前向计算时相同，右面列深色为反向计算导数值的过程。</p>
+<p>反向模式的计算过程如图所示，其中：</p>
+<div class="math notranslate nohighlight" id="equation-linear">
+<span class="eqno">(2.6.4)<a class="headerlink" href="#equation-linear" title="Permalink to this equation">¶</a></span>\[\overline{v_i}=\dfrac{\delta y}{\delta v_i}\]</div>
+<p>根据链式求导法则展开有：</p>
+<div class="math notranslate nohighlight" id="equation-linear">
+<span class="eqno">(2.6.4)<a class="headerlink" href="#equation-linear" title="Permalink to this equation">¶</a></span>\[\frac{\partial f}{\partial x}=\sum_{k=1}^{N} \frac{\partial f}{\partial v_{k}} \frac{\partial v_{k}}{\partial \boldsymbol{x}}\]</div>
+<p>可以看出，左侧是源程序分解后得到的基本操作集合，而右侧则是每一个基本操作根据已知的求导规则和链式法则<strong>由下至上</strong>计算的求导结果。</p>
+<div class="figure align-default">
+<img alt="../_images/autodiff05.png" src="../_images/autodiff05.png" />
+</div>
+</div>
+</div>
+<div class="section" id="id2">
+<h2><span class="section-number">2.6.2. </span>反向操作符重载实现<a class="headerlink" href="#id2" title="Permalink to this heading">¶</a></h2>
+<p>下面的代码主要介绍反向模式自动微分的实现。目的是通过了解PyTorch的auto
+diff实现，来了解到上面复杂的反向操作符重载实现自动微分的原理，值的主要的是千万不要在乎这是
+MindSpore 的实现还是 Tensorflow 版的实现（实际上都不是哈）。</p>
+<p>首先，需要通过 typing 库导入一些辅助函数。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">NamedTuple</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Optional</span>
+
+<span class="n">_name</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="k">def</span> <span class="nf">fresh_name</span><span class="p">():</span>
+    <span class="k">global</span> <span class="n">_name</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;v</span><span class="si">{</span><span class="n">_name</span><span class="si">}</span><span class="s1">&#39;</span>
+    <span class="n">_name</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="n">name</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">fresh_name</span></code> 用于打印跟 <code class="docutils literal notranslate"><span class="pre">tape</span></code> 相关的变量，并用 <code class="docutils literal notranslate"><span class="pre">_name</span></code>
+来记录是第几个变量。</p>
+<p>为了能够更好滴理解反向模式自动微分的实现，实现代码过程中不依赖PyTorch的autograd。代码中添加了变量类
+<code class="docutils literal notranslate"><span class="pre">Variable</span></code> 来跟踪计算梯度，并添加了梯度函数 <code class="docutils literal notranslate"><span class="pre">grad()</span></code> 来计算梯度。</p>
+<p>对于标量损失l来说，程序中计算的每个张量 x
+的值，都会计算值dl/dX。反向模式从 dl/dl=1
+开始，使用偏导数和链式规则向后传播导数，例如：</p>
+<div class="math notranslate nohighlight" id="equation-linear">
+<span class="eqno">(2.6.4)<a class="headerlink" href="#equation-linear" title="Permalink to this equation">¶</a></span>\[dl/dx*dx/dy=dl/dy\]</div>
+<p>下面就是具体的实现过程，首先我们所有的操作都是通过Python进行操作符重载的，而操作符重载，通过
+<code class="docutils literal notranslate"><span class="pre">Variable</span></code> 来封装跟踪计算的 Tensor。每个变量都有一个全局唯一的名称
+<code class="docutils literal notranslate"><span class="pre">fresh_name</span></code>，因此可以在字典中跟踪该变量的梯度。为了便于理解，<code class="docutils literal notranslate"><span class="pre">__init__</span></code>
+有时会提供此名称作为参数。否则，每次都会生成一个新的临时值。</p>
+<p>为了适配上面图中的简单计算，这里面只提供了 乘、加、减、sin、log
+五种计算方式。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Variable</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">value</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span> <span class="ow">or</span> <span class="n">fresh_name</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">repr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+
+    <span class="c1"># We need to start with some tensors whose values were not computed</span>
+    <span class="c1"># inside the autograd. This function constructs leaf nodes.</span>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">constant</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="n">var</span> <span class="o">=</span> <span class="n">Variable</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">var</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s1"> = </span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">var</span>
+
+    <span class="c1"># Multiplication of a Variable, tracking gradients</span>
+    <span class="k">def</span> <span class="fm">__mul__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">ops_mul</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__add__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">ops_add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__sub__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">ops_sub</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">sin</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">ops_sin</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">log</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">ops_log</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>接下来需要跟踪 <code class="docutils literal notranslate"><span class="pre">Variable</span></code> 所有计算，以便向后应用链式规则。那么数据结构
+<code class="docutils literal notranslate"><span class="pre">Tape</span></code> 有助于实现这一点。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Tape</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
+    <span class="n">inputs</span> <span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">outputs</span> <span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="c1"># apply chain rule</span>
+    <span class="n">propagate</span> <span class="p">:</span> <span class="s1">&#39;Callable[List[Variable], List[Variable]]&#39;</span>
+</pre></div>
+</div>
+<p>输入 <code class="docutils literal notranslate"><span class="pre">inputs</span></code> 和输出 <code class="docutils literal notranslate"><span class="pre">outputs</span></code>
+是原始计算的输入和输出变量的唯一名称。反向传播使用链式规则，将函数的输出梯度传播给输入。其输入为
+dL/dOutputs，输出为 dL/dinput。Tape只是一个记录所有计算的累积 List
+列表。</p>
+<p>下面提供了一种重置 Tape 的方法
+<code class="docutils literal notranslate"><span class="pre">reset_tape</span></code>，方便运行多次自动微分，每次自动微分过程都会产生 Tape
+List。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">gradient_tape</span> <span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Tape</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="c1"># reset tape</span>
+<span class="k">def</span> <span class="nf">reset_tape</span><span class="p">():</span>
+    <span class="k">global</span> <span class="n">_name</span>
+    <span class="n">_name</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">gradient_tape</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>现在来看看具体运算操作符是如何定义的，以乘法为例子啦，首先需要计算正向结果并创建一个新变量来表示，也就是
+<code class="docutils literal notranslate"><span class="pre">x</span> <span class="pre">=</span> <span class="pre">Variable(self.value</span> <span class="pre">*</span> <span class="pre">other.value)</span></code>。然后定义了反向传播闭包
+<code class="docutils literal notranslate"><span class="pre">propagate</span></code>，使用链规则来反向支撑梯度。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">ops_mul</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+    <span class="c1"># forward</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">Variable</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">*</span> <span class="n">other</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">x</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s1"> = </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s1"> * </span><span class="si">{</span><span class="n">other</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+    <span class="c1"># backward</span>
+    <span class="k">def</span> <span class="nf">propagate</span><span class="p">(</span><span class="n">dl_doutputs</span><span class="p">):</span>
+        <span class="n">dl_dx</span><span class="p">,</span> <span class="o">=</span> <span class="n">dl_doutputs</span>
+        <span class="n">dx_dself</span> <span class="o">=</span> <span class="n">other</span> <span class="c1"># partial derivate of r = self*other</span>
+        <span class="n">dx_dother</span> <span class="o">=</span> <span class="bp">self</span> <span class="c1"># partial derivate of r = self*other</span>
+        <span class="n">dl_dself</span> <span class="o">=</span> <span class="n">dl_dx</span> <span class="o">*</span> <span class="n">dx_dself</span>
+        <span class="n">dl_dother</span> <span class="o">=</span> <span class="n">dl_dx</span> <span class="o">*</span> <span class="n">dx_dother</span>
+        <span class="n">dl_dinputs</span> <span class="o">=</span> <span class="p">[</span><span class="n">dl_dself</span><span class="p">,</span> <span class="n">dl_dother</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">dl_dinputs</span>
+
+    <span class="c1"># record the input and output of the op</span>
+    <span class="n">tape</span> <span class="o">=</span> <span class="n">Tape</span><span class="p">(</span><span class="n">inputs</span><span class="o">=</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">other</span><span class="o">.</span><span class="n">name</span><span class="p">],</span> <span class="n">outputs</span><span class="o">=</span><span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">name</span><span class="p">],</span> <span class="n">propagate</span><span class="o">=</span><span class="n">propagate</span><span class="p">)</span>
+    <span class="n">gradient_tape</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tape</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">x</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">ops_add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">Variable</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">+</span> <span class="n">other</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">x</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s1"> = </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s1"> + </span><span class="si">{</span><span class="n">other</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">propagate</span><span class="p">(</span><span class="n">dl_doutputs</span><span class="p">):</span>
+        <span class="n">dl_dx</span><span class="p">,</span> <span class="o">=</span> <span class="n">dl_doutputs</span>
+        <span class="n">dx_dself</span> <span class="o">=</span> <span class="n">Variable</span><span class="p">(</span><span class="mf">1.</span><span class="p">)</span>
+        <span class="n">dx_dother</span> <span class="o">=</span> <span class="n">Variable</span><span class="p">(</span><span class="mf">1.</span><span class="p">)</span>
+        <span class="n">dl_dself</span> <span class="o">=</span> <span class="n">dl_dx</span> <span class="o">*</span> <span class="n">dx_dself</span>
+        <span class="n">dl_dother</span> <span class="o">=</span> <span class="n">dl_dx</span> <span class="o">*</span> <span class="n">dx_dother</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">dl_dself</span><span class="p">,</span> <span class="n">dl_dother</span><span class="p">]</span>
+
+    <span class="c1"># record the input and output of the op</span>
+    <span class="n">tape</span> <span class="o">=</span> <span class="n">Tape</span><span class="p">(</span><span class="n">inputs</span><span class="o">=</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">other</span><span class="o">.</span><span class="n">name</span><span class="p">],</span> <span class="n">outputs</span><span class="o">=</span><span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">name</span><span class="p">],</span> <span class="n">propagate</span><span class="o">=</span><span class="n">propagate</span><span class="p">)</span>
+    <span class="n">gradient_tape</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tape</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">x</span>
+
+<span class="k">def</span> <span class="nf">ops_sub</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">Variable</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">-</span> <span class="n">other</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">x</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s1"> = </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s1"> - </span><span class="si">{</span><span class="n">other</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">propagate</span><span class="p">(</span><span class="n">dl_doutputs</span><span class="p">):</span>
+        <span class="n">dl_dx</span><span class="p">,</span> <span class="o">=</span> <span class="n">dl_doutputs</span>
+        <span class="n">dx_dself</span> <span class="o">=</span> <span class="n">Variable</span><span class="p">(</span><span class="mf">1.</span><span class="p">)</span>
+        <span class="n">dx_dother</span> <span class="o">=</span> <span class="n">Variable</span><span class="p">(</span><span class="o">-</span><span class="mf">1.</span><span class="p">)</span>
+        <span class="n">dl_dself</span> <span class="o">=</span> <span class="n">dl_dx</span> <span class="o">*</span> <span class="n">dx_dself</span>
+        <span class="n">dl_dother</span> <span class="o">=</span> <span class="n">dl_dx</span> <span class="o">*</span> <span class="n">dx_dother</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">dl_dself</span><span class="p">,</span> <span class="n">dl_dother</span><span class="p">]</span>
+
+    <span class="c1"># record the input and output of the op</span>
+    <span class="n">tape</span> <span class="o">=</span> <span class="n">Tape</span><span class="p">(</span><span class="n">inputs</span><span class="o">=</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">other</span><span class="o">.</span><span class="n">name</span><span class="p">],</span> <span class="n">outputs</span><span class="o">=</span><span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">name</span><span class="p">],</span> <span class="n">propagate</span><span class="o">=</span><span class="n">propagate</span><span class="p">)</span>
+    <span class="n">gradient_tape</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tape</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">x</span>
+
+<span class="k">def</span> <span class="nf">ops_sin</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">Variable</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">x</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s1"> = sin(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s1">)&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">propagate</span><span class="p">(</span><span class="n">dl_doutputs</span><span class="p">):</span>
+        <span class="n">dl_dx</span><span class="p">,</span> <span class="o">=</span> <span class="n">dl_doutputs</span>
+        <span class="n">dx_dself</span> <span class="o">=</span> <span class="n">Variable</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
+        <span class="n">dl_dself</span> <span class="o">=</span> <span class="n">dl_dx</span> <span class="o">*</span> <span class="n">dx_dself</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">dl_dself</span><span class="p">]</span>
+
+    <span class="c1"># record the input and output of the op</span>
+    <span class="n">tape</span> <span class="o">=</span> <span class="n">Tape</span><span class="p">(</span><span class="n">inputs</span><span class="o">=</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">],</span> <span class="n">outputs</span><span class="o">=</span><span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">name</span><span class="p">],</span> <span class="n">propagate</span><span class="o">=</span><span class="n">propagate</span><span class="p">)</span>
+    <span class="n">gradient_tape</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tape</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">x</span>
+
+<span class="k">def</span> <span class="nf">ops_log</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">Variable</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">x</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s1"> = log(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s1">)&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">propagate</span><span class="p">(</span><span class="n">dl_doutputs</span><span class="p">):</span>
+        <span class="n">dl_dx</span><span class="p">,</span> <span class="o">=</span> <span class="n">dl_doutputs</span>
+        <span class="n">dx_dself</span> <span class="o">=</span> <span class="n">Variable</span><span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+        <span class="n">dl_dself</span> <span class="o">=</span> <span class="n">dl_dx</span> <span class="o">*</span> <span class="n">dx_dself</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">dl_dself</span><span class="p">]</span>
+
+    <span class="c1"># record the input and output of the op</span>
+    <span class="n">tape</span> <span class="o">=</span> <span class="n">Tape</span><span class="p">(</span><span class="n">inputs</span><span class="o">=</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">],</span> <span class="n">outputs</span><span class="o">=</span><span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">name</span><span class="p">],</span> <span class="n">propagate</span><span class="o">=</span><span class="n">propagate</span><span class="p">)</span>
+    <span class="n">gradient_tape</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tape</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">x</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">grad</span></code> 呢是将变量运算放在一起的梯度函数，函数的输入是 l
+和对应的梯度结果 results。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">grad</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">results</span><span class="p">):</span>
+    <span class="n">dl_d</span> <span class="o">=</span> <span class="p">{}</span> <span class="c1"># map dL/dX for all values X</span>
+    <span class="n">dl_d</span><span class="p">[</span><span class="n">l</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">Variable</span><span class="p">(</span><span class="mf">1.</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;dl_d&quot;</span><span class="p">,</span> <span class="n">dl_d</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">gather_grad</span><span class="p">(</span><span class="n">entries</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">dl_d</span><span class="p">[</span><span class="n">entry</span><span class="p">]</span> <span class="k">if</span> <span class="n">entry</span> <span class="ow">in</span> <span class="n">dl_d</span> <span class="k">else</span> <span class="kc">None</span> <span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="n">entries</span><span class="p">]</span>
+
+    <span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="n">gradient_tape</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">entry</span><span class="p">)</span>
+        <span class="n">dl_doutputs</span> <span class="o">=</span> <span class="n">gather_grad</span><span class="p">(</span><span class="n">entry</span><span class="o">.</span><span class="n">outputs</span><span class="p">)</span>
+        <span class="n">dl_dinputs</span> <span class="o">=</span> <span class="n">entry</span><span class="o">.</span><span class="n">propagate</span><span class="p">(</span><span class="n">dl_doutputs</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="nb">input</span><span class="p">,</span> <span class="n">dl_dinput</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">entry</span><span class="o">.</span><span class="n">inputs</span><span class="p">,</span> <span class="n">dl_dinputs</span><span class="p">):</span>
+            <span class="k">if</span> <span class="nb">input</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">dl_d</span><span class="p">:</span>
+                <span class="n">dl_d</span><span class="p">[</span><span class="nb">input</span><span class="p">]</span> <span class="o">=</span> <span class="n">dl_dinput</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">dl_d</span><span class="p">[</span><span class="nb">input</span><span class="p">]</span> <span class="o">+=</span> <span class="n">dl_dinput</span>
+
+    <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">dl_d</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;d</span><span class="si">{</span><span class="n">l</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s1">_d</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s1"> = </span><span class="si">{</span><span class="n">value</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">gather_grad</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">result</span> <span class="ow">in</span> <span class="n">results</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>以公式5为例：</p>
+<div class="math notranslate nohighlight" id="equation-linear">
+<span class="eqno">(2.6.4)<a class="headerlink" href="#equation-linear" title="Permalink to this equation">¶</a></span>\[f(x1,x2)=ln(x1)+x1x2−sin(x2)\]</div>
+<p>因为是基于操作符重载OO的方式进行计算，因此在初始化自变量 x 和 y
+的值需要使用变量 <code class="docutils literal notranslate"><span class="pre">Variable</span></code> 来初始化，然后通过代码
+<code class="docutils literal notranslate"><span class="pre">f</span> <span class="pre">=</span> <span class="pre">Variable.log(x)</span> <span class="pre">+</span> <span class="pre">x</span> <span class="pre">*</span> <span class="pre">y</span> <span class="pre">-</span> <span class="pre">Variable.sin(y)</span></code> 来实现。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">reset_tape</span><span class="p">()</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="n">Variable</span><span class="o">.</span><span class="n">constant</span><span class="p">(</span><span class="mf">2.</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;v-1&#39;</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">Variable</span><span class="o">.</span><span class="n">constant</span><span class="p">(</span><span class="mf">5.</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;v0&#39;</span><span class="p">)</span>
+
+<span class="n">f</span> <span class="o">=</span> <span class="n">Variable</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="n">x</span> <span class="o">*</span> <span class="n">y</span> <span class="o">-</span> <span class="n">Variable</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>v-1 = 2.0
+    v0 = 5.0
+    v1 = log(v-1)
+    v2 = v-1 * v0
+    v3 = v1 + v2
+    v4 = sin(v0)
+    v5 = v3 - v4
+    11.652071455223084
+</pre></div>
+</div>
+<p>从 <code class="docutils literal notranslate"><span class="pre">print(f)</span></code>
+可以看到是下面图中的左边正向运算，计算出前向的结果。下面的代码
+<code class="docutils literal notranslate"><span class="pre">grad(f,</span> <span class="pre">[x,</span> <span class="pre">y])</span></code> 就是利用前向最终的结果，通过 Tape
+一个个反向的求解。得到最后的结果啦。</p>
+<div class="figure align-default">
+<img alt="../_images/autodiff05.png" src="../_images/autodiff05.png" />
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">dx</span><span class="p">,</span> <span class="n">dy</span> <span class="o">=</span> <span class="n">grad</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="p">[</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;dx&quot;</span><span class="p">,</span> <span class="n">dx</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;dy&quot;</span><span class="p">,</span> <span class="n">dy</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>dl_d {&#39;v5&#39;: 1.0}
+    Tape(inputs=[&#39;v3&#39;, &#39;v4&#39;], outputs=[&#39;v5&#39;], propagate=&lt;function ops_sub.&lt;locals&gt;.propagate at 0x7fd7a2c8c0d0&gt;)
+    v9 = v6 * v7
+    v10 = v6 * v8
+    Tape(inputs=[&#39;v0&#39;], outputs=[&#39;v4&#39;], propagate=&lt;function ops_sin.&lt;locals&gt;.propagate at 0x7fd7a2c8c378&gt;)
+    v12 = v10 * v11
+    Tape(inputs=[&#39;v1&#39;, &#39;v2&#39;], outputs=[&#39;v3&#39;], propagate=&lt;function ops_add.&lt;locals&gt;.propagate at 0x7fd7a234e7b8&gt;)
+    v15 = v9 * v13
+    v16 = v9 * v14
+    Tape(inputs=[&#39;v-1&#39;, &#39;v0&#39;], outputs=[&#39;v2&#39;], propagate=&lt;function ops_mul.&lt;locals&gt;.propagate at 0x7fd7a3982ae8&gt;)
+    v17 = v16 * v0
+    v18 = v16 * v-1
+    v19 = v12 + v18
+    Tape(inputs=[&#39;v-1&#39;], outputs=[&#39;v1&#39;], propagate=&lt;function ops_log.&lt;locals&gt;.propagate at 0x7fd7a3982c80&gt;)
+    v21 = v15 * v20
+    v22 = v17 + v21
+    dv5_dv5 = v6
+    dv5_dv3 = v9
+    dv5_dv4 = v10
+    dv5_dv0 = v19
+    dv5_dv1 = v15
+    dv5_dv2 = v16
+    dv5_dv-1 = v22
+    dx 5.5
+    dy 1.7163378145367738
+</pre></div>
+</div>
+</div>
+<div class="section" id="id3">
+<h2><span class="section-number">2.6.3. </span>本节视频<a class="headerlink" href="#id3" title="Permalink to this heading">¶</a></h2>
+<html><iframe src="https://player.bilibili.com/player.html?aid=558670636&amp;bvid=BV1ae4y1z7E6&amp;cid=909291276&amp;page=1&amp;as_wide=1&amp;high_quality=1&amp;danmaku=0&amp;t=30&amp;autoplay=0" width="100%" height="500" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe></html></div>
 </div>
 
 
         </div>
         <div class="side-doc-outline">
             <div class="side-doc-outline--content"> 
+<div class="localtoc">
+    <p class="caption">
+      <span class="caption-text">Table Of Contents</span>
+    </p>
+    <ul>
+<li><a class="reference internal" href="#">2.6. 动手实现PyTorch微分</a><ul>
+<li><a class="reference internal" href="#id1">2.6.1. 基础知识</a><ul>
+<li><a class="reference internal" href="#oo">2.6.1.1. 操作符重载 OO</a></li>
+<li><a class="reference internal" href="#reverse-mode">2.6.1.2. 反向模式 Reverse Mode</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id2">2.6.2. 反向操作符重载实现</a></li>
+<li><a class="reference internal" href="#id3">2.6.3. 本节视频</a></li>
+</ul>
+</li>
+</ul>
+
+</div>
             </div>
         </div>
 
