@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     
-    <title>1.1.1. 基本介绍 &#8212; 人工智能系统（AISys） 0.0.1 documentation</title>
+    <title>1.1.1. 本章内容 &#8212; 人工智能系统（AISys） 0.0.1 documentation</title>
 
     <link rel="stylesheet" href="../_static/material-design-lite-1.3.0/material.blue-deep_orange.min.css" type="text/css" />
     <link rel="stylesheet" href="../_static/sphinx_materialdesign_theme.css" type="text/css" />
@@ -36,7 +36,7 @@
         
         <nav class="mdl-navigation breadcrumb">
             <a class="mdl-navigation__link" href="README.html"><span class="section-number">1. </span>AI框架基础</a><i class="material-icons">navigate_next</i>
-            <a class="mdl-navigation__link is-active"><span class="section-number">1.1.1. </span>基本介绍</a>
+            <a class="mdl-navigation__link is-active"><span class="section-number">1.1.1. </span>本章内容</a>
         </nav>
         <div class="mdl-layout-spacer"></div>
         <nav class="mdl-navigation">
@@ -99,7 +99,7 @@ Show Source
 <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="README.html">1. AI框架基础</a><ul class="current">
-<li class="toctree-l2 current"><a class="current reference internal" href="#">1.1.1. 基本介绍</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">1.1.1. 本章内容</a></li>
 <li class="toctree-l2"><a class="reference internal" href="02.fundamentals.html">1.1.2. AI框架作用</a></li>
 <li class="toctree-l2"><a class="reference internal" href="03.history.html">1.1.3. AI框架之争</a></li>
 <li class="toctree-l2"><a class="reference internal" href="04.programing.html">1.1.4. 框架编程范式</a></li>
@@ -194,7 +194,7 @@ Show Source
 <li class="toctree-l2"><a class="reference internal" href="../034CM_Backend/06.auto_tuning.html">4.1.6. Auto-Tuning原理</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../036CM_PyTorch/README.html">5. AI编译器 – PyTorch 2.0 图模式</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="../036CM_PyTorch/README.html">5. PyTorch2.0 图模式</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../036CM_PyTorch/01.introduction.html">5.1.1. PyTorch2.0 特性</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../036CM_PyTorch/02.torchscript.html">5.1.2. 内容介绍</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../036CM_PyTorch/03.torchfx_lazy.html">5.1.3. FX 与 LazyTensor</a></li>
@@ -319,7 +319,7 @@ Show Source
 <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="README.html">1. AI框架基础</a><ul class="current">
-<li class="toctree-l2 current"><a class="current reference internal" href="#">1.1.1. 基本介绍</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">1.1.1. 本章内容</a></li>
 <li class="toctree-l2"><a class="reference internal" href="02.fundamentals.html">1.1.2. AI框架作用</a></li>
 <li class="toctree-l2"><a class="reference internal" href="03.history.html">1.1.3. AI框架之争</a></li>
 <li class="toctree-l2"><a class="reference internal" href="04.programing.html">1.1.4. 框架编程范式</a></li>
@@ -414,7 +414,7 @@ Show Source
 <li class="toctree-l2"><a class="reference internal" href="../034CM_Backend/06.auto_tuning.html">4.1.6. Auto-Tuning原理</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../036CM_PyTorch/README.html">5. AI编译器 – PyTorch 2.0 图模式</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="../036CM_PyTorch/README.html">5. PyTorch2.0 图模式</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../036CM_PyTorch/01.introduction.html">5.1.1. PyTorch2.0 特性</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../036CM_PyTorch/02.torchscript.html">5.1.2. 内容介绍</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../036CM_PyTorch/03.torchfx_lazy.html">5.1.3. FX 与 LazyTensor</a></li>
@@ -519,14 +519,58 @@ Show Source
         <div class="page-content" role="main">
         
   <div class="section" id="id1">
-<h1><span class="section-number">1.1.1. </span>基本介绍<a class="headerlink" href="#id1" title="Permalink to this heading">¶</a></h1>
-<p>本书受限于篇幅，将不会对所有机器学习系统进行深入讲解。目前，本书会从系统设计者的角度出发，对应用在联邦学习、推荐系统、强化学习、可解释AI和机器人中的相关核心系统进行讲解。</p>
+<h1><span class="section-number">1.1.1. </span>本章内容<a class="headerlink" href="#id1" title="Permalink to this heading">¶</a></h1>
+<p>到底什么是AI算法？什么是神经网络？神经网络有什么用？为什么神经网络需要训练？什么是模型？AI框架有什么用？AI框架能解决什么问题？</p>
+<p>上面的几个问题其实还挺有挑战的，也是本节需要回答的一个问题。下面来对一些基础概念进程澄清：首先深度学习是机器学习研究领域中的一种范式，而深度学习的概念源于对人工神经网络的研究，很多深度学习算法都使用神经网络进行表示，因为神经网络的性能精度和通用效果都非常好，于是业界习惯性地把深度学习算法等同于AI。</p>
+<div class="figure align-default" id="id4">
+<img alt="../_images/AIDevelop.svg" src="../_images/AIDevelop.svg" /><p class="caption"><span class="caption-number">图1.1.1 </span><span class="caption-text">人工智能发展路线</span><a class="headerlink" href="#id4" title="Permalink to this image">¶</a></p>
+</div>
+<div class="section" id="ai">
+<h2><span class="section-number">1.1.1.1. </span>AI框架基础介绍<a class="headerlink" href="#ai" title="Permalink to this heading">¶</a></h2>
+<p>在AI框架基础系列里面，将会先介绍神经网络和深度学习的基本概念，了解深度学习、神经网络、人工智能多个新名词和新概念之间的种种关联关系。简单而言，而深度学习是通过函数逼近来解析神经网络的数学原理，通过反向求导算法来求解神经网络中参数的偏导，从而迭代地求解神经网络中的最优值。不过上面的叙述还是有点难以理解复杂的数学原理，因此在AI框架作用中的深度学习基础，将会深入浅出地介绍介绍深度学习的基础。</p>
+<p>有了深度学习的基础之后，就能够比较好地理解AI框架的实际作用，即作为AI算法（深度学习算法）的模型设计、训练和验证的一套标准接口、特性库和工具包，集成了算法的封装、数据的调用以及计算资源的使用，同时面向开发者提供了开发界面和高效的执行平台，是现阶段
+AI 算法开发的必备工具。</p>
+<p>有了对深度学习的认识、对AI框架作用的认识，自然就理解AI框架的目的和为什么目前国内厂商，无论是华为昇腾构建MindSpore、百度打造飞桨PaddlePaddle、之江实验室联合一流科技开发的OneFlow，包括商汤、旷视都推出自己的自研AI框架了。</p>
+<p>可是AI的框架发展并不顺利，从萌芽阶段（2000 年初期）、
+成长阶段（2012~2014 年）、稳定阶段（2015 年~2019
+年）、深化阶段（2020年以后）。其发展脉络与人工智能，特别是神经网络技术的异峰突起有非常紧密的联系。中间又经历了三代框架，这里面提到的AI框架三代并不是以时间为维度，更多的是以技术为区分维度，通过不同的技术手段走过三代技术框架，从而使得AI框架慢慢走向成熟。</p>
+<p>截至目前为止，国际主流的AI框架（PyTorch、TensorFlow等）基本均已经实现动态图开发、静态图部署的编程范式，具备动静态图转换的能力，不过基于开发效率考虑，动态图与静态图的转换与统一需要持续迭代优化。</p>
+<p>上面提到的编程范式主要是跟开发者的编程习惯和编程方式息息相关。实际上，编程范型、编程范式或程式设计法（Programming
+paradigm），是指软件工程中的一类典型的编程风格。常见的编程范型有：函数式编程、指令式编程、过程式编程、面向对象编程等等。编程范型提供并决定了程序员对程序执行的看法，而AI框架的编程范式目前主要集中在声明式编程
+与 命令式编程 两种之间。</p>
+</div>
+<div class="section" id="id2">
+<h2><span class="section-number">1.1.1.2. </span>本节回顾<a class="headerlink" href="#id2" title="Permalink to this heading">¶</a></h2>
+<p>学习完本节课程，您将能够：</p>
+<ul class="simple">
+<li><p>了解国内产商自研AI框架的意义和AI框架具体作用</p></li>
+<li><p>了解AI框架框架的发展历史和技术带给行业的AI快乐</p></li>
+<li><p>了解了程序员天天为之吵架的编程范式</p></li>
+</ul>
+</div>
+<div class="section" id="id3">
+<h2><span class="section-number">1.1.1.3. </span>本节视频<a class="headerlink" href="#id3" title="Permalink to this heading">¶</a></h2>
+<html><iframe src="https://player.bilibili.com/player.html?aid=558671844&amp;bvid=BV1he4y1z7oD&amp;cid=911380319&amp;page=1&amp;as_wide=1&amp;high_quality=1&amp;danmaku=0&amp;t=30&amp;autoplay=0" width="100%" height="500" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe></html></div>
 </div>
 
 
         </div>
         <div class="side-doc-outline">
             <div class="side-doc-outline--content"> 
+<div class="localtoc">
+    <p class="caption">
+      <span class="caption-text">Table Of Contents</span>
+    </p>
+    <ul>
+<li><a class="reference internal" href="#">1.1.1. 本章内容</a><ul>
+<li><a class="reference internal" href="#ai">1.1.1.1. AI框架基础介绍</a></li>
+<li><a class="reference internal" href="#id2">1.1.1.2. 本节回顾</a></li>
+<li><a class="reference internal" href="#id3">1.1.1.3. 本节视频</a></li>
+</ul>
+</li>
+</ul>
+
+</div>
             </div>
         </div>
 
