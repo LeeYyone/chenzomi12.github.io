@@ -27,7 +27,7 @@
 如下公式所示，为对公式 :math:`l_1 = x` 具体的数学表达式进行多次展开：
 
 .. math:: 𝑙_1=𝑥 \\ 𝑙_(𝑛+1)=4𝑙_𝑛 (1−𝑙_1) \\ 𝑓(𝑥)=𝑙_4=64𝑥(1−𝑥)(1−2𝑥)^2(1−8𝑥+8𝑥^2)^2
-   :label: l_1
+   :label: diff_07_eq0
 
 在程序的实现过程中，并不会针对上述公式展开成：
 
@@ -58,7 +58,7 @@
            v = 4 * v * (1 - v)
        return v
 
-通过公式 :eq:`l_1`
+通过公式 :eq:`diff_07_eq0`
 和对应的代码可以看出，在针对数学表达式中，递归属于一种隐式的存在，特别是针对下标及子表达式关系中。而在程序表达中，递归则显式的表达为语言中的
 for 循环和入参 x。
 
@@ -197,26 +197,26 @@ programming language）可以作为一种独立于机器，面向过程或对象
 反向模式的计算过程如图所示，其中：
 
 .. math::  \overline{v_i}=\dfrac{\delta y}{\delta v_i} 
-   :label: eq1
+   :label: diff_07_eq1
 
 根据链式求导法则展开有：
 
 .. math::  \frac{\partial f}{\partial x}=\sum_{k=1}^{N} \frac{\partial f}{\partial v_{k}} \frac{\partial v_{k}}{\partial \boldsymbol{x}} 
-   :label: eq2
+   :label: diff_07_eq2
 
 可以看出，左侧是源程序分解后得到的基本操作集合，而右侧则是每一个基本操作根据已知的求导规则和链式法则\ **由下至上**\ 计算的求导结果。在求解最后的倒数过程中，左侧的源程序分解后的变量，与右侧的由下至上的计算过程中，存在大量的变量在过程中被多次复用。
 
 以更加通用的数学表示为例则二阶微分方程的一般形式为：
 
 .. math::  𝐹(x, y, {y}', {y}'')=0 
-   :label: eq3
+   :label: diff_07_eq3
 
 其中，\ :math:`x` 是自变量，\ :math:`y` 是未知函数，\ :math:`{y}'` 是
 :math:`y` 的一阶导数，\ :math:`{y}''` 是 :math:`y`
 的二阶导数。其二阶导数表示为：
 
 .. math::  \frac{\partial^{2} y }{\partial x^{2}} = \frac{\mathrm{d}}{\mathrm{d} y}\left (\frac{\mathrm{d} y}{\mathrm{d} x} \frac{\mathrm{d} x}{x} \right ) 
-   :label: eq4
+   :label: diff_07_eq4
 
 因此在复合求导函数中，会存在大量计算复用的情况。
 

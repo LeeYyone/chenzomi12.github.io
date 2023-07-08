@@ -138,10 +138,10 @@ ADTangent(x, dx)。
            dx = self.dx * np.cos(self.x)
            return ADTangent(x, dx)
 
-以公式5为例：
+以公式为例：
 
 .. math::  f(x1,x2)=ln(x1)+x1x2−sin(x2) 
-   :label: linear
+   :label: diff_05_eq1
 
 因为是基于 ADTangent 类进行了操作符重载，因此在初始化自变量 x 和 y
 的值需要使用 ADTangent 来初始化，然后通过代码 f = ADTangent.log(x) + x

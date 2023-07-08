@@ -79,12 +79,12 @@ mode从最终结果开始求导，利用最终输出对每一个节点进行求�
 反向模式的计算过程如图所示，其中：
 
 .. math::  \overline{v_i}=\dfrac{\delta y}{\delta v_i} 
-   :label: linear
+   :label: diff_06_eq1
 
 根据链式求导法则展开有：
 
 .. math::  \frac{\partial f}{\partial x}=\sum_{k=1}^{N} \frac{\partial f}{\partial v_{k}} \frac{\partial v_{k}}{\partial \boldsymbol{x}} 
-   :label: linear
+   :label: diff_06_eq2
 
 可以看出，左侧是源程序分解后得到的基本操作集合，而右侧则是每一个基本操作根据已知的求导规则和链式法则\ **由下至上**\ 计算的求导结果。
 
@@ -125,7 +125,7 @@ MindSpore 的实现还是 Tensorflow 版的实现（实际上都不是哈）。
 开始，使用偏导数和链式规则向后传播导数，例如：
 
 .. math::  dl/dx*dx/dy=dl/dy 
-   :label: linear
+   :label: diff_06_eq3
 
 下面就是具体的实现过程，首先我们所有的操作都是通过Python进行操作符重载的，而操作符重载，通过
 ``Variable`` 来封装跟踪计算的 Tensor。每个变量都有一个全局唯一的名称
@@ -347,7 +347,7 @@ List。
 以公式5为例：
 
 .. math::  f(x1,x2)=ln(x1)+x1x2−sin(x2) 
-   :label: linear
+   :label: diff_06_eq4
 
 因为是基于操作符重载OO的方式进行计算，因此在初始化自变量 x 和 y
 的值需要使用变量 ``Variable`` 来初始化，然后通过代码

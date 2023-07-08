@@ -28,7 +28,7 @@ Jacobian
 矩阵定义为：
 
 .. math::  J_f= \left[ \begin{matrix} \dfrac{\delta y_1}{\delta x_1} & \cdots & \dfrac{\delta y_1}{\delta x_n} \\ \vdots & \ddots & \vdots \\ \dfrac{\delta y_m}{\delta x_1} & \vdots & \dfrac{\delta y_m}{\delta x_n} \end{matrix} \right] 
-   :label: linear
+   :label: diff_03_eq1
 
 
 **微分计算模式**
@@ -52,7 +52,7 @@ Jacobian
 :math:`dy/dw_2`\ 。即，前向模式是在计算图前向传播的同时计算微分。因此前向模式的一次正向传播就可以计算出输出值和导数值。
 
 .. math::  \frac{dw_i}{dx}=\frac{dw_i}{dw_{i-1}}\frac{dw_{i-1}}{dx} 
-   :label: linear
+   :label: diff_03_eq2
 
 反向梯度累积正好相反，它会先计算 :math:`dy/dw_2`\ ，然后计算
 :math:`dw_2/dw_1`\ ，最后计算
@@ -62,7 +62,7 @@ Jacobian
 得出输出值，再进行反向传播。反向模式需要保存正向传播的中间变量值（比如\ :math:`𝑤_𝑖`\ ），这些中间变量数值在反向传播时候被用来计算导数，所以反向模式的内存开销要大。
 
 .. math::  \frac{dy}{dw_i}=\frac{dy}{dw_{i+1}}\frac{dw_{i+1}}{dw_i} 
-   :label: linear
+   :label: diff_03_eq3
 
 即如图所示，前向自动微分（tangent mode AD）和后向自动微分（adjoint mode
 AD）分别计算了Jacobian矩阵的一列和一行。
@@ -79,14 +79,14 @@ AD）分别计算了Jacobian矩阵的一列和一行。
 前向自动微分（tangent mode AD）可以在一次程序计算中通过链式法则，得到：
 
 .. math::  \frac{\delta x^k}{\delta x^0_j} = \frac{\delta x^k}{\delta x^{k-1}} \frac{\delta ^{k-1}}{\delta x^0_j} 
-   :label: linear
+   :label: diff_03_eq4
 
 递推得到 Jacobian 矩阵中与单个输入有关的参数，即 Jacobian矩 阵的一列。
 
 后向自动微分（adjoint mode AD）利用链式法则，得到：
 
 .. math::  \frac{\delta x^L_i}{\delta x^k}= \frac{\delta x^L_i}{\delta x^{k+1}} \frac{\delta ^{k+1}}{\delta x^k} 
-   :label: linear
+   :label: diff_03_eq5
 
 可以仅通过一次对计算过程的遍历得到Jacobian矩阵的一行。但它的导数链式法则传递方向和程序执行方向相反，所以需要在程序计算过程中记录一些额外的信息来辅助求导，这些辅助信息包括计算图和计算过程的中间变量。
 
@@ -96,7 +96,7 @@ AD）分别计算了Jacobian矩阵的一列和一行。
 我们以公式为例，首先把它转换成一个计算图：
 
 .. math::  f(x1,x2)=ln(x1)+x1x2−sin(x2) 
-   :label: linear
+   :label: diff_03_eq6
 
 -  输入变量 ：自变量维度为 :math:`n`\ ，这里
    :math:`n = 2`\ ，输入变量就是 :math:`x1`, :math:`x2`
@@ -116,7 +116,7 @@ DAG（有向无环图）结构之后，我们可以很容易分步计算函数�
 :math:`df/dx_1` 求导过程利用链式法则表示成如下的形式：
 
 .. math::  \dfrac{df}{dx_1}= \dfrac{dv_{-1}}{dx_1} \cdot (\dfrac{dv_{1}}{dv_{-1}} \cdot \dfrac{dv_{4}}{dv_{1}} + \dfrac{dv_{2}}{dv_{-1}} \cdot \dfrac{dv_{4}}{dx_{2}}) \cdot \dfrac{dv_{5}}{dv_{4}} \cdot \dfrac{df}{dv_{5}} 
-   :label: linear
+   :label: diff_03_eq7
 
    整个求导可以被拆成一系列微分算子的组合。
 
@@ -129,19 +129,19 @@ DAG（有向无环图）结构之后，我们可以很容易分步计算函数�
 同样，以公式为例子：
 
 .. math::  f(x1,x2)=ln(x1)+x1x2−sin(x2) 
-   :label: linear
+   :label: diff_03_eq8
 
 面是前向模式的计算过程，下表中，左半部分是从左往右每个图节点的求值结果和计算过程，右半部分是每个节点对
 x1的求导结果和计算过程。这里 :math:`𝑉˙𝑖` 表示 :math:`𝑉𝑖` 对 :math:`𝑥1`
 的偏导数。即：
 
 .. math::  \dot{v_i}=\dfrac{\delta v_i}{\delta x_1} 
-   :label: linear
+   :label: diff_03_eq9
 
 在该示例中，我们希望计算函数在x_1=2, x_2=5处的导数dy/dx1，即：
 
 .. math::  \dot{y_j}=\dfrac{\delta y_j}{\delta x_i} 
-   :label: linear
+   :label: diff_03_eq10
 
 可以看出，左侧是源程序分解后得到的基本操作集合，而右侧则是每一个基本操作根据已知的求导规则和链式法则由上至下计算的求导结果。
 
@@ -194,13 +194,13 @@ Tangent Trace），在计算节点数值的同时，也一起计算导数，假�
 :math:`x \in R^n, y \in R^m`\ ，则这个的映射是：
 
 .. math::  f:R^n \to R^m 
-   :label: linear
+   :label: diff_03_eq11
 
 在这种情况下，每个自动微分的前向传播计算时候，初始输入被设置为
 :math:`\dot{x_i}=1`\ ，其余被设置为 0。对应Jacobian矩阵定义为：
 
 .. math::  J_f= \left[ \begin{matrix} \dfrac{\delta y_1}{\delta x_1} & \cdots & \dfrac{\delta y_1}{\delta x_n} \\ \vdots & \ddots & \vdots \\ \dfrac{\delta y_m}{\delta x_1} & \vdots & \dfrac{\delta y_m}{\delta x_n} \end{matrix} \right] 
-   :label: linear
+   :label: diff_03_eq12
 
 一次前向计算，可以求出Jacobian矩阵的一列数据，如 :math:`\dot{x_3}=1`
 对应就可以求出来第3列。tangent mode
@@ -213,7 +213,7 @@ AD可以在一次程序计算中，通过链式法则递推得到Jacobian矩阵�
 Jacobian–vector 乘积：
 
 .. math:: J_f \cdot r= \left[ \begin{matrix} \dfrac{\delta y_1}{\delta x_1} & \cdots & \dfrac{\delta y_1}{\delta x_n} \\ \vdots & \ddots & \vdots \\ \dfrac{\delta y_m}{\delta x_1} & \vdots & \dfrac{\delta y_m}{\delta x_n} \end{matrix} \right] \left[ \begin{matrix} r_1 \\ \vdots \\ r_n \\ \end{matrix} \right] 
-   :label: linear
+   :label: diff_03_eq13
 
 最终我们可以递归的得到本次迭代的计算目标：雅克比矩阵中的第 i 行。
 
@@ -265,12 +265,12 @@ mode从最终结果开始求导，利用最终输出对每一个节点进行求�
 反向模式的计算过程如图所示，其中：
 
 .. math::  \overline{v_i}=\dfrac{\delta y}{\delta v_i} 
-   :label: linear
+   :label: diff_03_eq14
 
 根据链式求导法则展开有：
 
 .. math::  \frac{\partial f}{\partial x}=\sum_{k=1}^{N} \frac{\partial f}{\partial v_{k}} \frac{\partial v_{k}}{\partial \boldsymbol{x}} 
-   :label: linear
+   :label: diff_03_eq15
 
 可以看出，左侧是源程序分解后得到的基本操作集合，而右侧则是每一个基本操作根据已知的求导规则和链式法则\ **由下至上**\ 计算的求导结果。
 
@@ -320,17 +320,17 @@ x_1，有多条路径，需要将这个路径上的数值连乘起来得到一�
 Jacobian 矩阵：
 
 .. math::  J_{f}= \left[\begin{array}{ccc} \dfrac{\partial y}{\partial x_{1}} & \cdots & \dfrac{\partial y}{\partial x_{1}} \end{array}\right]= \left[\begin{array}{ccc} \dfrac{\partial y_{1}}{\partial x_{1}} & \cdots & \dfrac{\partial y_{1}}{\partial x_{n}} \\ \vdots & \ddots & \vdots \\ \dfrac{\partial y_{m}}{\partial x_{1}} & \cdots & \dfrac{\partial y_{m}}{\partial x_{n}} \end{array}\right] 
-   :label: linear
+   :label: diff_03_eq16
 
 设置 :math:`\overline{v}` 是关于函数 :math:`l=g(\overline{y})` 的梯度：
 
 .. math::  \overline{v}= \left[\begin{array}{lll} \dfrac{\partial l}{\partial y_{1}} & \cdots & \dfrac{\partial l}{\partial y_{m}} \end{array}\right]^{\mathrm{T}} 
-   :label: linear
+   :label: diff_03_eq17
 
 Jacobian-vector 积就是函数 l 中关于 x_1 的梯度：
 
 .. math::  \boldsymbol{J}^T \cdot \overline{v}= \left[\begin{array}{ccc} \dfrac{\partial y_{1}}{\partial x_{1}} & \cdots & \dfrac{\partial y_{1}}{\partial x_{n}} \\ \vdots & \ddots & \vdots \\ \dfrac{\partial y_{m}}{\partial x_{1}} & \cdots & \dfrac{\partial y_{m}}{\partial x_{n}} \end{array}\right] \cdot\left[\begin{array}{c} \dfrac{\partial l}{\partial y_{1}} \\ \vdots \\ \dfrac{\partial l}{\partial y_{m}} \end{array}\right]=\left[\begin{array}{c} \dfrac{\partial y_{1}}{\partial x_{1}} \\ \vdots \\ \dfrac{\partial y_{m}}{\partial x_{1}} \end{array}\right] 
-   :label: linear
+   :label: diff_03_eq18
 
 即通过雅克比矩阵转置与后续节点梯度值的乘积，可以得到当前节点的梯度值。
 
