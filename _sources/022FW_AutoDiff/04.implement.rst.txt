@@ -283,7 +283,7 @@ SCT 的一般性过程。
 
 .. figure:: ../images/022FW_AutoDiff/ast.svg
 
-   :width: 600px
+   源码转换流程示例
 
 从图中可以看到源码转换的整体流程分为编译时间和执行时间，以 MindSpore
 为例，其在运行之前的第一个 epoch
