@@ -126,13 +126,13 @@ AI框架与微分关系
 
 根据链式求导法则可以得到：
 
-.. math::  
+.. math::  \frac{\partial loss}{\partial w_3} = {Loss}'(L_3, y) {sigmoid}'(w_3,L_2)L_2 
    :label: fund_02_eq7
 
-.. math::  
+.. math::  \frac{\partial loss}{\partial w_2} = {Loss}'(L_3, y) {sigmoid}'(w_3,L_2) {sigmoid}'(w_2,L_1) L_1 
    :label: fund_02_eq8
 
-.. math::  
+.. math::  \frac{\partial loss}{\partial w_1} = {Loss}'(L_3, y) {sigmoid}'(w_3,L_2) {sigmoid}'(w_2,L_1) {sigmoid}'(w_1,x) x 
    :label: fund_02_eq9
 
 假设神经网络为上述公式
