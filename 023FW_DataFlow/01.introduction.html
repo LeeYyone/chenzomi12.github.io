@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     
-    <title>3.1.1. 基本介绍 &#8212; 人工智能系统（AISys） 0.0.1 documentation</title>
+    <title>3.1. 基本介绍 &#8212; 人工智能系统（AISys） 0.0.1 documentation</title>
 
     <link rel="stylesheet" href="../_static/material-design-lite-1.3.0/material.blue-deep_orange.min.css" type="text/css" />
     <link rel="stylesheet" href="../_static/sphinx_materialdesign_theme.css" type="text/css" />
@@ -27,7 +27,7 @@
     <link rel="shortcut icon" href="../_static/favicon.png"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="3.1.2. 计算图原理" href="02.computation_graph.html" />
+    <link rel="next" title="3.2. 计算图原理" href="02.computegraph.html" />
     <link rel="prev" title="3. 计算图" href="README.html" /> 
   </head>
 <body>
@@ -36,7 +36,7 @@
         
         <nav class="mdl-navigation breadcrumb">
             <a class="mdl-navigation__link" href="README.html"><span class="section-number">3. </span>计算图</a><i class="material-icons">navigate_next</i>
-            <a class="mdl-navigation__link is-active"><span class="section-number">3.1.1. </span>基本介绍</a>
+            <a class="mdl-navigation__link is-active"><span class="section-number">3.1. </span>基本介绍</a>
         </nav>
         <div class="mdl-layout-spacer"></div>
         <nav class="mdl-navigation">
@@ -116,12 +116,12 @@ Show Source
 </ul>
 </li>
 <li class="toctree-l1 current"><a class="reference internal" href="README.html">3. 计算图</a><ul class="current">
-<li class="toctree-l2 current"><a class="current reference internal" href="#">3.1.1. 基本介绍</a></li>
-<li class="toctree-l2"><a class="reference internal" href="02.computation_graph.html">3.1.2. 计算图原理</a></li>
-<li class="toctree-l2"><a class="reference internal" href="03.atuodiff.html">3.1.3. 与自动微分关系</a></li>
-<li class="toctree-l2"><a class="reference internal" href="04.dispatch.html">3.1.4. 图优化与图执行调度</a></li>
-<li class="toctree-l2"><a class="reference internal" href="05.control_flow.html">3.1.5. 计算图的控制流实现</a></li>
-<li class="toctree-l2"><a class="reference internal" href="06.future.html">3.1.6. 计算图的挑战&amp;未来</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">3.1. 基本介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02.computegraph.html">3.2. 计算图原理</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03.atuodiff.html">3.3. 计算图与自动微分</a></li>
+<li class="toctree-l2"><a class="reference internal" href="04.dispatch.html">3.4. 图优化与图执行调度</a></li>
+<li class="toctree-l2"><a class="reference internal" href="05.control_flow.html">3.5. 计算图的控制流实现</a></li>
+<li class="toctree-l2"><a class="reference internal" href="06.future.html">3.6. 计算图的挑战&amp;未来</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../024FW_AICluster/README.html">4. 分布式集群</a><ul>
@@ -336,12 +336,12 @@ Show Source
 </ul>
 </li>
 <li class="toctree-l1 current"><a class="reference internal" href="README.html">3. 计算图</a><ul class="current">
-<li class="toctree-l2 current"><a class="current reference internal" href="#">3.1.1. 基本介绍</a></li>
-<li class="toctree-l2"><a class="reference internal" href="02.computation_graph.html">3.1.2. 计算图原理</a></li>
-<li class="toctree-l2"><a class="reference internal" href="03.atuodiff.html">3.1.3. 与自动微分关系</a></li>
-<li class="toctree-l2"><a class="reference internal" href="04.dispatch.html">3.1.4. 图优化与图执行调度</a></li>
-<li class="toctree-l2"><a class="reference internal" href="05.control_flow.html">3.1.5. 计算图的控制流实现</a></li>
-<li class="toctree-l2"><a class="reference internal" href="06.future.html">3.1.6. 计算图的挑战&amp;未来</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">3.1. 基本介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02.computegraph.html">3.2. 计算图原理</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03.atuodiff.html">3.3. 计算图与自动微分</a></li>
+<li class="toctree-l2"><a class="reference internal" href="04.dispatch.html">3.4. 图优化与图执行调度</a></li>
+<li class="toctree-l2"><a class="reference internal" href="05.control_flow.html">3.5. 计算图的控制流实现</a></li>
+<li class="toctree-l2"><a class="reference internal" href="06.future.html">3.6. 计算图的挑战&amp;未来</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../024FW_AICluster/README.html">4. 分布式集群</a><ul>
@@ -519,14 +519,51 @@ Show Source
         <div class="page-content" role="main">
         
   <div class="section" id="id1">
-<h1><span class="section-number">3.1.1. </span>基本介绍<a class="headerlink" href="#id1" title="Permalink to this heading">¶</a></h1>
-<p>本书受限于篇幅，将不会对所有机器学习系统进行深入讲解。目前，本书会从系统设计者的角度出发，对应用在联邦学习、推荐系统、强化学习、可解释AI和机器人中的相关核心系统进行讲解。</p>
+<h1><span class="section-number">3.1. </span>基本介绍<a class="headerlink" href="#id1" title="Permalink to this heading">¶</a></h1>
+<p>在 AI
+框架发展的最近一个阶段，技术上主要以计算图来描述深度神经网络。前期实践最终催生出了工业级深度学习框架：TensorFlow
+和 PyTorch，这一时期同时伴随着如Chainer、DyNet、CNTK、PaddlePaddle、JAX
+等激发了框架设计灵感的诸多实验项目。</p>
+<p>TensorFlow 和 PyTorch，特别是 PyTorch
+代表了今天深度学习框架两种不同的设计路径：系统性能优先改善灵活性和灵活性易用性优先改善系统性能。这两种选择，随着神经网络算法研究和应用的更进一步发展，使得
+AI 框架在技术实现方案的巨大差异。</p>
+<p>随着神经网络模型越来越复杂，包括混合专家模型 MOE、生成对抗网络
+GAN、注意力模型 Attention Transformer 等。复杂的模型结构需要 AI
+框架能够对模型算子的执行依赖关系、梯度计算以及训练参数进行快速高效的分析，便于优化模型结构、制定调度执行策略以及实现自动化梯度计算，从而提高
+AI 框架训练的效率。</p>
+<p>综上所述，目前主流的深度学习框架都选择使用<strong>计算图</strong>来抽象神经网络计算表达，通过通用的数据结构（张量）来理解、表达和执行神经网络模型，通过<strong>计算图</strong>可以把
+AI 系统化的问题形象地表示出来。</p>
+<div class="figure align-default" id="id3">
+<a class="reference internal image-reference" href="../_images/framework_arch01.png"><img alt="../_images/framework_arch01.png" src="../_images/framework_arch01.png" style="width: 500px;" /></a>
+<p class="caption"><span class="caption-number">图3.1.1 </span><span class="caption-text">AI框架逻辑架构图</span><a class="headerlink" href="#id3" title="Permalink to this image">¶</a></p>
+</div>
+<p>有了对计算图的基本了解之后，就开始深入地了解计算图，跟自动微分之间的关系。即计算图、神经网络在真正执行计算，反向传播如何传播，如何表达自动微分的概念，而不是停留在抽象的数学含义。</p>
+<p>神经网络的训练流程主要包括一下五个过程：1）前向计算、2）计算损失、3）自动求导、4）反向传播、5）更新模型参数。在基于计算图的
+AI
+框架中，这五个阶段统一表示为由基本算子构成的计算图，算子是数据流图中的一个节点，由后端进行高效实现。</p>
+<p>但是在程序实现过程中，会遇到很多编程性问题，例如控制流（if、else、while、for
+等）跟程序相关，而非跟计算和数学表示相关的内容。因此会展开计算图和控制流之间的关系，也深入地去探讨计算关于调度和具体的执行方式，从而更好地、灵活地表达计算图。</p>
+<div class="section" id="id2">
+<h2><span class="section-number">3.1.1. </span>本节视频<a class="headerlink" href="#id2" title="Permalink to this heading">¶</a></h2>
+<html><iframe src="https://player.bilibili.com/player.html?aid=431263966&amp;bvid=BV1cG411E7gV&amp;cid=854292244&amp;page=1&amp;as_wide=1&amp;high_quality=1&amp;danmaku=0&amp;t=30&amp;autoplay=0" width="100%" height="500" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe></html></div>
 </div>
 
 
         </div>
         <div class="side-doc-outline">
             <div class="side-doc-outline--content"> 
+<div class="localtoc">
+    <p class="caption">
+      <span class="caption-text">Table Of Contents</span>
+    </p>
+    <ul>
+<li><a class="reference internal" href="#">3.1. 基本介绍</a><ul>
+<li><a class="reference internal" href="#id2">3.1.1. 本节视频</a></li>
+</ul>
+</li>
+</ul>
+
+</div>
             </div>
         </div>
 
@@ -539,11 +576,11 @@ Show Source
             <div>3. 计算图</div>
          </div>
      </a>
-     <a id="button-next" href="02.computation_graph.html" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--colored" role="botton" accesskey="N">
+     <a id="button-next" href="02.computegraph.html" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--colored" role="botton" accesskey="N">
          <i class="pagenation-arrow-R fas fa-arrow-right fa-lg"></i>
         <div class="pagenation-text">
             <span class="pagenation-direction">Next</span>
-            <div>3.1.2. 计算图原理</div>
+            <div>3.2. 计算图原理</div>
         </div>
      </a>
   </div>

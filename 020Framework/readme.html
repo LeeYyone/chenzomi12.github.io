@@ -115,12 +115,12 @@ Show Source
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../023FW_DataFlow/README.html">3. 计算图</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../023FW_DataFlow/01.introduction.html">3.1.1. 基本介绍</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../023FW_DataFlow/02.computation_graph.html">3.1.2. 计算图原理</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../023FW_DataFlow/03.atuodiff.html">3.1.3. 与自动微分关系</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../023FW_DataFlow/04.dispatch.html">3.1.4. 图优化与图执行调度</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../023FW_DataFlow/05.control_flow.html">3.1.5. 计算图的控制流实现</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../023FW_DataFlow/06.future.html">3.1.6. 计算图的挑战&amp;未来</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../023FW_DataFlow/01.introduction.html">3.1. 基本介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../023FW_DataFlow/02.computegraph.html">3.2. 计算图原理</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../023FW_DataFlow/03.atuodiff.html">3.3. 计算图与自动微分</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../023FW_DataFlow/04.dispatch.html">3.4. 图优化与图执行调度</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../023FW_DataFlow/05.control_flow.html">3.5. 计算图的控制流实现</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../023FW_DataFlow/06.future.html">3.6. 计算图的挑战&amp;未来</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../024FW_AICluster/README.html">4. 分布式集群</a><ul>
@@ -335,12 +335,12 @@ Show Source
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../023FW_DataFlow/README.html">3. 计算图</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../023FW_DataFlow/01.introduction.html">3.1.1. 基本介绍</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../023FW_DataFlow/02.computation_graph.html">3.1.2. 计算图原理</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../023FW_DataFlow/03.atuodiff.html">3.1.3. 与自动微分关系</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../023FW_DataFlow/04.dispatch.html">3.1.4. 图优化与图执行调度</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../023FW_DataFlow/05.control_flow.html">3.1.5. 计算图的控制流实现</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../023FW_DataFlow/06.future.html">3.1.6. 计算图的挑战&amp;未来</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../023FW_DataFlow/01.introduction.html">3.1. 基本介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../023FW_DataFlow/02.computegraph.html">3.2. 计算图原理</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../023FW_DataFlow/03.atuodiff.html">3.3. 计算图与自动微分</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../023FW_DataFlow/04.dispatch.html">3.4. 图优化与图执行调度</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../023FW_DataFlow/05.control_flow.html">3.5. 计算图的控制流实现</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../023FW_DataFlow/06.future.html">3.6. 计算图的挑战&amp;未来</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../024FW_AICluster/README.html">4. 分布式集群</a><ul>
@@ -645,53 +645,56 @@ Show Source
 <p>《计算图》实际上，AI框架主要的职责是把深度学习的表达转换称为计算机能够识别的计算图，计算图作为AI框架中核心的数据结构，贯穿AI框架的大部分整个生命周期，于是计算图对于AI框架的前端核心技术就显得尤为重要。</p>
 <table class="docutils align-default">
 <colgroup>
-<col style="width: 33%" />
-<col style="width: 33%" />
-<col style="width: 33%" />
+<col style="width: 50%" />
+<col style="width: 50%" />
 </colgroup>
 <thead>
-<tr class="row-odd"><th class="head"><p>分类</p></th>
-<th class="head"><p>名称</p></th>
-<th class="head"><p>内容</p></th>
+<tr class="row-odd"><th class="head"><p>小节</p></th>
+<th class="head"><p>链接</p></th>
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p>计算图</p></td>
-<td><p>01 基本介绍</p></td>
-<td><p><a class="reference external" href="./03_DataFlow/01.introduction.pptx">PP
-T</a>,
-<a class="reference external" href="https://www.bilibili.com/video/BV1cG411E7gV/">视频</a></p></td>
+<tr class="row-even"><td><p>01 基本介绍</p></td>
+<td><p><a class="reference external" href="../023FW_DataFlow/01.introduction.md">文章</a>,
+<a class="reference external" href="../023FW_DataFlow/01.introduction.pptx">PPT</a>,
+<a class="reference external" href="https://www.bilibili.com/video/BV1cG411E7gV/">视频</a>,
+<a class="reference external" href="../023FW_DataFlow/srt/01.srt">字幕</a></p></td>
 </tr>
-<tr class="row-odd"><td><p>计算图</p></td>
-<td><p>02 什么是计算图</p></td>
-<td><p><a class="reference external" href="./03_DataFlow/02.computation_graph.pptx">PPT</a>,
-<a class="reference external" href="https://www.bilibili.com/video/BV1rR4y197HM/">视频</a></p></td>
+<tr class="row-odd"><td><p>02 什么是计算图</p></td>
+<td><p><a class="reference external" href="../023FW_DataFlow/02.computegraph.md">文章</a>,
+<a class="reference external" href="../023FW_DataFlow/02.computegraph.pptx">PPT</a>,
+<a class="reference external" href="https://www.bilibili.com/video/BV1rR4y197HM/">视频</a>,
+<a class="reference external" href="../023FW_DataFlow/srt/02.srt">字幕</a></p></td>
 </tr>
-<tr class="row-even"><td><p>计算图</p></td>
-<td><p>03
-计算图跟自动微分关系</p></td>
-<td><p><a class="reference external" href="./03_DataFlow/03.atuodiff.pptx">PPT</a>,
-<a class="reference external" href="https://www.bilibili.com/video/BV1S24y197FU/">视频</a></p></td>
+<tr class="row-even"><td><p>03 与自动微分关系</p></td>
+<td><p><a class="reference external" href="../023FW_DataFlow/03.atuodiff.md">文章</a>,
+<a class="reference external" href="../023FW_DataFlow/03.atuodiff.pptx">PPT</a>,
+<a class="reference external" href="https://www.bilibili.com/video/BV1S24y197FU/">视频</a>,
+<a class="reference external" href="../023FW_DataFlow/srt/03.srt">字幕</a></p></td>
 </tr>
-<tr class="row-odd"><td><p>计算图</p></td>
-<td><p>04 图优化与图执行调度</p></td>
-<td><p><a class="reference external" href="./03_DataFlow/04.dispatch.pptx">PPT</a>,
-<a class="reference external" href="https://www.bilibili.com/video/BV1hD4y1k7Ty/">视频</a></p></td>
+<tr class="row-odd"><td><p>04 图优化与图执行调度</p></td>
+<td><p><a class="reference external" href="../023FW_DataFlow/04.dispatch.md">文章</a>,
+<a class="reference external" href="../023FW_DataFlow/04.dispatch.pptx">PPT</a>,
+<a class="reference external" href="https://www.bilibili.com/video/BV1hD4y1k7Ty/">视频</a>,
+<a class="reference external" href="../023FW_DataFlow/srt/04.srt">字幕</a></p></td>
 </tr>
-<tr class="row-even"><td><p>计算图</p></td>
-<td><p>05
-计
-算图的控制流机制实现</p></td>
-<td><p><a class="reference external" href="./03_DataFlow/05.control_flow.pptx">PP
-T</a>,
-<a class="reference external" href="https://www.bilibili.com/video/BV17P41177Pk/">视频</a></p></td>
+<tr class="row-even"><td><p>05 计算图控制流实现</p></td>
+<td><p><a class="reference external" href="../023FW_DataFlow/05.control_flow.md">文章</a>,
+<a class="reference external" href="。./023FW_DataFlow/05.control_flow.pptx">PPT</a>,
+<a class="reference external" href="https://www.bilibili.com/video/BV17P41177Pk/">视频</a>,
+<a class="reference external" href="../023FW_DataFlow/srt/05.srt">字幕</a></p></td>
 </tr>
-<tr class="row-odd"><td><p>计算图</p></td>
-<td><p>06
-计算
-图未来将会走向何方？</p></td>
-<td><p><a class="reference external" href="./03_DataFlow/06.future.pptx">PPT</a>,
-<a class="reference external" href="https://www.bilibili.com/video/BV1hm4y1A7Nv/">视频</a></p></td>
+<tr class="row-odd"><td><p>06 计算图实现动静统一</p></td>
+<td><p><a class="reference external" href="../023FW_DataFlow/06.static_graph.md">文章</a>,
+<a class="reference external" href="../023FW_DataFlow/06.static_graph.pdf">PPT</a>,
+<a class="reference external" href="https://www.bilibili.com/video/BV17P41177Pk/">视频</a>,
+<a class="reference external" href="。./srt/06.srt">字幕</a></p></td>
+</tr>
+<tr class="row-even"><td><p>07 计算图的挑战与未来</p></td>
+<td><p><a class="reference external" href="../023FW_DataFlow/07.future.md">文章</a>,
+<a class="reference external" href="../023FW_DataFlow/07.future.pdf">PPT</a>,
+<a class="reference external" href="https://www.bilibili.com/video/BV1hm4y1A7Nv/">视频</a>,
+<a class="reference external" href=".。/srt/07.srt">字幕</a></p></td>
 </tr>
 </tbody>
 </table>
