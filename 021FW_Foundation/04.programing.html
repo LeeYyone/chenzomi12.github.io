@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     
-    <title>1.1.4. 框架编程范式 &#8212; 人工智能系统（AISys） 0.0.1 documentation</title>
+    <title>1.4. 框架编程范式 &#8212; 人工智能系统（AISys） 0.0.1 documentation</title>
 
     <link rel="stylesheet" href="../_static/material-design-lite-1.3.0/material.blue-deep_orange.min.css" type="text/css" />
     <link rel="stylesheet" href="../_static/sphinx_materialdesign_theme.css" type="text/css" />
@@ -28,7 +28,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="2. 自动微分(DONE)" href="../022FW_AutoDiff/README.html" />
-    <link rel="prev" title="1.1.3. AI框架之争" href="03.history.html" /> 
+    <link rel="prev" title="1.3. AI框架之争" href="03.history.html" /> 
   </head>
 <body>
     <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header mdl-layout--fixed-drawer"><header class="mdl-layout__header mdl-layout__header--waterfall ">
@@ -36,7 +36,7 @@
         
         <nav class="mdl-navigation breadcrumb">
             <a class="mdl-navigation__link" href="README.html"><span class="section-number">1. </span>AI框架基础(DONE)</a><i class="material-icons">navigate_next</i>
-            <a class="mdl-navigation__link is-active"><span class="section-number">1.1.4. </span>框架编程范式</a>
+            <a class="mdl-navigation__link is-active"><span class="section-number">1.4. </span>框架编程范式</a>
         </nav>
         <div class="mdl-layout-spacer"></div>
         <nav class="mdl-navigation">
@@ -99,23 +99,23 @@ Show Source
 <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="README.html">1. AI框架基础(DONE)</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="01.introduction.html">1.1.1. 本章内容</a></li>
-<li class="toctree-l2"><a class="reference internal" href="02.fundamentals.html">1.1.2. AI框架作用</a></li>
-<li class="toctree-l2"><a class="reference internal" href="03.history.html">1.1.3. AI框架之争</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">1.1.4. 框架编程范式</a></li>
+<li class="toctree-l2"><a class="reference internal" href="01.introduction.html">1.1. 本章内容</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02.fundamentals.html">1.2. AI框架作用</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03.history.html">1.3. AI框架之争</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">1.4. 框架编程范式</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../022FW_AutoDiff/README.html">2. 自动微分(DONE)</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../022FW_AutoDiff/01.introduction.html">2.1.1. 自动微分</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../022FW_AutoDiff/02.base_concept.html">2.1.2. 什么是微分</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../022FW_AutoDiff/03.grad_mode.html">2.1.3. 微分计算模式</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../022FW_AutoDiff/04.implement.html">2.1.4. 微分实现方式</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../022FW_AutoDiff/05.forward_mode.html">2.1.5. 动手实现自动微分</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../022FW_AutoDiff/06.reversed_mode.html">2.1.6. 动手实现PyTorch微分</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../022FW_AutoDiff/07.challenge.html">2.1.7. 自动微分的挑战&amp;未来</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../022FW_AutoDiff/01.introduction.html">2.1. 自动微分</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../022FW_AutoDiff/02.base_concept.html">2.2. 什么是微分</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../022FW_AutoDiff/03.grad_mode.html">2.3. 微分计算模式</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../022FW_AutoDiff/04.implement.html">2.4. 微分实现方式</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../022FW_AutoDiff/05.forward_mode.html">2.5. 动手实现自动微分</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../022FW_AutoDiff/06.reversed_mode.html">2.6. 动手实现PyTorch微分</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../022FW_AutoDiff/07.challenge.html">2.7. 自动微分的挑战&amp;未来</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../023FW_DataFlow/README.html">3. 计算图</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="../023FW_DataFlow/README.html">3. 计算图(DOING)</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../023FW_DataFlow/01.introduction.html">3.1. 基本介绍</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../023FW_DataFlow/02.computegraph.html">3.2. 计算图原理</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../023FW_DataFlow/03.atuodiff.html">3.3. 计算图与自动微分</a></li>
@@ -319,23 +319,23 @@ Show Source
 <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="README.html">1. AI框架基础(DONE)</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="01.introduction.html">1.1.1. 本章内容</a></li>
-<li class="toctree-l2"><a class="reference internal" href="02.fundamentals.html">1.1.2. AI框架作用</a></li>
-<li class="toctree-l2"><a class="reference internal" href="03.history.html">1.1.3. AI框架之争</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">1.1.4. 框架编程范式</a></li>
+<li class="toctree-l2"><a class="reference internal" href="01.introduction.html">1.1. 本章内容</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02.fundamentals.html">1.2. AI框架作用</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03.history.html">1.3. AI框架之争</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">1.4. 框架编程范式</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../022FW_AutoDiff/README.html">2. 自动微分(DONE)</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../022FW_AutoDiff/01.introduction.html">2.1.1. 自动微分</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../022FW_AutoDiff/02.base_concept.html">2.1.2. 什么是微分</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../022FW_AutoDiff/03.grad_mode.html">2.1.3. 微分计算模式</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../022FW_AutoDiff/04.implement.html">2.1.4. 微分实现方式</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../022FW_AutoDiff/05.forward_mode.html">2.1.5. 动手实现自动微分</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../022FW_AutoDiff/06.reversed_mode.html">2.1.6. 动手实现PyTorch微分</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../022FW_AutoDiff/07.challenge.html">2.1.7. 自动微分的挑战&amp;未来</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../022FW_AutoDiff/01.introduction.html">2.1. 自动微分</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../022FW_AutoDiff/02.base_concept.html">2.2. 什么是微分</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../022FW_AutoDiff/03.grad_mode.html">2.3. 微分计算模式</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../022FW_AutoDiff/04.implement.html">2.4. 微分实现方式</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../022FW_AutoDiff/05.forward_mode.html">2.5. 动手实现自动微分</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../022FW_AutoDiff/06.reversed_mode.html">2.6. 动手实现PyTorch微分</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../022FW_AutoDiff/07.challenge.html">2.7. 自动微分的挑战&amp;未来</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../023FW_DataFlow/README.html">3. 计算图</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="../023FW_DataFlow/README.html">3. 计算图(DOING)</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../023FW_DataFlow/01.introduction.html">3.1. 基本介绍</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../023FW_DataFlow/02.computegraph.html">3.2. 计算图原理</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../023FW_DataFlow/03.atuodiff.html">3.3. 计算图与自动微分</a></li>
@@ -519,30 +519,30 @@ Show Source
         <div class="page-content" role="main">
         
   <!--Copyright © ZOMI 适用于[License](https://github.com/chenzomi12/DeepLearningSystem)版权许可--><div class="section" id="id1">
-<h1><span class="section-number">1.1.4. </span>框架编程范式<a class="headerlink" href="#id1" title="Permalink to this heading">¶</a></h1>
+<h1><span class="section-number">1.4. </span>框架编程范式<a class="headerlink" href="#id1" title="Permalink to this heading">¶</a></h1>
 <p>编程范式、编程范型、或程式設計法（Programming
 paradigm），是指软件工程中的一类典型的编程风格。常见的编程范型有：函数式编程、命令式编程、声明式编程、面向对象编程等等，编程范式提供并决定了开发者对程序执行的看法。在开发者使用
 AI
 框架进行编程的过程中，主要使用到的编程范式主要有2种：1）声明式编程与2）命令式编程。</p>
 <div class="figure align-default" id="id15">
 <img alt="../_images/paradigm01.png" src="../_images/paradigm01.png" />
-<p class="caption"><span class="caption-number">图1.1.15 </span><span class="caption-text">框架编程范式</span><a class="headerlink" href="#id15" title="Permalink to this image">¶</a></p>
+<p class="caption"><span class="caption-number">图1.4.1 </span><span class="caption-text">框架编程范式</span><a class="headerlink" href="#id15" title="Permalink to this image">¶</a></p>
 </div>
 <p>本节将会深入展开和介绍两种不同的编程范式对AI框架整体架构设计的影响，以及目前主流的
 AI 框架在编程范式之间的差异。</p>
 <div class="section" id="id2">
-<h2><span class="section-number">1.1.4.1. </span>程序开发的编程范式<a class="headerlink" href="#id2" title="Permalink to this heading">¶</a></h2>
+<h2><span class="section-number">1.4.1. </span>程序开发的编程范式<a class="headerlink" href="#id2" title="Permalink to this heading">¶</a></h2>
 <ul class="simple">
 <li><p>命令式编程（Imperative）：详细的命令机器怎么（How）去处理一件事情以达到想要的结果（What）</p></li>
 <li><p>声明式编程（Declarative）：只告诉想要的结果（What），机器自己摸索执行过程（How）</p></li>
 </ul>
 <div class="section" id="id3">
-<h3><span class="section-number">1.1.4.1.1. </span>编程与编程范式<a class="headerlink" href="#id3" title="Permalink to this heading">¶</a></h3>
+<h3><span class="section-number">1.4.1.1. </span>编程与编程范式<a class="headerlink" href="#id3" title="Permalink to this heading">¶</a></h3>
 <p>编程是开发者编定程序的中文简称，就是让计算机代码解决某个问题，对某个计算体系规定一定的运算方式，使计算体系按照该计算方式运行，并最终得到相应结果的过程。</p>
 <p>为了使计算机能够理解人的意图，我们就必须将需解决的问题的思路、方法和手段通过计算机能够理解的形式告诉计算机，使得计算机能够根据人的指令一步一步去工作，完成某种特定的任务。这种人和计算体系之间交流的过程称为编程。</p>
 </div>
 <div class="section" id="id4">
-<h3><span class="section-number">1.1.4.1.2. </span>命令式编程<a class="headerlink" href="#id4" title="Permalink to this heading">¶</a></h3>
+<h3><span class="section-number">1.4.1.2. </span>命令式编程<a class="headerlink" href="#id4" title="Permalink to this heading">¶</a></h3>
 <p>命令式编程（Imperative
 programming）是一种描述计算机所需作出的行为的编程典范，几乎所有计算机的硬件工作都是命令式的。</p>
 <p>其步骤可以分解为：首先，必须将带解决问题的解决方案抽象为一系列概念化的步骤。然后通过编程的方法将这些步骤转化成程序指令集（算法），而这些指令按照一定的顺序排列，用来说明如何执行一个任务或解决一个问题。这意味着，开发者必须要知道程序要完成什么，并且告诉计算机如何进行所需的计算工作，包括每个细节操作。简而言之，就是把计算机看成一个善始善终服从命令的装置。</p>
@@ -562,7 +562,7 @@ results，并遍历数字集合 collection，判断每个数字大于 5
 </div>
 </div>
 <div class="section" id="id5">
-<h3><span class="section-number">1.1.4.1.3. </span>声明式编程<a class="headerlink" href="#id5" title="Permalink to this heading">¶</a></h3>
+<h3><span class="section-number">1.4.1.3. </span>声明式编程<a class="headerlink" href="#id5" title="Permalink to this heading">¶</a></h3>
 <p>声明式编程（Declarative
 programming）是一种编程范式，与命令式编程相对立。它描述目标的性质，让计算机明白目标，而非流程。声明式编程不用告诉计算机问题领域，从而避免随之而来的副作用。而命令式编程则需要用算法来明确的指出每一步该怎么做。</p>
 <blockquote>
@@ -579,7 +579,7 @@ TensorFlow1.X 为代表，就使用了声明式编程。</p>
 </div>
 </div>
 <div class="section" id="id6">
-<h3><span class="section-number">1.1.4.1.4. </span>函数式编程<a class="headerlink" href="#id6" title="Permalink to this heading">¶</a></h3>
+<h3><span class="section-number">1.4.1.4. </span>函数式编程<a class="headerlink" href="#id6" title="Permalink to this heading">¶</a></h3>
 <p>函数式编程（Functional
 Programming）函数式编程本质上也是一种编程范式，其在软件开发的工程中避免使用共享状态（Shared
 State）、可变状态（Mutable
@@ -606,12 +606,12 @@ Python 代码为例：</p>
 </div>
 </div>
 <div class="section" id="ai">
-<h2><span class="section-number">1.1.4.2. </span>AI框架的编程范式<a class="headerlink" href="#ai" title="Permalink to this heading">¶</a></h2>
+<h2><span class="section-number">1.4.2. </span>AI框架的编程范式<a class="headerlink" href="#ai" title="Permalink to this heading">¶</a></h2>
 <p>主流AI框架，无论PyTorch还是Tensorflow都使用都以Python为主的高层次语言为前端，提供脚本式的编程体验，后端用更低层次的编程模型和编程语言开发。后端高性能可复用模块与前端深度绑定，通过前端驱动后端方式执行。AI框架为前端开发者提供声明式（declarative
 programming）和命令式（imperative programming）两种编程范式。</p>
 <div class="figure align-default" id="id16">
 <span id="id7"></span><a class="reference internal image-reference" href="../_images/framework_arch011.png"><img alt="../_images/framework_arch011.png" src="../_images/framework_arch011.png" style="width: 500px;" /></a>
-<p class="caption"><span class="caption-number">图1.1.16 </span><span class="caption-text">AI框架一般性架构图</span><a class="headerlink" href="#id16" title="Permalink to this image">¶</a></p>
+<p class="caption"><span class="caption-number">图1.4.2 </span><span class="caption-text">AI框架一般性架构图</span><a class="headerlink" href="#id16" title="Permalink to this image">¶</a></p>
 </div>
 <p>在主流的 AI 框架中，TensorFlow 提供了声明式编程体验，PyTroch
 提供了命令式的编程体验。但两种编程模型之间并不存在绝对的边界，multi-stage
@@ -619,7 +619,7 @@ programming）和命令式（imperative programming）两种编程范式。</p>
 AI 框架引入更多的编程模式和特性，例如 TensorFlow Eager模式 和 PyTorch
 JIT 的加入，主流 AI 框架都选择了通过支持混合式编程以兼顾两者的优点。</p>
 <div class="section" id="id8">
-<span id="id9"></span><h3><span class="section-number">1.1.4.2.1. </span>命令式编程<a class="headerlink" href="#id8" title="Permalink to this heading">¶</a></h3>
+<span id="id9"></span><h3><span class="section-number">1.4.2.1. </span>命令式编程<a class="headerlink" href="#id8" title="Permalink to this heading">¶</a></h3>
 <p>在命令式编程模型下，前端 Python
 语言直接驱动后端算子执行，表达式会立即被求值，又被称作define-by-run。开发者编写好神经网络模型的每一层，并编写训练过程中的每一轮迭代需要执行的计算任务。在程序执行的时候，系统会根据
 Python
@@ -679,7 +679,7 @@ PyTorch 实现一个简单的2层神经网络模型并训练：</p>
 </div>
 </div>
 <div class="section" id="id10">
-<span id="id11"></span><h3><span class="section-number">1.1.4.2.2. </span>声明式编程<a class="headerlink" href="#id10" title="Permalink to this heading">¶</a></h3>
+<span id="id11"></span><h3><span class="section-number">1.4.2.2. </span>声明式编程<a class="headerlink" href="#id10" title="Permalink to this heading">¶</a></h3>
 <p>在声明式编程模型下，前端语言中的表达式不直接执行，而是构建起一个完整前向计算过程表示，对数据流图经过优化然后再执行，又被称作define-and-run。即开发者定义好整体神经网络模型的前向表示代码，因为整体定义好神经网络模型，因此在
 AI 框架的后端会把网络模型编译成 <strong>静态计算图（简称：静态图）</strong> 来执行。</p>
 <p>执行方式比较直接：前端开发者写的 Python
@@ -760,7 +760,7 @@ Tensorflow 操作来构建一个计算图，然后多次执行这个计算图来
 </div>
 </div>
 <div class="section" id="id12">
-<h3><span class="section-number">1.1.4.2.3. </span>函数式编程<a class="headerlink" href="#id12" title="Permalink to this heading">¶</a></h3>
+<h3><span class="section-number">1.4.2.3. </span>函数式编程<a class="headerlink" href="#id12" title="Permalink to this heading">¶</a></h3>
 <p>不管是JAX 还是 MindSpore
 都使用了函数式编程的范式，其在高性能计算、科学计算、分布式方面有着独特的优势。</p>
 <p>其中 JAX 是作为 GPU/TPU 的高性能并行计算的框架，与普通 AI
@@ -772,7 +772,7 @@ MindSpore
 </div>
 </div>
 <div class="section" id="id13">
-<h2><span class="section-number">1.1.4.3. </span>本节总结<a class="headerlink" href="#id13" title="Permalink to this heading">¶</a></h2>
+<h2><span class="section-number">1.4.3. </span>本节总结<a class="headerlink" href="#id13" title="Permalink to this heading">¶</a></h2>
 <ul class="simple">
 <li><p>本节回顾了深度学习在不同AI框架的不同编程方式</p></li>
 <li><p>了解了什么是声明式编程和命令式编程以及其具体区别</p></li>
@@ -780,7 +780,7 @@ MindSpore
 </ul>
 </div>
 <div class="section" id="id14">
-<h2><span class="section-number">1.1.4.4. </span>本节视频<a class="headerlink" href="#id14" title="Permalink to this heading">¶</a></h2>
+<h2><span class="section-number">1.4.4. </span>本节视频<a class="headerlink" href="#id14" title="Permalink to this heading">¶</a></h2>
 <html><iframe src="https://player.bilibili.com/player.html?aid=346272310&amp;bvid=BV1gR4y1o7WT&amp;cid=911448346&amp;page=1&amp;as_wide=1&amp;high_quality=1&amp;danmaku=0&amp;t=30&amp;autoplay=0" width="100%" height="500" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe></html></div>
 </div>
 
@@ -793,22 +793,22 @@ MindSpore
       <span class="caption-text">Table Of Contents</span>
     </p>
     <ul>
-<li><a class="reference internal" href="#">1.1.4. 框架编程范式</a><ul>
-<li><a class="reference internal" href="#id2">1.1.4.1. 程序开发的编程范式</a><ul>
-<li><a class="reference internal" href="#id3">1.1.4.1.1. 编程与编程范式</a></li>
-<li><a class="reference internal" href="#id4">1.1.4.1.2. 命令式编程</a></li>
-<li><a class="reference internal" href="#id5">1.1.4.1.3. 声明式编程</a></li>
-<li><a class="reference internal" href="#id6">1.1.4.1.4. 函数式编程</a></li>
+<li><a class="reference internal" href="#">1.4. 框架编程范式</a><ul>
+<li><a class="reference internal" href="#id2">1.4.1. 程序开发的编程范式</a><ul>
+<li><a class="reference internal" href="#id3">1.4.1.1. 编程与编程范式</a></li>
+<li><a class="reference internal" href="#id4">1.4.1.2. 命令式编程</a></li>
+<li><a class="reference internal" href="#id5">1.4.1.3. 声明式编程</a></li>
+<li><a class="reference internal" href="#id6">1.4.1.4. 函数式编程</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#ai">1.1.4.2. AI框架的编程范式</a><ul>
-<li><a class="reference internal" href="#id8">1.1.4.2.1. 命令式编程</a></li>
-<li><a class="reference internal" href="#id10">1.1.4.2.2. 声明式编程</a></li>
-<li><a class="reference internal" href="#id12">1.1.4.2.3. 函数式编程</a></li>
+<li><a class="reference internal" href="#ai">1.4.2. AI框架的编程范式</a><ul>
+<li><a class="reference internal" href="#id8">1.4.2.1. 命令式编程</a></li>
+<li><a class="reference internal" href="#id10">1.4.2.2. 声明式编程</a></li>
+<li><a class="reference internal" href="#id12">1.4.2.3. 函数式编程</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#id13">1.1.4.3. 本节总结</a></li>
-<li><a class="reference internal" href="#id14">1.1.4.4. 本节视频</a></li>
+<li><a class="reference internal" href="#id13">1.4.3. 本节总结</a></li>
+<li><a class="reference internal" href="#id14">1.4.4. 本节视频</a></li>
 </ul>
 </li>
 </ul>
@@ -823,7 +823,7 @@ MindSpore
          <i class="pagenation-arrow-L fas fa-arrow-left fa-lg"></i>
          <div class="pagenation-text">
             <span class="pagenation-direction">Previous</span>
-            <div>1.1.3. AI框架之争</div>
+            <div>1.3. AI框架之争</div>
          </div>
      </a>
      <a id="button-next" href="../022FW_AutoDiff/README.html" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--colored" role="botton" accesskey="N">

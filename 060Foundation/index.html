@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     
-    <title>4.1.4. 算子循环优化 &#8212; 人工智能系统（AISys） 0.0.1 documentation</title>
+    <title>第二部分：进阶篇 &#8212; 人工智能系统（AISys） 0.0.1 documentation</title>
 
     <link rel="stylesheet" href="../_static/material-design-lite-1.3.0/material.blue-deep_orange.min.css" type="text/css" />
     <link rel="stylesheet" href="../_static/sphinx_materialdesign_theme.css" type="text/css" />
@@ -26,17 +26,14 @@
     <script src="../_static/d2l.js"></script>
     <link rel="shortcut icon" href="../_static/favicon.png"/>
     <link rel="index" title="Index" href="../genindex.html" />
-    <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="4.1.5. 指令和内存优化" href="05.other_opt.html" />
-    <link rel="prev" title="4.1.3. 算子手工优化方式" href="03.optimization.html" /> 
+    <link rel="search" title="Search" href="../search.html" /> 
   </head>
 <body>
     <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header mdl-layout--fixed-drawer"><header class="mdl-layout__header mdl-layout__header--waterfall ">
     <div class="mdl-layout__header-row">
         
         <nav class="mdl-navigation breadcrumb">
-            <a class="mdl-navigation__link" href="README.html"><span class="section-number">4. </span>后端优化</a><i class="material-icons">navigate_next</i>
-            <a class="mdl-navigation__link is-active"><span class="section-number">4.1.4. </span>算子循环优化</a>
+            <a class="mdl-navigation__link is-active">第二部分：进阶篇</a>
         </nav>
         <div class="mdl-layout-spacer"></div>
         <nav class="mdl-navigation">
@@ -59,7 +56,7 @@
         
 <a id="button-show-source"
     class="mdl-button mdl-js-button mdl-button--icon"
-    href="../_sources/034CM_Backend/04.loop_opt.rst.txt" rel="nofollow">
+    href="../_sources/060Foundation/index.rst.txt" rel="nofollow">
   <i class="material-icons">code</i>
 </a>
 <div class="mdl-tooltip" data-mdl-for="button-show-source">
@@ -153,7 +150,7 @@ Show Source
 <li class="toctree-l1"><a class="reference internal" href="../030Compiler/README.html">== 三、AI编译器原理 ==</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul class="current">
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="../031CM_Tradition/README.html">1. 传统编译器</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../031CM_Tradition/01.introduction.html">1.1.1. 课程概述</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../031CM_Tradition/02.history.html">1.1.2. 编译器发展</a></li>
@@ -185,13 +182,13 @@ Show Source
 <li class="toctree-l2"><a class="reference internal" href="../033CM_Frontend/10.summary.html">3.1.11. 优化Pass总结</a></li>
 </ul>
 </li>
-<li class="toctree-l1 current"><a class="reference internal" href="README.html">4. 后端优化</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="01.introduction.html">4.1.1. 内容介绍</a></li>
-<li class="toctree-l2"><a class="reference internal" href="02.ops_compute.html">4.1.2. 算子的计算与调度</a></li>
-<li class="toctree-l2"><a class="reference internal" href="03.optimization.html">4.1.3. 算子手工优化方式</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">4.1.4. 算子循环优化</a></li>
-<li class="toctree-l2"><a class="reference internal" href="05.other_opt.html">4.1.5. 指令和内存优化</a></li>
-<li class="toctree-l2"><a class="reference internal" href="06.auto_tuning.html">4.1.6. Auto-Tuning原理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../034CM_Backend/README.html">4. 后端优化</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../034CM_Backend/01.introduction.html">4.1.1. 内容介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../034CM_Backend/02.ops_compute.html">4.1.2. 算子的计算与调度</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../034CM_Backend/03.optimization.html">4.1.3. 算子手工优化方式</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../034CM_Backend/04.loop_opt.html">4.1.4. 算子循环优化</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../034CM_Backend/05.other_opt.html">4.1.5. 指令和内存优化</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../034CM_Backend/06.auto_tuning.html">4.1.6. Auto-Tuning原理</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../036CM_PyTorch/README.html">5. PyTorch2.0 图模式</a><ul>
@@ -373,7 +370,7 @@ Show Source
 <li class="toctree-l1"><a class="reference internal" href="../030Compiler/README.html">== 三、AI编译器原理 ==</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul class="current">
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="../031CM_Tradition/README.html">1. 传统编译器</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../031CM_Tradition/01.introduction.html">1.1.1. 课程概述</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../031CM_Tradition/02.history.html">1.1.2. 编译器发展</a></li>
@@ -405,13 +402,13 @@ Show Source
 <li class="toctree-l2"><a class="reference internal" href="../033CM_Frontend/10.summary.html">3.1.11. 优化Pass总结</a></li>
 </ul>
 </li>
-<li class="toctree-l1 current"><a class="reference internal" href="README.html">4. 后端优化</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="01.introduction.html">4.1.1. 内容介绍</a></li>
-<li class="toctree-l2"><a class="reference internal" href="02.ops_compute.html">4.1.2. 算子的计算与调度</a></li>
-<li class="toctree-l2"><a class="reference internal" href="03.optimization.html">4.1.3. 算子手工优化方式</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">4.1.4. 算子循环优化</a></li>
-<li class="toctree-l2"><a class="reference internal" href="05.other_opt.html">4.1.5. 指令和内存优化</a></li>
-<li class="toctree-l2"><a class="reference internal" href="06.auto_tuning.html">4.1.6. Auto-Tuning原理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../034CM_Backend/README.html">4. 后端优化</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../034CM_Backend/01.introduction.html">4.1.1. 内容介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../034CM_Backend/02.ops_compute.html">4.1.2. 算子的计算与调度</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../034CM_Backend/03.optimization.html">4.1.3. 算子手工优化方式</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../034CM_Backend/04.loop_opt.html">4.1.4. 算子循环优化</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../034CM_Backend/05.other_opt.html">4.1.5. 指令和内存优化</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../034CM_Backend/06.auto_tuning.html">4.1.6. Auto-Tuning原理</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../036CM_PyTorch/README.html">5. PyTorch2.0 图模式</a><ul>
@@ -519,33 +516,43 @@ Show Source
         <div class="page-content" role="main">
         
   <div class="section" id="id1">
-<h1><span class="section-number">4.1.4. </span>算子循环优化<a class="headerlink" href="#id1" title="Permalink to this heading">¶</a></h1>
-<p>本书受限于篇幅，将不会对所有机器学习系统进行深入讲解。目前，本书会从系统设计者的角度出发，对应用在联邦学习、推荐系统、强化学习、可解释AI和机器人中的相关核心系统进行讲解。</p>
+<h1>第二部分：进阶篇<a class="headerlink" href="#id1" title="Permalink to this heading">¶</a></h1>
+<p>下面本书将重点讲解 AI 编译器的基本构成，以及 AI
+编译器前端、后端和运行时中的关键技术。本书也将对于硬件加速器、数据处理、模型部署和分布式训练分别进行深入解读，从而为开发者提供从
+0 到 1 构建机器学习框架所需的核心知识和实践经验。</p>
+<p>我在这里抛砖引玉，希望您可以一起参与到这个开源项目中，跟更多的您一起探讨学习！</p>
+<div class="section" id="id2">
+<h2>内容大纲<a class="headerlink" href="#id2" title="Permalink to this heading">¶</a></h2>
+<blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">PPT</span></code>和<code class="docutils literal notranslate"><span class="pre">字幕</span></code>需要到
+<a class="reference external" href="https://github.com/chenzomi12/DeepLearningSystem">Github</a>
+下载，网页课程版链接会失效哦~</p>
+<p>建议优先下载 PDF 版本，PPT 版本会因为字体缺失等原因导致版本很丑哦~</p>
+</div></blockquote>
+</div>
 </div>
 
 
         </div>
         <div class="side-doc-outline">
             <div class="side-doc-outline--content"> 
+<div class="localtoc">
+    <p class="caption">
+      <span class="caption-text">Table Of Contents</span>
+    </p>
+    <ul>
+<li><a class="reference internal" href="#">第二部分：进阶篇</a><ul>
+<li><a class="reference internal" href="#id2">内容大纲</a></li>
+</ul>
+</li>
+</ul>
+
+</div>
             </div>
         </div>
 
       <div class="clearer"></div>
     </div><div class="pagenation">
-     <a id="button-prev" href="03.optimization.html" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--colored" role="botton" accesskey="P">
-         <i class="pagenation-arrow-L fas fa-arrow-left fa-lg"></i>
-         <div class="pagenation-text">
-            <span class="pagenation-direction">Previous</span>
-            <div>4.1.3. 算子手工优化方式</div>
-         </div>
-     </a>
-     <a id="button-next" href="05.other_opt.html" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--colored" role="botton" accesskey="N">
-         <i class="pagenation-arrow-R fas fa-arrow-right fa-lg"></i>
-        <div class="pagenation-text">
-            <span class="pagenation-direction">Next</span>
-            <div>4.1.5. 指令和内存优化</div>
-        </div>
-     </a>
   </div>
         
         </main>

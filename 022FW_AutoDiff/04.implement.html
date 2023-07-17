@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     
-    <title>2.1.4. 微分实现方式 &#8212; 人工智能系统（AISys） 0.0.1 documentation</title>
+    <title>2.4. 微分实现方式 &#8212; 人工智能系统（AISys） 0.0.1 documentation</title>
 
     <link rel="stylesheet" href="../_static/material-design-lite-1.3.0/material.blue-deep_orange.min.css" type="text/css" />
     <link rel="stylesheet" href="../_static/sphinx_materialdesign_theme.css" type="text/css" />
@@ -28,8 +28,8 @@
     <link rel="shortcut icon" href="../_static/favicon.png"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="2.1.5. 动手实现自动微分" href="05.forward_mode.html" />
-    <link rel="prev" title="2.1.3. 微分计算模式" href="03.grad_mode.html" /> 
+    <link rel="next" title="2.5. 动手实现自动微分" href="05.forward_mode.html" />
+    <link rel="prev" title="2.3. 微分计算模式" href="03.grad_mode.html" /> 
   </head>
 <body>
     <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header mdl-layout--fixed-drawer"><header class="mdl-layout__header mdl-layout__header--waterfall ">
@@ -37,7 +37,7 @@
         
         <nav class="mdl-navigation breadcrumb">
             <a class="mdl-navigation__link" href="README.html"><span class="section-number">2. </span>自动微分(DONE)</a><i class="material-icons">navigate_next</i>
-            <a class="mdl-navigation__link is-active"><span class="section-number">2.1.4. </span>微分实现方式</a>
+            <a class="mdl-navigation__link is-active"><span class="section-number">2.4. </span>微分实现方式</a>
         </nav>
         <div class="mdl-layout-spacer"></div>
         <nav class="mdl-navigation">
@@ -100,23 +100,23 @@ Show Source
 <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../021FW_Foundation/README.html">1. AI框架基础(DONE)</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../021FW_Foundation/01.introduction.html">1.1.1. 本章内容</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../021FW_Foundation/02.fundamentals.html">1.1.2. AI框架作用</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../021FW_Foundation/03.history.html">1.1.3. AI框架之争</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../021FW_Foundation/04.programing.html">1.1.4. 框架编程范式</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../021FW_Foundation/01.introduction.html">1.1. 本章内容</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../021FW_Foundation/02.fundamentals.html">1.2. AI框架作用</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../021FW_Foundation/03.history.html">1.3. AI框架之争</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../021FW_Foundation/04.programing.html">1.4. 框架编程范式</a></li>
 </ul>
 </li>
 <li class="toctree-l1 current"><a class="reference internal" href="README.html">2. 自动微分(DONE)</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="01.introduction.html">2.1.1. 自动微分</a></li>
-<li class="toctree-l2"><a class="reference internal" href="02.base_concept.html">2.1.2. 什么是微分</a></li>
-<li class="toctree-l2"><a class="reference internal" href="03.grad_mode.html">2.1.3. 微分计算模式</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">2.1.4. 微分实现方式</a></li>
-<li class="toctree-l2"><a class="reference internal" href="05.forward_mode.html">2.1.5. 动手实现自动微分</a></li>
-<li class="toctree-l2"><a class="reference internal" href="06.reversed_mode.html">2.1.6. 动手实现PyTorch微分</a></li>
-<li class="toctree-l2"><a class="reference internal" href="07.challenge.html">2.1.7. 自动微分的挑战&amp;未来</a></li>
+<li class="toctree-l2"><a class="reference internal" href="01.introduction.html">2.1. 自动微分</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02.base_concept.html">2.2. 什么是微分</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03.grad_mode.html">2.3. 微分计算模式</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">2.4. 微分实现方式</a></li>
+<li class="toctree-l2"><a class="reference internal" href="05.forward_mode.html">2.5. 动手实现自动微分</a></li>
+<li class="toctree-l2"><a class="reference internal" href="06.reversed_mode.html">2.6. 动手实现PyTorch微分</a></li>
+<li class="toctree-l2"><a class="reference internal" href="07.challenge.html">2.7. 自动微分的挑战&amp;未来</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../023FW_DataFlow/README.html">3. 计算图</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="../023FW_DataFlow/README.html">3. 计算图(DOING)</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../023FW_DataFlow/01.introduction.html">3.1. 基本介绍</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../023FW_DataFlow/02.computegraph.html">3.2. 计算图原理</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../023FW_DataFlow/03.atuodiff.html">3.3. 计算图与自动微分</a></li>
@@ -320,23 +320,23 @@ Show Source
 <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../021FW_Foundation/README.html">1. AI框架基础(DONE)</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../021FW_Foundation/01.introduction.html">1.1.1. 本章内容</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../021FW_Foundation/02.fundamentals.html">1.1.2. AI框架作用</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../021FW_Foundation/03.history.html">1.1.3. AI框架之争</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../021FW_Foundation/04.programing.html">1.1.4. 框架编程范式</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../021FW_Foundation/01.introduction.html">1.1. 本章内容</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../021FW_Foundation/02.fundamentals.html">1.2. AI框架作用</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../021FW_Foundation/03.history.html">1.3. AI框架之争</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../021FW_Foundation/04.programing.html">1.4. 框架编程范式</a></li>
 </ul>
 </li>
 <li class="toctree-l1 current"><a class="reference internal" href="README.html">2. 自动微分(DONE)</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="01.introduction.html">2.1.1. 自动微分</a></li>
-<li class="toctree-l2"><a class="reference internal" href="02.base_concept.html">2.1.2. 什么是微分</a></li>
-<li class="toctree-l2"><a class="reference internal" href="03.grad_mode.html">2.1.3. 微分计算模式</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">2.1.4. 微分实现方式</a></li>
-<li class="toctree-l2"><a class="reference internal" href="05.forward_mode.html">2.1.5. 动手实现自动微分</a></li>
-<li class="toctree-l2"><a class="reference internal" href="06.reversed_mode.html">2.1.6. 动手实现PyTorch微分</a></li>
-<li class="toctree-l2"><a class="reference internal" href="07.challenge.html">2.1.7. 自动微分的挑战&amp;未来</a></li>
+<li class="toctree-l2"><a class="reference internal" href="01.introduction.html">2.1. 自动微分</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02.base_concept.html">2.2. 什么是微分</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03.grad_mode.html">2.3. 微分计算模式</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">2.4. 微分实现方式</a></li>
+<li class="toctree-l2"><a class="reference internal" href="05.forward_mode.html">2.5. 动手实现自动微分</a></li>
+<li class="toctree-l2"><a class="reference internal" href="06.reversed_mode.html">2.6. 动手实现PyTorch微分</a></li>
+<li class="toctree-l2"><a class="reference internal" href="07.challenge.html">2.7. 自动微分的挑战&amp;未来</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../023FW_DataFlow/README.html">3. 计算图</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="../023FW_DataFlow/README.html">3. 计算图(DOING)</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../023FW_DataFlow/01.introduction.html">3.1. 基本介绍</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../023FW_DataFlow/02.computegraph.html">3.2. 计算图原理</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../023FW_DataFlow/03.atuodiff.html">3.3. 计算图与自动微分</a></li>
@@ -520,10 +520,10 @@ Show Source
         <div class="page-content" role="main">
         
   <!--适用于[License](https://github.com/chenzomi12/DeepLearningSystem/blob/main/LICENSE)版权许可--><div class="section" id="id1">
-<h1><span class="section-number">2.1.4. </span>微分实现方式<a class="headerlink" href="#id1" title="Permalink to this heading">¶</a></h1>
+<h1><span class="section-number">2.4. </span>微分实现方式<a class="headerlink" href="#id1" title="Permalink to this heading">¶</a></h1>
 <p>在上一节了解到了正反向模式只是自动微分的原理模式，在实际代码实现的过程，正方向模式只是提供一个原理性的指导，在真正编码过程会有很多细节需要打开，例如如何解析表达式，如何记录反向求导表达式的操作等等。这一节中，希望通过介绍目前比较热门的方法给大家普及一下自动微分的具体实现。</p>
 <div class="section" id="id2">
-<h2><span class="section-number">2.1.4.1. </span>微分实现关键步骤<a class="headerlink" href="#id2" title="Permalink to this heading">¶</a></h2>
+<h2><span class="section-number">2.4.1. </span>微分实现关键步骤<a class="headerlink" href="#id2" title="Permalink to this heading">¶</a></h2>
 <p>了解自动微分的不同实现方式非常有用。在这里呢，我们将介绍主要的自动微分实现方法。在上一篇的文章中，我们介绍了自动微分的基本数学原理。可以总结自动微分的关键步骤为：</p>
 <ul class="simple">
 <li><p>分解程序为一系列已知微分规则的基础表达式的组合</p></li>
@@ -551,7 +551,7 @@ IR）的基本表达式微分规则进行预定义，再对程序表达进行分
 </div>
 </div>
 <div class="section" id="id3">
-<h2><span class="section-number">2.1.4.2. </span>基本表达式<a class="headerlink" href="#id3" title="Permalink to this heading">¶</a></h2>
+<h2><span class="section-number">2.4.2. </span>基本表达式<a class="headerlink" href="#id3" title="Permalink to this heading">¶</a></h2>
 <p>基本表达式法也叫做元素库（Elemental
 Libraries），程序中实现构成自动微分中计算的最基本的类别或者表达式，并通过调用自动微分中的库，来代替数学逻辑运算来工作。然后在函数定义中使用库公开的方法，这意味着在编写代码时，手动将任何函数分解为基本操作。</p>
 <p>这个方法呢从自动微分刚出现的时候就已经被广泛地使用，典型的例子是 Lawson
@@ -560,7 +560,7 @@ Libraries），程序中实现构成自动微分中计算的最基本的类别�
 中制定了他们的自动微分实现。</p>
 <p>以公式为例子：</p>
 <div class="math notranslate nohighlight" id="equation-diff-04-eq1">
-<span class="eqno">(2.1.34)<a class="headerlink" href="#equation-diff-04-eq1" title="Permalink to this equation">¶</a></span>\[f(x1,x2)=ln(x1)+x1*x2−sin(x2)\]</div>
+<span class="eqno">(2.4.1)<a class="headerlink" href="#equation-diff-04-eq1" title="Permalink to this equation">¶</a></span>\[f(x1,x2)=ln(x1)+x1*x2−sin(x2)\]</div>
 <p>用户首先需要手动将公式1中的各个操作，或者叫做子函数，分解为库函数中基本表达式组合：</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">t1</span> <span class="o">=</span> <span class="n">log</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
 <span class="n">t3</span> <span class="o">=</span> <span class="n">sin</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
@@ -616,7 +616,7 @@ Libraries），程序中实现构成自动微分中计算的最基本的类别�
 <p>基本表达式法在没有操作符重载AD的80到90年代初期，仍然是计算机中实现自动微分功能最简单和快捷的策略啦。</p>
 </div>
 <div class="section" id="id4">
-<h2><span class="section-number">2.1.4.3. </span>操作符重载<a class="headerlink" href="#id4" title="Permalink to this heading">¶</a></h2>
+<h2><span class="section-number">2.4.3. </span>操作符重载<a class="headerlink" href="#id4" title="Permalink to this heading">¶</a></h2>
 <p>在具有多态特性的现代编程语言中，运算符重载提供了实现自动微分的最直接方式，利用了编程语言的第一特性（first
 class feature），重新定义了微分基本操作语义的能力。</p>
 <p>在 C++ 中使用运算符重载实现的流行工具是 ADOL-C（Walther 和
@@ -700,7 +700,7 @@ Tape
 </ul>
 </div>
 <div class="section" id="id5">
-<h2><span class="section-number">2.1.4.4. </span>源代码转换<a class="headerlink" href="#id5" title="Permalink to this heading">¶</a></h2>
+<h2><span class="section-number">2.4.4. </span>源代码转换<a class="headerlink" href="#id5" title="Permalink to this heading">¶</a></h2>
 <p>源码转换（Source Code
 Transformation，SCT）是最复杂的，实现起来也是非常具有挑战性。</p>
 <p>源码转换的实现提供了对编程语言的扩展，可自动将算法分解为支持自动微分的基本操作。通常作为预处理器执行，以将扩展语言的输入转换为原始语言。简单来说就是利用源语言来实现领域扩展语言
@@ -734,7 +734,7 @@ Representation，IR），中间表达构造出一个能够在不同设备上解�
 <p>因为源码转换涉及到底层的抽象语法树、编译执行等细节，因此这里就不给出伪代码了（实在太难了给不出来），我们通过下面这张图来简单了解下
 SCT 的一般性过程。</p>
 <div class="figure align-default" id="id7">
-<img alt="../_images/ast.svg" src="../_images/ast.svg" /><p class="caption"><span class="caption-number">图2.1.9 </span><span class="caption-text">源码转换流程示例</span><a class="headerlink" href="#id7" title="Permalink to this image">¶</a></p>
+<img alt="../_images/ast.svg" src="../_images/ast.svg" /><p class="caption"><span class="caption-number">图2.4.1 </span><span class="caption-text">源码转换流程示例</span><a class="headerlink" href="#id7" title="Permalink to this image">¶</a></p>
 </div>
 <p>从图中可以看到源码转换的整体流程分为编译时间和执行时间，以 MindSpore
 为例，其在运行之前的第一个 epoch
@@ -767,7 +767,7 @@ IR，IR 其实是编译器中常用的一个中间表达概念，在编译的 Pa
 </ul>
 </div>
 <div class="section" id="id6">
-<h2><span class="section-number">2.1.4.5. </span>本节视频<a class="headerlink" href="#id6" title="Permalink to this heading">¶</a></h2>
+<h2><span class="section-number">2.4.5. </span>本节视频<a class="headerlink" href="#id6" title="Permalink to this heading">¶</a></h2>
 <html><iframe src="https://player.bilibili.com/player.html?aid=901075118&amp;bvid=BV1BN4y1P76t&amp;cid=911355268&amp;page=1&amp;as_wide=1&amp;high_quality=1&amp;danmaku=0&amp;t=30&amp;autoplay=0" width="100%" height="500" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe></html></div>
 </div>
 
@@ -780,12 +780,12 @@ IR，IR 其实是编译器中常用的一个中间表达概念，在编译的 Pa
       <span class="caption-text">Table Of Contents</span>
     </p>
     <ul>
-<li><a class="reference internal" href="#">2.1.4. 微分实现方式</a><ul>
-<li><a class="reference internal" href="#id2">2.1.4.1. 微分实现关键步骤</a></li>
-<li><a class="reference internal" href="#id3">2.1.4.2. 基本表达式</a></li>
-<li><a class="reference internal" href="#id4">2.1.4.3. 操作符重载</a></li>
-<li><a class="reference internal" href="#id5">2.1.4.4. 源代码转换</a></li>
-<li><a class="reference internal" href="#id6">2.1.4.5. 本节视频</a></li>
+<li><a class="reference internal" href="#">2.4. 微分实现方式</a><ul>
+<li><a class="reference internal" href="#id2">2.4.1. 微分实现关键步骤</a></li>
+<li><a class="reference internal" href="#id3">2.4.2. 基本表达式</a></li>
+<li><a class="reference internal" href="#id4">2.4.3. 操作符重载</a></li>
+<li><a class="reference internal" href="#id5">2.4.4. 源代码转换</a></li>
+<li><a class="reference internal" href="#id6">2.4.5. 本节视频</a></li>
 </ul>
 </li>
 </ul>
@@ -800,14 +800,14 @@ IR，IR 其实是编译器中常用的一个中间表达概念，在编译的 Pa
          <i class="pagenation-arrow-L fas fa-arrow-left fa-lg"></i>
          <div class="pagenation-text">
             <span class="pagenation-direction">Previous</span>
-            <div>2.1.3. 微分计算模式</div>
+            <div>2.3. 微分计算模式</div>
          </div>
      </a>
      <a id="button-next" href="05.forward_mode.html" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--colored" role="botton" accesskey="N">
          <i class="pagenation-arrow-R fas fa-arrow-right fa-lg"></i>
         <div class="pagenation-text">
             <span class="pagenation-direction">Next</span>
-            <div>2.1.5. 动手实现自动微分</div>
+            <div>2.5. 动手实现自动微分</div>
         </div>
      </a>
   </div>
