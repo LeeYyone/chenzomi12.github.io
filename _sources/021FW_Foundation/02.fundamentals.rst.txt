@@ -33,7 +33,7 @@ AI框架作用
 的矩阵乘，然后加一个激活函数
 :math:`fun(X·W)`\ ，通过复合函数组合神经元，就变成一个神经网络的层。这种模拟生物神经元的数学计算，能够很好地对大规模独立同分布的数据进行非线性映射和处理，使得其能够应对到人工智能的不同任务。
 
-.. figure:: ../images/021FW_Foundation/deeplearning01.svg
+.. figure:: ../images/021FW_Foundation/deeplearning01.png
 
    神经网络与神经元关系
 

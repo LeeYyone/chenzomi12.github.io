@@ -281,7 +281,7 @@ Representation，IR），中间表达构造出一个能够在不同设备上解�
 因为源码转换涉及到底层的抽象语法树、编译执行等细节，因此这里就不给出伪代码了（实在太难了给不出来），我们通过下面这张图来简单了解下
 SCT 的一般性过程。
 
-.. figure:: ../images/022FW_AutoDiff/ast.svg
+.. figure:: ../images/022FW_AutoDiff/ast.png
 
    源码转换流程示例
 
