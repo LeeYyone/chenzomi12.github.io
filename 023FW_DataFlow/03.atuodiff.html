@@ -36,7 +36,7 @@
     <div class="mdl-layout__header-row">
         
         <nav class="mdl-navigation breadcrumb">
-            <a class="mdl-navigation__link" href="README.html"><span class="section-number">3. </span>计算图(DOING)</a><i class="material-icons">navigate_next</i>
+            <a class="mdl-navigation__link" href="README.html"><span class="section-number">3. </span>计算图(DONE)</a><i class="material-icons">navigate_next</i>
             <a class="mdl-navigation__link is-active"><span class="section-number">3.3. </span>计算图与自动微分</a>
         </nav>
         <div class="mdl-layout-spacer"></div>
@@ -116,13 +116,14 @@ Show Source
 <li class="toctree-l2"><a class="reference internal" href="../022FW_AutoDiff/07.challenge.html">2.7. 自动微分的挑战&amp;未来</a></li>
 </ul>
 </li>
-<li class="toctree-l1 current"><a class="reference internal" href="README.html">3. 计算图(DOING)</a><ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="README.html">3. 计算图(DONE)</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="01.introduction.html">3.1. 基本介绍</a></li>
 <li class="toctree-l2"><a class="reference internal" href="02.computegraph.html">3.2. 计算图原理</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">3.3. 计算图与自动微分</a></li>
 <li class="toctree-l2"><a class="reference internal" href="04.dispatch.html">3.4. 计算图的调度与执行</a></li>
 <li class="toctree-l2"><a class="reference internal" href="05.control_flow.html">3.5. 计算图的控制流实现</a></li>
-<li class="toctree-l2"><a class="reference internal" href="06.future.html">3.6. 计算图的挑战&amp;未来</a></li>
+<li class="toctree-l2"><a class="reference internal" href="06.static_graph.html">3.6. 动态图与静态图转换</a></li>
+<li class="toctree-l2"><a class="reference internal" href="07.future.html">3.7. 计算图的挑战&amp;未来</a></li>
 </ul>
 </li>
 </ul>
@@ -342,13 +343,14 @@ Show Source
 <li class="toctree-l2"><a class="reference internal" href="../022FW_AutoDiff/07.challenge.html">2.7. 自动微分的挑战&amp;未来</a></li>
 </ul>
 </li>
-<li class="toctree-l1 current"><a class="reference internal" href="README.html">3. 计算图(DOING)</a><ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="README.html">3. 计算图(DONE)</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="01.introduction.html">3.1. 基本介绍</a></li>
 <li class="toctree-l2"><a class="reference internal" href="02.computegraph.html">3.2. 计算图原理</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">3.3. 计算图与自动微分</a></li>
 <li class="toctree-l2"><a class="reference internal" href="04.dispatch.html">3.4. 计算图的调度与执行</a></li>
 <li class="toctree-l2"><a class="reference internal" href="05.control_flow.html">3.5. 计算图的控制流实现</a></li>
-<li class="toctree-l2"><a class="reference internal" href="06.future.html">3.6. 计算图的挑战&amp;未来</a></li>
+<li class="toctree-l2"><a class="reference internal" href="06.static_graph.html">3.6. 动态图与静态图转换</a></li>
+<li class="toctree-l2"><a class="reference internal" href="07.future.html">3.7. 计算图的挑战&amp;未来</a></li>
 </ul>
 </li>
 </ul>
@@ -531,7 +533,7 @@ Show Source
     <div class="document">
         <div class="page-content" role="main">
         
-  <div class="section" id="id1">
+  <!--适用于[License](https://github.com/chenzomi12/DeepLearningSystem/blob/main/LICENSE)版权许可--><div class="section" id="id1">
 <h1><span class="section-number">3.3. </span>计算图与自动微分<a class="headerlink" href="#id1" title="Permalink to this heading">¶</a></h1>
 <p>自动求导应用链式法则求某节点对其他节点的雅可比矩阵，它从结果节点开始，沿着计算路径向前追溯，逐节点计算雅可比。将神经网络和损失函数连接成一个计算图，则它的输入、输出和参数都是节点，可利用自动求导求损失值对网络参数的雅可比，从而得到梯度。</p>
 <p>在前面的内容我们深入地探讨过自动微分的原理，可是AI框架中神经网络模型怎么跟自动产生连接关系呢？自动微分跟反向传播是什么关系呢？在实际AI框架的实现中，自动微分的实现方式有什么变化吗？</p>

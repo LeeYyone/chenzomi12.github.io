@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     
-    <title>3. 计算图(DOING) &#8212; 人工智能系统（AISys） 0.0.1 documentation</title>
+    <title>3. 计算图(DONE) &#8212; 人工智能系统（AISys） 0.0.1 documentation</title>
 
     <link rel="stylesheet" href="../_static/material-design-lite-1.3.0/material.blue-deep_orange.min.css" type="text/css" />
     <link rel="stylesheet" href="../_static/sphinx_materialdesign_theme.css" type="text/css" />
@@ -35,7 +35,7 @@
     <div class="mdl-layout__header-row">
         
         <nav class="mdl-navigation breadcrumb">
-            <a class="mdl-navigation__link is-active"><span class="section-number">3. </span>计算图(DOING)</a>
+            <a class="mdl-navigation__link is-active"><span class="section-number">3. </span>计算图(DONE)</a>
         </nav>
         <div class="mdl-layout-spacer"></div>
         <nav class="mdl-navigation">
@@ -114,13 +114,14 @@ Show Source
 <li class="toctree-l2"><a class="reference internal" href="../022FW_AutoDiff/07.challenge.html">2.7. 自动微分的挑战&amp;未来</a></li>
 </ul>
 </li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">3. 计算图(DOING)</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">3. 计算图(DONE)</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="01.introduction.html">3.1. 基本介绍</a></li>
 <li class="toctree-l2"><a class="reference internal" href="02.computegraph.html">3.2. 计算图原理</a></li>
 <li class="toctree-l2"><a class="reference internal" href="03.atuodiff.html">3.3. 计算图与自动微分</a></li>
 <li class="toctree-l2"><a class="reference internal" href="04.dispatch.html">3.4. 计算图的调度与执行</a></li>
 <li class="toctree-l2"><a class="reference internal" href="05.control_flow.html">3.5. 计算图的控制流实现</a></li>
-<li class="toctree-l2"><a class="reference internal" href="06.future.html">3.6. 计算图的挑战&amp;未来</a></li>
+<li class="toctree-l2"><a class="reference internal" href="06.static_graph.html">3.6. 动态图与静态图转换</a></li>
+<li class="toctree-l2"><a class="reference internal" href="07.future.html">3.7. 计算图的挑战&amp;未来</a></li>
 </ul>
 </li>
 </ul>
@@ -340,13 +341,14 @@ Show Source
 <li class="toctree-l2"><a class="reference internal" href="../022FW_AutoDiff/07.challenge.html">2.7. 自动微分的挑战&amp;未来</a></li>
 </ul>
 </li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">3. 计算图(DOING)</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">3. 计算图(DONE)</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="01.introduction.html">3.1. 基本介绍</a></li>
 <li class="toctree-l2"><a class="reference internal" href="02.computegraph.html">3.2. 计算图原理</a></li>
 <li class="toctree-l2"><a class="reference internal" href="03.atuodiff.html">3.3. 计算图与自动微分</a></li>
 <li class="toctree-l2"><a class="reference internal" href="04.dispatch.html">3.4. 计算图的调度与执行</a></li>
 <li class="toctree-l2"><a class="reference internal" href="05.control_flow.html">3.5. 计算图的控制流实现</a></li>
-<li class="toctree-l2"><a class="reference internal" href="06.future.html">3.6. 计算图的挑战&amp;未来</a></li>
+<li class="toctree-l2"><a class="reference internal" href="06.static_graph.html">3.6. 动态图与静态图转换</a></li>
+<li class="toctree-l2"><a class="reference internal" href="07.future.html">3.7. 计算图的挑战&amp;未来</a></li>
 </ul>
 </li>
 </ul>
@@ -529,8 +531,8 @@ Show Source
     <div class="document">
         <div class="page-content" role="main">
         
-  <!--Copyright © ZOMI 适用于[License](https://github.com/chenzomi12/DeepLearningSystem)版权许可--><div class="section" id="doing">
-<h1><span class="section-number">3. </span>计算图(DOING)<a class="headerlink" href="#doing" title="Permalink to this heading">¶</a></h1>
+  <!--Copyright © ZOMI 适用于[License](https://github.com/chenzomi12/DeepLearningSystem)版权许可--><div class="section" id="done">
+<h1><span class="section-number">3. </span>计算图(DONE)<a class="headerlink" href="#done" title="Permalink to this heading">¶</a></h1>
 <p>为了高效地训练一个复杂神经网络，框架需要解决诸多问题，
 例如：如何实现自动求导，如何利用编译期分析对神经网络计算进行化简、合并、变换，如何规划基本计算单元在加速器上的执行，如何将基本处理单元派发（dispatch）到特定的高效后端实现，如何进行内存预分配和管理等。用统一的方式解决这些问题都驱使着框架设计者思考如何为各类神经网络计算提供统一的描述，从而使得在运行神经网络计算之前，能够对整个计算过程尽可能进行推断，在编译期自动为用户程序补全反向计算，规划执行，最大程度地降低运行时开销。</p>
 <p>目前主流的深度学习框架都选择使用计算图来抽象神经网络计算，《计算图》实际上，AI框架主要的职责是把深度学习的表达转换称为计算机能够识别的计算图，计算图作为AI框架中核心的数据结构，贯穿AI框架的大部分整个生命周期，于是计算图对于AI框架的前端核心技术就显得尤为重要。</p>
@@ -627,8 +629,23 @@ Show Source
 <li class="toctree-l2"><a class="reference internal" href="04.dispatch.html#id12">3.4.5. 视频</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="05.control_flow.html">3.5. 计算图的控制流实现</a></li>
-<li class="toctree-l1"><a class="reference internal" href="06.future.html">3.6. 计算图的挑战&amp;未来</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05.control_flow.html">3.5. 计算图的控制流实现</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="05.control_flow.html#id2">3.5.1. 控制流</a></li>
+<li class="toctree-l2"><a class="reference internal" href="05.control_flow.html#id5">3.5.2. 动态图</a></li>
+<li class="toctree-l2"><a class="reference internal" href="05.control_flow.html#id7">3.5.3. 静态图</a></li>
+<li class="toctree-l2"><a class="reference internal" href="05.control_flow.html#id10">3.5.4. 总结</a></li>
+<li class="toctree-l2"><a class="reference internal" href="05.control_flow.html#id11">3.5.5. 视频</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="06.static_graph.html">3.6. 动态图与静态图转换</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="06.static_graph.html#id2">3.6.1. 背景</a></li>
+<li class="toctree-l2"><a class="reference internal" href="06.static_graph.html#id5">3.6.2. 追踪模式</a></li>
+<li class="toctree-l2"><a class="reference internal" href="06.static_graph.html#id6">3.6.3. 源码解析</a></li>
+<li class="toctree-l2"><a class="reference internal" href="06.static_graph.html#id7">3.6.4. 总结</a></li>
+<li class="toctree-l2"><a class="reference internal" href="06.static_graph.html#id8">3.6.5. 视频</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="07.future.html">3.7. 计算图的挑战&amp;未来</a></li>
 </ul>
 </div>
 </div>

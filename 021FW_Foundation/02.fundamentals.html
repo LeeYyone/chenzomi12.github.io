@@ -116,13 +116,14 @@ Show Source
 <li class="toctree-l2"><a class="reference internal" href="../022FW_AutoDiff/07.challenge.html">2.7. 自动微分的挑战&amp;未来</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../023FW_DataFlow/README.html">3. 计算图(DOING)</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="../023FW_DataFlow/README.html">3. 计算图(DONE)</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../023FW_DataFlow/01.introduction.html">3.1. 基本介绍</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../023FW_DataFlow/02.computegraph.html">3.2. 计算图原理</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../023FW_DataFlow/03.atuodiff.html">3.3. 计算图与自动微分</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../023FW_DataFlow/04.dispatch.html">3.4. 计算图的调度与执行</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../023FW_DataFlow/05.control_flow.html">3.5. 计算图的控制流实现</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../023FW_DataFlow/06.future.html">3.6. 计算图的挑战&amp;未来</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../023FW_DataFlow/06.static_graph.html">3.6. 动态图与静态图转换</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../023FW_DataFlow/07.future.html">3.7. 计算图的挑战&amp;未来</a></li>
 </ul>
 </li>
 </ul>
@@ -342,13 +343,14 @@ Show Source
 <li class="toctree-l2"><a class="reference internal" href="../022FW_AutoDiff/07.challenge.html">2.7. 自动微分的挑战&amp;未来</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../023FW_DataFlow/README.html">3. 计算图(DOING)</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="../023FW_DataFlow/README.html">3. 计算图(DONE)</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../023FW_DataFlow/01.introduction.html">3.1. 基本介绍</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../023FW_DataFlow/02.computegraph.html">3.2. 计算图原理</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../023FW_DataFlow/03.atuodiff.html">3.3. 计算图与自动微分</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../023FW_DataFlow/04.dispatch.html">3.4. 计算图的调度与执行</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../023FW_DataFlow/05.control_flow.html">3.5. 计算图的控制流实现</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../023FW_DataFlow/06.future.html">3.6. 计算图的挑战&amp;未来</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../023FW_DataFlow/06.static_graph.html">3.6. 动态图与静态图转换</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../023FW_DataFlow/07.future.html">3.7. 计算图的挑战&amp;未来</a></li>
 </ul>
 </li>
 </ul>
@@ -531,7 +533,7 @@ Show Source
     <div class="document">
         <div class="page-content" role="main">
         
-  <div class="section" id="ai">
+  <!--适用于[License](https://github.com/chenzomi12/DeepLearningSystem/blob/main/LICENSE)版权许可--><div class="section" id="ai">
 <h1><span class="section-number">1.2. </span>AI框架作用<a class="headerlink" href="#ai" title="Permalink to this heading">¶</a></h1>
 <p>深度学习范式主要是通过发现经验数据中，错综复杂的结构进行学习。通过构建包含多个处理层的计算模型（网络模型），深度学习可以创建多个级别的抽象层来表示数据。例如，卷积神经网络CNN可以使用大量图像进行训练，例如对猫狗分类去学习猫和狗图片的特征。这种类型的神经网络通常从所采集图像中，包含的像素进行学习。</p>
 <p>本章将从深度学习的原理开始，进而深入地讨论在实现深度学习的计算过程中使用到的AI框架，看看AI框架具体的作用和目的。</p>
