@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     
-    <title>1. 传统编译器（DOing） &#8212; 人工智能系统（AISys） 0.0.1 documentation</title>
+    <title>1. 传统编译器(DOING) &#8212; 人工智能系统（AISys） 0.0.1 documentation</title>
 
     <link rel="stylesheet" href="../_static/material-design-lite-1.3.0/material.blue-deep_orange.min.css" type="text/css" />
     <link rel="stylesheet" href="../_static/sphinx_materialdesign_theme.css" type="text/css" />
@@ -27,7 +27,7 @@
     <link rel="shortcut icon" href="../_static/favicon.png"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="1.1. 编译器基础介绍" href="01.introduction.html" />
+    <link rel="next" title="1.1. 编译器基础介绍 OK" href="01.introduction.html" />
     <link rel="prev" title="== 三、AI编译器原理 ==" href="../030Compiler/README.html" /> 
   </head>
 <body>
@@ -35,7 +35,7 @@
     <div class="mdl-layout__header-row">
         
         <nav class="mdl-navigation breadcrumb">
-            <a class="mdl-navigation__link is-active"><span class="section-number">1. </span>传统编译器（DOing）</a>
+            <a class="mdl-navigation__link is-active"><span class="section-number">1. </span>传统编译器(DOING)</a>
         </nav>
         <div class="mdl-layout-spacer"></div>
         <nav class="mdl-navigation">
@@ -130,9 +130,9 @@ Show Source
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">1. 传统编译器（DOing）</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="01.introduction.html">1.1. 编译器基础介绍</a></li>
-<li class="toctree-l2"><a class="reference internal" href="02.history.html">1.2. 编译器发展</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">1. 传统编译器(DOING)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="01.introduction.html">1.1. 编译器基础介绍 OK</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02.history.html">1.2. 传统编译器发展 OK</a></li>
 <li class="toctree-l2"><a class="reference internal" href="03.gcc.html">1.3. GCC编译过程和原理</a></li>
 <li class="toctree-l2"><a class="reference internal" href="04.llvm.html">1.4. LLVM架构设计和原理</a></li>
 <li class="toctree-l2"><a class="reference internal" href="05.llvm_detail01.html">1.5. LLVM IR详解</a></li>
@@ -349,9 +349,9 @@ Show Source
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">1. 传统编译器（DOing）</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="01.introduction.html">1.1. 编译器基础介绍</a></li>
-<li class="toctree-l2"><a class="reference internal" href="02.history.html">1.2. 编译器发展</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">1. 传统编译器(DOING)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="01.introduction.html">1.1. 编译器基础介绍 OK</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02.history.html">1.2. 传统编译器发展 OK</a></li>
 <li class="toctree-l2"><a class="reference internal" href="03.gcc.html">1.3. GCC编译过程和原理</a></li>
 <li class="toctree-l2"><a class="reference internal" href="04.llvm.html">1.4. LLVM架构设计和原理</a></li>
 <li class="toctree-l2"><a class="reference internal" href="05.llvm_detail01.html">1.5. LLVM IR详解</a></li>
@@ -516,7 +516,7 @@ Show Source
         <div class="page-content" role="main">
         
   <!--Copyright © ZOMI 适用于[License](https://github.com/chenzomi12/DeepLearningSystem)版权许可--><div class="section" id="doing">
-<h1><span class="section-number">1. </span>传统编译器（DOing）<a class="headerlink" href="#doing" title="Permalink to this heading">¶</a></h1>
+<h1><span class="section-number">1. </span>传统编译器(DOING)<a class="headerlink" href="#doing" title="Permalink to this heading">¶</a></h1>
 <p>《传统编译器》会粗略地回顾传统编译器中的前端、后端、IR中间表达等主要的概念，并对目前最常用的GCC和LLVM的发展历史，GCC的使用方式和LLVM的架构前后端优化划分，两大编译器GCC和LLVM进行简单的展开，去了解GCC的编译流程和编译方式，并回顾LLVM的整体架构，了解传统编译器的整体架构和脉络。</p>
 <p>随着深度学习的不断发展，AI
 模型结构在快速演化，底层计算硬件技术更是层出不穷，对于广大开发者来说不仅要考虑如何在复杂多变的场景下有效的将算力发挥出来，还要应对计算框架的持续迭代。AI
@@ -591,15 +591,23 @@ Show Source
 </table>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="01.introduction.html">1.1. 编译器基础介绍</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="01.introduction.html#id2">1.1.1. 编译器与解释器</a></li>
+<li class="toctree-l1"><a class="reference internal" href="01.introduction.html">1.1. 编译器基础介绍 OK</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="01.introduction.html#id1">1.1.1. 编译器与解释器</a></li>
 <li class="toctree-l2"><a class="reference internal" href="01.introduction.html#jitaot">1.1.2. JIT和AOT编译方式</a></li>
 <li class="toctree-l2"><a class="reference internal" href="01.introduction.html#pass-ir">1.1.3. Pass 和中间表示 IR</a></li>
-<li class="toctree-l2"><a class="reference internal" href="01.introduction.html#id4">1.1.4. 总结</a></li>
-<li class="toctree-l2"><a class="reference internal" href="01.introduction.html#id5">1.1.5. 视频</a></li>
+<li class="toctree-l2"><a class="reference internal" href="01.introduction.html#id3">1.1.4. 总结</a></li>
+<li class="toctree-l2"><a class="reference internal" href="01.introduction.html#id4">1.1.5. 视频</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="02.history.html">1.2. 编译器发展</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02.history.html">1.2. 传统编译器发展 OK</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="02.history.html#id1">1.2.1. 基础介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02.history.html#id6">1.2.2. 编译体系</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02.history.html#id10">1.2.3. 传统编译器之争</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02.history.html#id12">1.2.4. 未来发展趋势</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02.history.html#id13">1.2.5. 总结</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02.history.html#id14">1.2.6. 视频</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="03.gcc.html">1.3. GCC编译过程和原理</a></li>
 <li class="toctree-l1"><a class="reference internal" href="04.llvm.html">1.4. LLVM架构设计和原理</a></li>
 <li class="toctree-l1"><a class="reference internal" href="05.llvm_detail01.html">1.5. LLVM IR详解</a></li>
@@ -629,7 +637,7 @@ Show Source
          <i class="pagenation-arrow-R fas fa-arrow-right fa-lg"></i>
         <div class="pagenation-text">
             <span class="pagenation-direction">Next</span>
-            <div>1.1. 编译器基础介绍</div>
+            <div>1.1. 编译器基础介绍 OK</div>
         </div>
      </a>
   </div>
