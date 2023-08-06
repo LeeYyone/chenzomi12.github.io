@@ -3,8 +3,8 @@
 
    <!--Copyright © ZOMI 适用于[License](https://github.com/chenzomi12/DeepLearningSystem)版权许可-->
 
-==== 一、AI系统概述
-===================
+=== 一、AI系统概述 ===
+======================
 
 目前应用最为广泛，工程实践最丰富，研究最为火热的人工智能（Artificial
 Intelligence）方向就是深度学习（Deep
