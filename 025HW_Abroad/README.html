@@ -95,7 +95,7 @@ Show Source
                 <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../010system/README.html">=== 一、AI系统概述 ===</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../010system/01present.html">AI现状与大模型(待更)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../010system/01present.html">AI 的历史，现状与发展</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../010system/02drive.html">AI发展驱动力(待更)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../010system/03architecture.html">AI系统全栈架构(待更)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../010system/04sample.html">AI系统样例(待更)</a></li>
@@ -155,7 +155,6 @@ Show Source
 <li class="toctree-l2"><a class="reference internal" href="06.TPU2.html">5.6. 谷歌TPUv2训练芯片</a></li>
 <li class="toctree-l2"><a class="reference internal" href="07.TPU3.html">5.7. 谷歌TPUv3 POD形态</a></li>
 <li class="toctree-l2"><a class="reference internal" href="08.TPU4.html">5.8. 谷歌TPUv4三维互联</a></li>
-<li class="toctree-l2"><a class="reference internal" href="09.Future.html">5.9. 国外 AI 芯片思考</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../026HW_Domestic/README.html">6. 国内 AI 芯片架构</a><ul>
@@ -369,7 +368,7 @@ Show Source
                 <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../010system/README.html">=== 一、AI系统概述 ===</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../010system/01present.html">AI现状与大模型(待更)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../010system/01present.html">AI 的历史，现状与发展</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../010system/02drive.html">AI发展驱动力(待更)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../010system/03architecture.html">AI系统全栈架构(待更)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../010system/04sample.html">AI系统样例(待更)</a></li>
@@ -429,7 +428,6 @@ Show Source
 <li class="toctree-l2"><a class="reference internal" href="06.TPU2.html">5.6. 谷歌TPUv2训练芯片</a></li>
 <li class="toctree-l2"><a class="reference internal" href="07.TPU3.html">5.7. 谷歌TPUv3 POD形态</a></li>
 <li class="toctree-l2"><a class="reference internal" href="08.TPU4.html">5.8. 谷歌TPUv4三维互联</a></li>
-<li class="toctree-l2"><a class="reference internal" href="09.Future.html">5.9. 国外 AI 芯片思考</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../026HW_Domestic/README.html">6. 国内 AI 芯片架构</a><ul>
@@ -628,9 +626,10 @@ Show Source
   <div class="section" id="ai">
 <h1><span class="section-number">5. </span>国外 AI 芯片架构<a class="headerlink" href="#ai" title="Permalink to this heading">¶</a></h1>
 <ul class="simple">
-<li><p>《NVIDIA GPU原理》英伟达架构里面专门为AI而生的 Tensor Core 和 NVLink
-对AI加速尤为重要，因此重点对 Tensor Core 和 NVLink
-进行深入剖析其发展、演进和架构。</p></li>
+<li><p>《国外AI芯片》深入地剖析国外 Google TPU 和特斯拉 DOJO 相关 AI
+芯片的架构，以TPU为主主要使用了数据流（Data
+FLow）的方式的脉动阵列来加速矩阵的运算，而特斯拉则使用了近存计算（Near
+Memory）两种不同的产品形态。</p></li>
 </ul>
 <blockquote>
 <div><p>希望这个系列能够给大家、朋友们带来一些些帮助，也希望自己能够继续坚持完成所有内容哈！</p>
@@ -655,36 +654,51 @@ Show Source
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p>GPU 原理详解</p></td>
-<td><p>01 TensorCore原理(上)</p></td>
-<td><p><a class="reference external" href="./01.basic_tc.pdf">slide</a>,
-<a class="reference external" href="https://www.bilibili.com/video/BV1aL411a71w/">video</a></p></td>
+<tr class="row-even"><td><p>国外AI芯片</p></td>
+<td><p>01 特斯拉 DOJO 架构</p></td>
+<td><p><a class="reference external" href="./01.DOJO_Arch.pdf">slide</a>,
+<a class="reference external" href="https://www.bilibili.com/video/BV1Ro4y1M7n8/">video</a></p></td>
 </tr>
-<tr class="row-odd"><td><p>GPU 原理详解</p></td>
-<td><p>02 TensorCore架构(中)</p></td>
-<td><p><a class="reference external" href="./02.history_tc.pdf">slide</a>,
-<a class="reference external" href="https://www.bilibili.com/video/BV1pL41187FH/">video</a></p></td>
+<tr class="row-odd"><td><p>国外AI芯片</p></td>
+<td><p>02 特斯拉 DOJO 细节</p></td>
+<td><p><a class="reference external" href="./02.DOJO_Detail.pdf">slide</a>,
+<a class="reference external" href="https://www.bilibili.com/video/BV17o4y1N7Yn/">video</a></p></td>
 </tr>
-<tr class="row-even"><td><p>GPU 原理详解</p></td>
-<td><p>03 TensorCore剖析(下)</p></td>
-<td><p><a href="#id1"><span class="problematic" id="id2">`slide &lt;
-./03.deep_tc.pdf&gt;`__</span></a>,
-<a class="reference external" href="https://www.bilibili.com/video/BV1oh4y1J7B4/">video</a></p></td>
+<tr class="row-even"><td><p>国外AI芯片</p></td>
+<td><p>03 特斯拉 DOJO
+存算系统</p></td>
+<td><p><a class="reference external" href="./03.DOJO_System.pdf">slide</a>,
+<a class="reference external" href="https://www.bilibili.com/video/BV1Ez4y1e7zo/">video</a></p></td>
 </tr>
-<tr class="row-odd"><td><p>GPU 原理详解</p></td>
-<td><p>04 分布式通信与NVLink</p></td>
-<td><p><a class="reference external" href="./04.basic_nvlink.pdf">slide</a>,
-<a class="reference external" href="https://www.bilibili.com/video/BV1cV4y1r7Rz/">video</a></p></td>
+<tr class="row-odd"><td><p>国外AI芯片</p></td>
+<td><p>04 谷歌 TPU 介绍</p></td>
+<td><p><a class="reference external" href="./04.TPU_Introl.pdf">slide</a>,
+<a class="reference external" href="https://www.bilibili.com/video/BV1Dp4y1V7PF/">video</a></p></td>
 </tr>
-<tr class="row-even"><td><p>GPU 原理详解</p></td>
-<td><p>05 NVLink原理剖析</p></td>
-<td><p><a class="reference external" href="./05.deep_nvlink.pdf">slide</a>,
-<a class="reference external" href="https://www.bilibili.com/video/BV1uP411X7Dr/">video</a></p></td>
+<tr class="row-even"><td><p>国外AI芯片</p></td>
+<td><p>05 谷歌 TPU1 脉冲阵列</p></td>
+<td><p><a class="reference external" href="./05.TPU1.pdf">slid
+e</a>,
+<a class="reference external" href="https://www.bilibili.com/video/BV12P411W7YC/">video</a></p></td>
 </tr>
-<tr class="row-odd"><td><p>GPU 原理详解</p></td>
-<td><p>05 NVSwitch原理剖析</p></td>
-<td><p><a class="reference external" href="./06.deep_nvswitch.pdf">slide</a>,
-<a class="reference external" href="https://www.bilibili.com/video/BV1uM4y1n7qd/">video</a></p></td>
+<tr class="row-odd"><td><p>国外AI芯片</p></td>
+<td><p>06 谷歌 TPU2
+推理到训练</p></td>
+<td><p><a class="reference external" href="./06.TPU2.pdf">slid
+e</a>,
+<a class="reference external" href="https://www.bilibili.com/video/BV1x84y1f7Ex/">video</a></p></td>
+</tr>
+<tr class="row-even"><td><p>国外AI芯片</p></td>
+<td><p>07 谷歌 TPU3 POD集群</p></td>
+<td><p><a class="reference external" href="./07.TPU3.pdf">slid
+e</a>,
+<a href="#id1"><span class="problematic" id="id2">`video &lt;&gt;`__</span></a></p></td>
+</tr>
+<tr class="row-odd"><td><p>国外AI芯片</p></td>
+<td><p>08 谷歌 TPU4 光互联</p></td>
+<td><p><a class="reference external" href="./08.TPU4.pdf">slid
+e</a>,
+<a href="#id1"><span class="problematic" id="id3">`video &lt;&gt;`__</span></a></p></td>
 </tr>
 </tbody>
 </table>
@@ -720,10 +734,6 @@ Show Source
 </li>
 <li class="toctree-l1"><a class="reference internal" href="08.TPU4.html">5.8. 谷歌TPUv4三维互联</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="08.TPU4.html#id1">5.8.1. 本节视频</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="09.Future.html">5.9. 国外 AI 芯片思考</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="09.Future.html#id1">5.9.1. 本节视频</a></li>
 </ul>
 </li>
 </ul>
